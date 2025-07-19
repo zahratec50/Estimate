@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto } from 'next/font/google';
 import "./globals.css";
+import { changeTheme } from "@/components/templates/changeTheme/ChangeTheme";
 
 const roboto = Roboto({
   weight: ['100', '200', '300', '400','500', '600', '700', '800','900'],
@@ -19,6 +20,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  changeTheme()
   return (
     <html lang="en">
       <body className={roboto.className}>

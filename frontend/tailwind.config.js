@@ -70,6 +70,17 @@ module.exports = {
   				"800": '#56452F',
   				"900": '#302719',
   			},
+        newGray: {
+          white: '#F0F0EE',      
+          keystone: '#D0C8BE',
+          anew: '#CFCCC3',
+          greige: '#B6B3A9',
+          DEFAULT: '#A6988C',
+          agreeable: '#A6988C',
+          warm: '#8D8377',
+          bronze: '#736750',
+          brainstorm: '#817658',
+        },
   			secondary: {
   				"50": '#EAEDED',
   				"100": '#DADEE0',
