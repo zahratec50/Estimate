@@ -67,7 +67,7 @@ export default function LoginPage() {
             className="space-y-4 flex flex-col items-center "
           >
             {/* Email */}
-            <div className={`w-95 h-15 ${errors.email && "mb-3"}`}>
+            <div className={`w-80 sm:w-[350px] md:w-95 h-15 ${errors.email && "mb-3"}`}>
               <label className="block text-sm font-medium text-black-50 mb-1">
                 Email
               </label>
@@ -86,7 +86,7 @@ export default function LoginPage() {
             </div>
 
             {/* Password */}
-            <div className="w-95 h-15">
+            <div className="w-80 sm:w-[350px] md:w-95 h-15">
               <label className="block text-sm font-medium text-black-50 mb-1">
                 Password
               </label>
@@ -119,7 +119,7 @@ export default function LoginPage() {
             </div>
 
             {/* Remember me & Forgot password */}
-            <div className="flex items-center justify-evenly space-x-6 text-sm w-145 h-11">
+            <div className="flex items-center justify-evenly space-x-6 text-sm w-[390px] h-10 md:w-145 md:h-11">
               <label className="text-sm flex items-center gap-x-2">
                 <input
                   type="checkbox"
@@ -135,34 +135,34 @@ export default function LoginPage() {
             {/* Login Button */}
             <button
               type="submit"
-              className="container bg-primary-200 text-white py-2 rounded-lg hover:bg-primary-600 transition"
+              className="w-80 sm:w-[350px] md:w-95 h-11 bg-primary-200 text-white py-2 rounded-lg hover:bg-primary-600 transition"
             >
               Login
             </button>
           </form>
 
-          <div className="w-95 flex items-center justify-between mt-6">
-            <div className="w-[135px] h-px bg-gray-400" />
+          <div className="w-[320px] sm:w-[390px] md:w-95 sm:h-4 flex items-center justify-between mt-6">
+            <div className="w-[110px] sm:w-[120px] md:w-[135px] h-px bg-gray-400" />
             <span className="text-sm text-gray-601">or login with</span>
-            <div className="w-[135px] h-px bg-gray-400" />
+            <div className="w-[110px] sm:w-[120px] md:w-[135px] h-px bg-gray-400" />
           </div>
 
           {/* Login with Google & Apple */}
-          <div className="w-95 mt-6 flex items-center justify-between">
-            <button className="w-[180px] h-11 flex items-center justify-center gap-x-2 border border-secondary-500 py-2 rounded-lg hover:bg-gray-100 transition">
+          <div className="w-[390px] sm:w-95 mt-6 flex items-center justify-center sm:justify-between gap-1">
+            <button className="w-[155px] sm:w-[167px] md:w-[180px] h-11 flex items-center justify-center gap-x-2 border border-secondary-500 py-2 rounded-lg hover:bg-gray-100 transition">
               <FcGoogle className="w-6 h-6 ml-2" />
               Google
             </button>
-            <button className="w-[180px] h-11 flex items-center justify-center gap-x-2 border border-secondary-500 py-2 rounded-lg hover:bg-gray-100 transition">
+            <button className="w-[155px] sm:w-[167px] md:w-[180px] h-11 flex items-center justify-center gap-x-2 border border-secondary-500 py-2 rounded-lg hover:bg-gray-100 transition">
               <FaApple className="w-6 h-6 ml-2" />
               Apple ID
             </button>
           </div>
 
           {/* Register link */}
-          <p className="mt-4 text-center text-sm text-black-50">
+          <p className="mt-4 text-center text-sm sm:text-xs md:text-base text-black-50">
             Don't have an account?{" "}
-            <a href="#" className="text-lg text-primary-600 hover:underline">
+            <a href="#" className="text-xs sm:text-sm md:text-lg text-primary-600 hover:underline">
               Register Now
             </a>
           </p>
