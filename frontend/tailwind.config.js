@@ -1,135 +1,139 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    darkMode: ["class"],
-    content: [
+  darkMode: ["class"],
+  content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
- 
+
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-  	extend: {
-  		borderRadius: {
-  			lg: 'var(--radius)',
-  			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
-  		},
-  		colors: {
-  			popover: {
-  				DEFAULT: 'hsl(var(--popover))',
-  				foreground: 'hsl(var(--popover-foreground))'
-  			},
+    extend: {
+      spacing: {
+        15: "60px",
+        85: "340px",
+        95: "380px",
+        145: "580px",
+      },
+
+      colors: {
         success: {
-          "50": '#F0FDF4',
-  				"100": '#DCFCE7',
-  				"200": '#B9F8CF',
-  				"300": '#7BF1A8',
-  				"400": '#05DF72',
-  				"500": '#00C951',
-  				"600": '#00A63E',
-  				"700": '#008236',
-  				"800": '#016630',
-  				"900": '#0D542B',
+          50: "#F0FDF4",
+          100: "#DCFCE7",
+          200: "#B9F8CF",
+          300: "#7BF1A8",
+          400: "#05DF72",
+          500: "#00C951",
+          600: "#00A63E",
+          700: "#008236",
+          800: "#016630",
+          900: "#0D542B",
         },
-        rose: {
-          "50": '#FFF1F2',
-  				"100": '#FFE4E6',
-  				"200": '#FFCCD3',
-  				"300": '#FFA1AD',
-  				"400": '#FF637E',
-  				"500": '#FF2056',
-  				"600": '#EC003F',
-  				"700": '#C70036',
-  				"800": '#A50036',
-  				"900": '#8B0836',
+        success: {
+          50: "#FFF1F2",
+          100: "#FFE4E6",
+          200: "#FFCCD3",
+          300: "#FFA1AD",
+          400: "#FF637E",
+          500: "#FF2056",
+          600: "#EC003F",
+          700: "#C70036",
+          800: "#A50036",
+          900: "#8B0836",
         },
         info: {
-          "50": '#EFF6FF',
-  				"100": '#DBEAFE',
-  				"200": '#BEDBFF ',
-  				"300": '#8EC5FF',
-  				"400": '#51A2FF',
-  				"500": '#2B7FFF',
-  				"600": '#155DFC',
-  				"700": '#1447E6',
-  				"800": '#193CB8',
-  				"900": '#1C398E',
+          50: "#EFF6FF",
+          100: "#DBEAFE",
+          200: "#BEDBFF ",
+          300: "#8EC5FF",
+          400: "#51A2FF",
+          500: "#2B7FFF",
+          600: "#155DFC",
+          700: "#1447E6",
+          800: "#193CB8",
+          900: "#1C398E",
         },
 
-  			primary: {
-  				"50": '#F9F6F1',
-  				"100": '#F4ECE2',
-  				"200": '#E9D9C5',
-  				"300": '#DDC7A9',
-  				"400": '#D2B48C',
-  				"500": '#F9F6F1',
-  				"600": '#C7A16F',
-  				"700": '#7B6444',
-  				"800": '#56452F',
-  				"900": '#302719',
-  			},
-        newGray: {
-          white: '#F0F0EE',      
-          keystone: '#D0C8BE',
-          anew: '#CFCCC3',
-          greige: '#B6B3A9',
-          DEFAULT: '#A6988C',
-          agreeable: '#A6988C',
-          warm: '#8D8377',
-          bronze: '#736750',
-          brainstorm: '#817658',
+        primary: {
+          50: "#F9F6F1",
+          100: "#F4ECE2",
+          200: "#E9D9C5",
+          300: "#DDC7A9",
+          400: "#D2B48C",
+          500: "#C7A16F",
+          600: "#A1825A",
+          700: "#7B6444",
+          800: "#56452F",
+          900: "#302719",
         },
-  			secondary: {
-  				"50": '#EAEDED',
-  				"100": '#DADEE0',
-  				"200": '#BAC2C5',
-  				"300": '#9AA5A9',
-  				"400": '#7A898E',
-  				"500": '#5A6C73',
-  				"600": '#48565C',
-  				"700": '#364145',
-  				"800": '#242B2E',
-  				"900": '#121617',
-  			},
-  			warning: {
-  				"50": '#FEFCE8',
-  				"100": '#FEF9C2',
-  				"200": '#FFF085 ',
-  				"300": '#FFDF20',
-  				"400": '#EFB100',
-  				"500": '#FCC800',
-  				"600": '#D08700',
-  				"700": '#A65F00',
-  				"800": '#894B00',
-  				"900": '#733E0A',
-  			},
-  			muted: {
-  				DEFAULT: 'hsl(var(--muted))',
-  				foreground: 'hsl(var(--muted-foreground))'
-  			},
-  			accent: {
-  				DEFAULT: 'hsl(var(--accent))',
-  				foreground: 'hsl(var(--accent-foreground))'
-  			},
-  			destructive: {
-  				DEFAULT: 'hsl(var(--destructive))',
-  				foreground: 'hsl(var(--destructive-foreground))'
-  			},
-  			border: 'hsl(var(--border))',
-  			input: 'hsl(var(--input))',
-  			ring: 'hsl(var(--ring))',
-  			chart: {
-  				'1': 'hsl(var(--chart-1))',
-  				'2': 'hsl(var(--chart-2))',
-  				'3': 'hsl(var(--chart-3))',
-  				'4': 'hsl(var(--chart-4))',
-  				'5': 'hsl(var(--chart-5))'
-  			}
-  		}
-  	}
+        newGray: {
+          white: "#F0F0EE",
+          keystone: "#D0C8BE",
+          anew: "#CFCCC3",
+          greige: "#B6B3A9",
+          DEFAULT: "#A6988C",
+          agreeable: "#A6988C",
+          warm: "#8D8377",
+          bronze: "#736750",
+          brainstorm: "#817658",
+        },
+        secondary: {
+          50: "#EAEDED",
+          100: "#DADEE0",
+          200: "#BAC2C5",
+          300: "#9AA5A9",
+          400: "#7A898E",
+          500: "#5A6C73",
+          600: "#48565C",
+          700: "#364145",
+          800: "#242B2E",
+          900: "#121617",
+        },
+        warning: {
+          50: "#FEFCE8",
+          100: "#FEF9C2",
+          200: "#FFF085 ",
+          300: "#FFDF20",
+          400: "#EFB100",
+          500: "#FCC800",
+          600: "#D08700",
+          700: "#A65F00",
+          800: "#894B00",
+          900: "#733E0A",
+        },
+        black: {
+          50: "#09101D"
+        },
+        gray: {
+          201: "#EBEEF2",
+          601: "#6D7580"
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        chart: {
+          1: "hsl(var(--chart-1))",
+          2: "hsl(var(--chart-2))",
+          3: "hsl(var(--chart-3))",
+          4: "hsl(var(--chart-4))",
+          5: "hsl(var(--chart-5))",
+        },
+      },
+    },
   },
   plugins: [require("tailwindcss-animate")],
-}
-
+};
