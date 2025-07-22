@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -80,7 +80,13 @@ export default function Form(prop: any) {
         )}
 
         {/* Remember me & Forgot password */}
-        <div className={`flex ${prop.name === "Login" ? 'items-center justify-evenly' : 'items-start pl-[36px] sm:pl-[20px] md:pl-[100px]'} space-x-6 text-sm w-[390px] h-10 md:w-145 md:h-11`}>
+        <div
+          className={`flex ${
+            prop.name === "Login"
+              ? "items-center justify-evenly"
+              : "items-start pl-[36px] sm:pl-[20px] md:pl-[100px]"
+          } space-x-6 text-sm w-[390px] h-10 md:w-145 md:h-11`}
+        >
           <label className="text-sm flex items-center gap-x-2">
             <input
               type="checkbox"

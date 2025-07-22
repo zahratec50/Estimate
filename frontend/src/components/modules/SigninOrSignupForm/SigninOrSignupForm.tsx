@@ -65,7 +65,7 @@ export default function SigninOrSignupForm({children, name, title, isAccount, re
           {/* Register link */}
           <p className="mt-4 text-center text-sm sm:text-xs md:text-base text-black-50">
             {isAccount}{" "}
-            <Link href={registerOrLogin === 'Login' ? '/signin' : '/signup'} className="text-xs sm:text-sm md:text-lg text-primary-600 hover:underline">
+            <Link href={registerOrLogin === 'Login Now' ? '/signin' : '/signup'} className="text-xs sm:text-sm md:text-lg text-primary-600 hover:underline">
               {registerOrLogin}
             </Link>
           </p>
