@@ -6,6 +6,7 @@ export default function signup() {
   return (
     <div>
       <SigninOrSignupForm
+        name="input"
         title="Let's get you in Estiper"
         registerOrLogin="Login Now"
         isAccount="Have an account?"

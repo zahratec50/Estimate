@@ -16,14 +16,14 @@ export default function SigninOrSignupForm({children, name, title, isAccount, re
 
 
   return (
-    <div className="flex max-h-screen items-center justify-center p-4">
+    <div className="flex max-h-screen items-center justify-center p-4 my-8">
       <div className="max-w-7xl w-full bg-white rounded-lg flex gap-5 overflow-hidden">
         {/* Left Image */}
-        <div className="w-1/2 h-[730px] hidden md:flex items-center justify-end py-8 pl-8">
+        <div className="w-1/2  hidden md:flex items-center justify-end rounded-lg pl-3">
           <img
             src="../images/register.png"
             alt="Login Illustration"
-            className="rounded-lg object-cover h-full w-full"
+            className="rounded-3xl object-cover h-full w-full"
           />
         </div>
         {/* Form */}
