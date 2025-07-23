@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { Roboto } from 'next/font/google';
+// import { Inter } from 'next/font/google';
 import "./globals.css";
 // import { changeTheme } from "@/components/modules/store/useThemeStore";
 
 const roboto = Roboto({
   weight: ['100', '200', '300', '400','500', '600', '700', '800','900'],
   subsets: ['latin'],
+  variable: '--font-roboto',
   display: 'swap',
 });
+// const inter = Inter({ subsets: ['latin'] });
 
 
 export const metadata: Metadata = {

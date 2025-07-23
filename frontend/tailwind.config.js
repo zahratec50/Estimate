@@ -104,11 +104,15 @@ module.exports = {
           900: "#733E0A",
         },
         black: {
-          50: "#09101D"
+          50: "#09101D",
         },
         gray: {
           201: "#EBEEF2",
-          601: "#6D7580"
+          601: "#6D7580",
+        },
+        fontFamily: {
+          roboto: ['var(--font-roboto)'],
+          // inter: ["Inter", "sans-serif"],
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
