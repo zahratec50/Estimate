@@ -1,38 +1,3 @@
-// // components/layout/Sidebar.tsx
-// "use client";
-
-// import Link from "next/link";
-// import Image from "next/image";
-// import { TbHelpOctagon } from "react-icons/tb";
-// import { IoSearchOutline, IoNotificationsOutline } from "react-icons/io5";
-
-// export default function Sidebar() {
-//   return (
-//     <aside className="hidden md:flex fixed top-0 left-0 h-full w-64 flex-col justify-between p-4 bg-primary-200 shadow-lg z-50">
-//       <div className="flex items-center justify-center">
-//         <Link href="/">
-//           <Image src="/images/Frame 20.png" alt="logo" width={80} height={80} />
-//         </Link>
-//       </div>
-
-//       <nav className="space-y-4 text-gray-600 font-medium pl-3">
-//         <Link href="/notifications" className="block hover:underline">
-//           <IoNotificationsOutline className="inline-block mr-1" />
-//           Notifications
-//         </Link>
-//         <Link href="/" className="block hover:underline">
-//           <IoSearchOutline className="inline-block mr-1" />
-//           Search
-//         </Link>
-//         <button type="button" className="block hover:underline">
-//           <TbHelpOctagon className="inline-block mr-1" />
-//           Help
-//         </button>
-//       </nav>
-//     </aside>
-//   );
-// }
-
 "use client";
 
 import Link from "next/link";

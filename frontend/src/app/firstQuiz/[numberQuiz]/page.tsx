@@ -1,4 +1,3 @@
-
 import ProgressSegment from "@/components/modules/ProgressBar/ProgressBar";
 import QuizPage from "@/components/templates/QuizPage/QuizPage";
 import QuizNavigation from "@/components/templates/QuizNavigation/QuizNavigation";
