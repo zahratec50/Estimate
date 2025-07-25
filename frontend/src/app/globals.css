@@ -10,10 +10,16 @@
 
 body {
   font-family: 'Roboto';
-  
 }
 .container {
   width: 380px;
   height: 44px;
 }
+
+@layer base {
+  body {
+    @apply overflow-x-hidden;
+  }
+}
+
 

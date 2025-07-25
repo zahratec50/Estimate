@@ -17,7 +17,9 @@ module.exports = {
         95: "380px",
         145: "580px",
       },
-
+      fontFamily: {
+        roboto: ['var(--font-roboto)', 'sans-serif'],
+      },
       colors: {
         success: {
           50: "#F0FDF4",
@@ -109,10 +111,6 @@ module.exports = {
         gray: {
           201: "#EBEEF2",
           601: "#6D7580",
-        },
-        fontFamily: {
-          roboto: ['var(--font-roboto)'],
-          // inter: ["Inter", "sans-serif"],
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",

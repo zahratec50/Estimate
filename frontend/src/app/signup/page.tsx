@@ -1,18 +1,11 @@
-import React from "react";
-import SigninOrSignupForm from "@/components/modules/SigninOrSignupForm/SigninOrSignupForm"
-import Form from "@/components/templates/Form/Form";
 
-export default function signup() {
+import AuthWrapper from "@/components/templates/auth/AuthWrapper";
+import AuthForm from "@/components/templates/auth/AuthForm";
+
+export default function SignUpPage() {
   return (
-    <div>
-      <SigninOrSignupForm
-        name="input"
-        title="Let's get you in Estiper"
-        registerOrLogin="Login Now"
-        isAccount="Have an account?"
-      >
-        <Form name="Sign up" checkInput="I agree to the Terms & Priavcy" />
-      </SigninOrSignupForm>
-    </div>
+    <AuthWrapper title="Let's get you in Estiper" slogan="Create your account" isLogin={false}>
+      <AuthForm isLogin={false} />
+    </AuthWrapper>
   );
 }

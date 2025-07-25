@@ -1,63 +1,45 @@
-"use client";
-import React, { useState } from "react";
-import { FieldError, UseFormRegister } from "react-hook-form";
 
-interface InputProps {
-  labelName: string;
+type InputProps = {
   name: string;
+  labelName: string;
   type: string;
-  placeholder?: string;
-  register: UseFormRegister<any>;
-  error?: FieldError;
+  register: any;
+  error: any;
   icon1?: React.ReactNode;
   icon2?: React.ReactNode;
-}
+  toggle?: () => void;
+};
 
 export default function Input({
-  labelName,
   name,
+  labelName,
   type,
-  placeholder,
   register,
   error,
   icon1,
   icon2,
+  toggle,
 }: InputProps) {
-  const [isFocus, setIsFocus] = useState(false);
-  const [isOpenEyeIcon, setIsOpenEyeIcon] = useState(false);
-
-  const toggleEye = () => setIsOpenEyeIcon((prev) => !prev);
-  const inputType = icon1 ? (isOpenEyeIcon ? "text" : type) : type;
-
   return (
-    <div className="w-80 sm:w-[350px] md:w-95">
-      <label htmlFor={name} className="block text-sm font-medium text-black-50 mb-1">
-        {labelName}
-      </label>
-
-      <div
-        className={`w-full h-10 flex items-center px-3 border rounded-lg ${
-          isFocus ? "ring-1 ring-primary-500" : ""
-        } ${error ? "border-red-500" : "border-gray-300"}`}
-      >
+    <div className="w-full">
+      <label className="block text-sm font-medium mb-1">{labelName}</label>
+      <div className="relative">
         <input
-          id={name}
-          type={inputType}
           {...register(name)}
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          className="w-full h-full outline-none"
-          placeholder={placeholder || `Enter your ${labelName.toLowerCase()}`}
+          type={type}
+          className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-primary-500"
+          placeholder={`Enter Your ${name}`}
         />
-
-        {icon1 && (
-          <div onClick={toggleEye} className="cursor-pointer ml-2">
-            {isOpenEyeIcon ? icon1 : icon2}
-          </div>
+        {toggle && (
+          <span
+            onClick={toggle}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
+          >
+            {type === "password" ? icon1 : icon2}
+          </span>
         )}
       </div>
-
-      {error && <p className="text-red-500 text-xs mt-1">{error.message}</p>}
+      {error && <p className="text-xs text-red-500 mt-1">{error.message}</p>}
     </div>
   );
 }

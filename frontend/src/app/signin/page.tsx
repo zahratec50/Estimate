@@ -1,13 +1,11 @@
-import React from "react";
-import SigninOrSignupForm from "@/components/modules/SigninOrSignupForm/SigninOrSignupForm";
-import Form from "@/components/templates/Form/Form";
 
-export default function signin() {
+import AuthWrapper from "@/components/templates/auth/AuthWrapper";
+import AuthForm from "@/components/templates/auth/AuthForm";
+
+export default function SignInPage() {
   return (
-    <div>
-      <SigninOrSignupForm title='Welcome Back to Estiper' registerOrLogin='Register Now' isAccount="Don't have an account?" name='login' >
-        <Form name='Login' checkInput='Remember me' />
-      </SigninOrSignupForm>
-    </div>
+    <AuthWrapper title="Welcome Back" slogan="Login to continue" isLogin={true}>
+      <AuthForm isLogin={true} />
+    </AuthWrapper>
   );
 }
