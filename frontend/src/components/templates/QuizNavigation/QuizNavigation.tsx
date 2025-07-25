@@ -43,7 +43,7 @@ export default function QuizNavigation({ currentPage }: { currentPage: number })
 
   return (
     <>
-      <div className="w-full max-w-[600px] lg:w-[200px] flex items-center justify-between gap-4 mt-4 sm:mt-0">
+      <div className={`w-full max-w-[600px] lg:w-[200px] flex items-center ${currentPage > 1 ? 'justify-between' : 'justify-end pr-8'}  gap-4 mt-4 sm:mt-0`}>
         {currentPage > 1 && (
           <button
             onClick={handleBack}
