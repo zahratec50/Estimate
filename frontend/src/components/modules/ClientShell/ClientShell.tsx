@@ -9,7 +9,7 @@ export default function ClientShell({ children }: { children: React.ReactNode })
   const [isHelpOpen, setIsHelpOpen] = useState(false)
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen dark:bg-secondary-900 bg-gray-50">
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       <div className={`max-w-full flex flex-col flex-1 ${isHelpOpen ? 'mr-[320px]' : 'mr-0'}`}>

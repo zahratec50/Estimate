@@ -65,7 +65,7 @@ export default function QuizPage({ currentStep }: { currentStep: number }) {
 
   if (!questionData) {
     return (
-      <div className="w-full text-center mt-10 text-red-500 text-lg">
+      <div className="w-full text-center mt-10 text-red-500 dark:text-red-300 text-lg">
         Question not found. Please check the URL or step number.
       </div>
     );
@@ -74,12 +74,12 @@ export default function QuizPage({ currentStep }: { currentStep: number }) {
   return (
     <div className="w-full max-w-[800] font-roboto px-4 sm:px-0">
       {/* Question Title */}
-      <h1 className="text-xl md:text-2xl lg:text-3xl font-medium text-black-50 mb-2">
+      <h1 className="text-xl md:text-2xl lg:text-3xl font-medium text-black-50 mb-2 dark:text-white">
         Question: {questionData.question}
       </h1>
 
       {/* Subtitle */}
-      <p className="text-md md:text-lg lg:text-xl text-neutral-700 mb-6">
+      <p className="text-md md:text-lg lg:text-xl text-neutral-700 dark:text-secondary-300 mb-6">
         Hint: {questionData.hint}
       </p>
 
@@ -94,14 +94,14 @@ export default function QuizPage({ currentStep }: { currentStep: number }) {
               className={clsx(
                 "relative p-4 rounded-lg border transition-all duration-200 text-left",
                 {
-                  "border-primary-500 bg-primary-50 shadow-lg": isSelected,
-                  "border-neutral-300 bg-white hover:bg-neutral-50":
+                  "border-primary-500 bg-primary-50 dark:border-white dark:bg-secondary-200 shadow-lg": isSelected,
+                  "border-neutral-300 bg-white hover:bg-neutral-50 dark:bg-secondary-50 ":
                     !isSelected,
                 }
               )}
             >
               {isSelected && (
-                <span className="absolute -top-3 right-4 p-1 bg-primary-500 text-white rounded-lg">
+                <span className="absolute -top-3 right-4 p-1 bg-primary-500 dark:bg-secondary-500 text-white rounded-lg">
                   <IoCheckmarkOutline />
                 </span>
               )}

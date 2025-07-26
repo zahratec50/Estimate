@@ -48,7 +48,7 @@ export default function QuizNavigation({ currentPage }: { currentPage: number })
           <button
             onClick={handleBack}
             aria-label="Go back"
-            className="w-12 h-12 flex items-center justify-center border border-secondary-500 rounded-md hover:bg-gray-200 transition"
+            className="w-12 h-12 flex items-center justify-center border border-secondary-500 rounded-md hover:bg-gray-200 dark:hover:bg-secondary-200 dark:bg-secondary-50 transition"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -70,8 +70,8 @@ export default function QuizNavigation({ currentPage }: { currentPage: number })
         <button
           onClick={handleNext}
           className={clsx(
-            "bg-primary-500 text-white rounded-lg font-medium",
-            "hover:bg-primary-600 transition flex items-center justify-center gap-2",
+            "bg-primary-500 text-white dark:bg-secondary-500 rounded-lg font-medium",
+            "hover:bg-primary-600 dark:hover:bg-secondary-400 transition flex items-center justify-center gap-2",
             "w-full max-w-[169px] h-12 text-base sm:text-lg"
           )}
         >

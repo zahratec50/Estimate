@@ -30,7 +30,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       {/* Sidebar itself */}
       <aside
         className={clsx(
-          "fixed top-0 left-0 h-full w-64 flex-col justify-between p-4 bg-primary-500 shadow-lg z-50 transition-transform duration-300",
+          "fixed top-0 left-0 h-full w-64 flex-col justify-between p-4 dark:bg-secondary-500 bg-primary-500 shadow-lg z-50 transition-transform duration-300",
           {
             "translate-x-0": isOpen,
             "-translate-x-full": !isOpen,
@@ -56,14 +56,14 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             type="button"
             aria-label="open Icon"
             onClick={onClose}
-            className="md:hidden text-gray-600 hover:text-red-500"
+            className="md:hidden text-gray-600 hover:text-gray-200 dark:text-secondary-300 dark:hover:text-secondary-100"
           >
             <IoClose className="w-6 h-6" />
           </button>
         </div>
 
         {/* Nav Links */}
-        <nav className="space-y-4 text-secondary-900 font-medium pl-1">
+        <nav className="space-y-4 dark:text-secondary-200 text-secondary-900 font-medium pl-1">
           <Link href="/notifications" className="flex items-center gap-2 hover:text-primary-100" onClick={onClose}>
             <IoNotificationsOutline className="w-5 h-5" />
             Notifications

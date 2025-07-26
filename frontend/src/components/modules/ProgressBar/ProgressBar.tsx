@@ -15,9 +15,9 @@ const ProgressSegment: React.FC<NumberPageProps> = ({ numberPage }) => {
     <div className="flex items-center justify-center py-4 font-sans w-full">
       <div className="relative w-[350px] sm:w-[235px] lg:w-[390px] h-[34px]">
         {/* خط پیشرفت */}
-        <div className="w-full h-3 bg-primary-200 rounded-full overflow-hidden relative">
+        <div className="w-full h-3 dark:bg-secondary-200 bg-primary-200 rounded-full overflow-hidden relative">
           <div
-            className="absolute top-0 left-0 h-3 bg-primary-500 rounded-full transition-all duration-1000 ease-in-out"
+            className="absolute top-0 left-0 h-3 dark:bg-secondary-500 bg-primary-500 rounded-full transition-all duration-1000 ease-in-out"
             style={{ width: `${progress}%` }}
           ></div>
         </div>
@@ -35,7 +35,7 @@ const ProgressSegment: React.FC<NumberPageProps> = ({ numberPage }) => {
               key={idx}
               className="w-[89px] h-3 flex flex-col items-end ml-4"
             >
-              <span className="text-xs text-black-50 font-medium mb-2">
+              <span className="text-xs dark:text-white text-black-50 font-medium mb-2">
                 Title
               </span>
               <div
