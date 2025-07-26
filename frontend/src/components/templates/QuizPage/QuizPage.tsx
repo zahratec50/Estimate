@@ -36,7 +36,8 @@ const questions = [
     ],
   },
   {
-    question: "What color do you get by mixing red and white?",
+    question:
+      "What color do you get by mixing red and white and white and white and white and white and white?",
     hint: "It's a shade often associated with calm and love.",
     options: [
       { title: "Pink", description: "Correct!" },
@@ -55,7 +56,7 @@ export default function QuizPage({ currentStep }: { currentStep: number }) {
 
   const questionData = isValidStep ? questions[currentStep - 1] : null;
   console.log(questionData);
-  
+
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
 
   const handleOptionClick = useCallback((index: number) => {
@@ -71,7 +72,7 @@ export default function QuizPage({ currentStep }: { currentStep: number }) {
   }
 
   return (
-    <div className="w-full max-w-[900px] font-roboto px-4 sm:px-0">
+    <div className="w-full max-w-[800] font-roboto px-4 sm:px-0">
       {/* Question Title */}
       <h1 className="text-xl md:text-2xl lg:text-3xl font-medium text-black-50 mb-2">
         Question: {questionData.question}
@@ -94,7 +95,8 @@ export default function QuizPage({ currentStep }: { currentStep: number }) {
                 "relative p-4 rounded-lg border transition-all duration-200 text-left",
                 {
                   "border-primary-500 bg-primary-50 shadow-lg": isSelected,
-                  "border-neutral-300 bg-white hover:bg-neutral-50": !isSelected,
+                  "border-neutral-300 bg-white hover:bg-neutral-50":
+                    !isSelected,
                 }
               )}
             >
