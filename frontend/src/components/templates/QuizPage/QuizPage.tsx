@@ -93,22 +93,21 @@ export default function QuizPage({ currentStep }: { currentStep: number }) {
               onClick={() => handleOptionClick(index)}
               className={clsx(
                 "relative p-4 rounded-lg border transition-all duration-200 text-left",
-                {
-                  "border-primary-500 bg-primary-50 dark:border-white dark:bg-secondary-200 shadow-lg": isSelected,
-                  "border-neutral-300 bg-white hover:bg-neutral-50 dark:bg-secondary-50 ":
-                    !isSelected,
+                { 
+                  "border-primary-500 bg-primary-50 dark:border-secondary-500 dark:bg-secondary-800 shadow-lg":isSelected,
+                  "border-primary-500 dark:border-secondary-500 dark:bg-secondary-900":!isSelected,
                 }
               )}
             >
               {isSelected && (
-                <span className="absolute -top-3 right-4 p-1 bg-primary-500 dark:bg-secondary-500 text-white rounded-lg">
+                <span className="absolute -top-3 right-4 p-1 bg-primary-500 dark:bg-secondary-500 dark:text-secondary-900 text-white rounded-lg">
                   <IoCheckmarkOutline />
                 </span>
               )}
-              <h3 className="text-lg sm:text-xl text-black-50 font-medium">
+              <h3 className="text-lg sm:text-xl text-black-50 dark:text-white font-medium">
                 {option.title}
               </h3>
-              <p className="text-xs sm:text-sm text-secondary-600">
+              <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400">
                 {option.description}
               </p>
             </button>

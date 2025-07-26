@@ -24,7 +24,7 @@ export default function Topbar({ onMenuClick, onHelpToggle }: TopbarProps) {
   return (
     <>
       {/* Topbar */}
-      <header className="flex items-center justify-between sm:justify-end px-2 py-3 sm:px-6 shadow-md dark:shadow-secondary-200 relative z-30 dark:bg-secondary-900 bg-white">
+      <header className="flex items-center justify-between sm:justify-end px-2 py-3 sm:px-6 shadow-md dark:shadow-secondary-500 relative z-30 dark:bg-secondary-900 bg-white">
         {/* Mobile Menu Button + Logo */}
         <div className="flex items-center gap-2 md:hidden">
           <button type="button" aria-label="Open menu" onClick={onMenuClick}>
