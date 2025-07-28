@@ -55,7 +55,7 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
 
   const onSubmit = (data: FormData) => {
     console.log("Form submitted:", data);
-    // اینجا می‌تونی اتصال به سرور (API) رو اضافه کنی
+    
   };
 
   return (

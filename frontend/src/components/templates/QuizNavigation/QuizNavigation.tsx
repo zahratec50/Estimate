@@ -1,96 +1,148 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 import clsx from "clsx";
+import { useAppStore } from "@/store/useAppStore";
 
 function FinalModal({ onClose }: { onClose: () => void }) {
+  const router = useRouter();
+  const { setRegistered } = useAppStore();
+
+  const handleRegister = () => {
+    setRegistered(true);
+    router.push("/register");
+    onClose();
+  };
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-[90%] max-w-[400px] p-6 rounded-lg shadow-lg text-center">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 modal">
+      <div className="bg-white dark:bg-secondary-900 dark:border dark:border-secondary-50 w-[90%] max-w-[400px] p-6 rounded-lg shadow-lg text-center">
         <h2 className="text-xl font-bold mb-4">Well Done!</h2>
         <p className="mb-4">
-          To complete the full test, you’ll need about 1.5 hours. Are you ready?
+          Please register to continue with your personalized questions.
         </p>
         <button
-          onClick={onClose}
-          className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition"
+          onClick={handleRegister}
+          className="bg-primary-500 dark:bg-secondary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 dark:hover:bg-secondary-400 transition"
         >
-          Start Full Test
+          Register
         </button>
       </div>
     </div>
   );
 }
 
-export default function QuizNavigation({ currentPage }: { currentPage: number }) {
+export default function QuizNavigation({ isHelpOpen }: { isHelpOpen: boolean }) {
+  const {
+    currentStep,
+    setCurrentStep,
+    isRegistered,
+    userType,
+    projects,
+    currentProjectId,
+  } = useAppStore();
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
+  const totalSteps = isRegistered && userType ? 1 : 4;
+
+  // مقدار گزینه انتخاب‌شده از استور
+  const selectedOption = useAppStore((state) => {
+    if (!isRegistered) {
+      return (
+        state.preQuizAnswers.find(
+          (answer) => answer.questionIndex === currentStep - 1
+        )?.selectedOption ?? null
+      );
+    }
+    const project = state.projects.find((p) => p.id === state.currentProjectId);
+    return (
+      project?.mainQuizAnswers.find(
+        (answer) => answer.questionIndex === currentStep - 1
+      )?.selectedOption ?? null
+    );
+  });
 
   const handleNext = useCallback(() => {
-    if (currentPage < 4) {
-      router.push(`/firstQuiz/${currentPage + 1}`);
+    if (currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1);
+      router.push(`/firstQuiz/${currentStep + 1}`);
     } else {
       setShowModal(true);
     }
-  }, [currentPage, router]);
+  }, [currentStep, totalSteps, setCurrentStep, router]);
 
   const handleBack = useCallback(() => {
-    if (currentPage > 1) {
-      router.push(`/firstQuiz/${currentPage - 1}`);
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+      router.push(`/firstQuiz/${currentStep - 1}`);
     }
-  }, [currentPage, router]);
+  }, [currentStep, setCurrentStep, router]);
 
   return (
     <>
-      <div className={`w-full max-w-[600px] lg:w-[200px] flex items-center ${currentPage > 1 ? 'justify-between' : 'justify-end pr-8'}  gap-4 mt-4 sm:mt-0`}>
-        {currentPage > 1 && (
-          <button
-            onClick={handleBack}
-            aria-label="Go back"
-            className="w-12 h-12 flex items-center justify-center border border-secondary-500 rounded-md hover:bg-gray-200 dark:hover:bg-secondary-200 dark:bg-secondary-50 transition"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6 text-black-50"
-              fill="none"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-              />
-            </svg>
-          </button>
-        )}
-
-        <button
-          onClick={handleNext}
+      <div className={`w-full  ${isHelpOpen ? 'max-w-[800]' : 'max-w-full'} font-roboto px-4 sm:px-0`}>
+        <hr className="border-t border-gray-300 dark:border-secondary-700 my-4" />
+        <div
           className={clsx(
-            "bg-primary-500 text-white dark:bg-secondary-500 rounded-lg font-medium",
-            "hover:bg-primary-600 dark:hover:bg-secondary-400 transition flex items-center justify-center gap-2",
-            "w-full max-w-[169px] h-12 text-base sm:text-lg"
+            "flex items-center gap-4",
+            currentStep > 1 ? "justify-between" : "justify-end"
           )}
         >
-          Continue
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-5 h-5 sm:w-6 sm:h-6"
-            fill="none"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-            />
-          </svg>
-        </button>
+          {currentStep > 1 && (
+            <button
+              onClick={handleBack}
+              aria-label="Go back"
+              className="w-12 h-12 flex items-center justify-center border border-secondary-500 rounded-md hover:bg-gray-200 dark:hover:bg-secondary-200 dark:bg-secondary-50 transition"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6 text-black-50"
+                fill="none"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                />
+              </svg>
+            </button>
+          )}
+
+          <div className="relative">
+            <button
+              onClick={handleNext}
+              disabled={selectedOption === null}
+              className={clsx(
+                "rounded-lg font-medium text-white",
+                selectedOption !== null
+                  ? "bg-primary-500 dark:bg-secondary-500 hover:bg-primary-600 dark:hover:bg-secondary-400"
+                  : "bg-gray-300 dark:bg-secondary-700 text-gray-500 cursor-not-allowed",
+                "transition flex items-center justify-center gap-2 w-full max-w-[169px] h-12 text-base sm:text-lg px-3"
+              )}
+              aria-label="Continue to next question"
+            >
+              Continue
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-5 h-5 sm:w-6 sm:h-6"
+                fill="none"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
 
       {showModal && <FinalModal onClose={() => setShowModal(false)} />}

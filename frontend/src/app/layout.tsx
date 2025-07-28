@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${roboto.variable}`} suppressHydrationWarning>
-      <body className="font-roboto bg-gray-50 overflow-x-hidden">
+      <body className="font-roboto overflow-x-hidden">
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useAppStore } from "@/store/useAppStore";
+import { useEffect, useMemo } from "react";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import clsx from "clsx";
 
@@ -48,20 +49,38 @@ const questions = [
   },
 ];
 
-export default function QuizPage({ currentStep }: { currentStep: number }) {
-  const isValidStep =
-    typeof currentStep === "number" &&
-    currentStep >= 1 &&
-    currentStep <= questions.length;
+type QuestionProps = {
+  isHelpOpen: boolean;
+}
 
-  const questionData = isValidStep ? questions[currentStep - 1] : null;
-  console.log(questionData);
+export default function QuizPage({ isHelpOpen }: QuestionProps) {
+  const currentStep = useAppStore((state) => state.currentStep)
+  const isRegistered = useAppStore((state) => state.isRegistered);
+  const currentProjectId = useAppStore((state) => state.currentProjectId);
+  const setPreQuizAnswer = useAppStore((state) => state.setPreQuizAnswer);
+  const setMainQuizAnswer = useAppStore((state) => state.setMainQuizAnswer);
 
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const selectedOption = useAppStore((state) => {
+  if (isRegistered && currentProjectId) {
+    const project = state.projects.find((p) => p.id === currentProjectId);
+    return project?.mainQuizAnswers.find((a) => a.questionIndex === currentStep - 1)?.selectedOption ?? null;
+  }
+  return state.preQuizAnswers.find((a) => a.questionIndex === currentStep - 1)?.selectedOption ?? null;
+});
 
-  const handleOptionClick = useCallback((index: number) => {
-    setSelectedOption(index);
-  }, []);
+  const questionData = useMemo(() => {
+    return currentStep >= 1 && currentStep <= questions.length
+      ? questions[currentStep - 1]
+      : null;
+  }, [currentStep]);
+
+  const handleOptionClick = (index: number) => {
+    if (isRegistered && currentProjectId) {
+      setMainQuizAnswer(currentProjectId, currentStep - 1, index);
+    } else {
+      setPreQuizAnswer(currentStep - 1, index);
+    }
+  };
 
   if (!questionData) {
     return (
@@ -72,18 +91,13 @@ export default function QuizPage({ currentStep }: { currentStep: number }) {
   }
 
   return (
-    <div className="w-full max-w-[800] font-roboto px-4 sm:px-0">
-      {/* Question Title */}
+    <div className={`w-full  ${isHelpOpen ? 'max-w-[800px]' : 'max-w-full'} font-roboto px-4 sm:px-0`}>
       <h1 className="text-xl md:text-2xl lg:text-3xl font-medium text-black-50 mb-2 dark:text-white">
         Question: {questionData.question}
       </h1>
-
-      {/* Subtitle */}
       <p className="text-md md:text-lg lg:text-xl text-neutral-700 dark:text-secondary-300 mb-6">
         Hint: {questionData.hint}
       </p>
-
-      {/* Options */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 sm:pb-[80px]">
         {questionData.options.map((option, index) => {
           const isSelected = selectedOption === index;
@@ -93,9 +107,11 @@ export default function QuizPage({ currentStep }: { currentStep: number }) {
               onClick={() => handleOptionClick(index)}
               className={clsx(
                 "relative p-4 rounded-lg border transition-all duration-200 text-left",
-                { 
-                  "border-primary-500 bg-primary-50 dark:border-secondary-500 dark:bg-secondary-800 shadow-lg":isSelected,
-                  "border-primary-500 dark:border-secondary-500 dark:bg-secondary-900":!isSelected,
+                {
+                  "border-primary-500 bg-primary-50 dark:border-secondary-500 dark:bg-secondary-800 shadow-lg":
+                    isSelected,
+                  "border-neutral-300 hover:bg-primary-50 dark:border-secondary-500 dark:hover:bg-secondary-800 dark:bg-secondary-900":
+                    !isSelected,
                 }
               )}
             >

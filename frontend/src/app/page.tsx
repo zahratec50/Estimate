@@ -1,10 +1,13 @@
-import React from 'react'
-import Link from 'next/link'
+import Header from "@/components/templates/index/Header/Header";
+import React from "react";
+import SignInPage from "./signin/page";
+
 
 export default function HomePage() {
   return (
-    <div className='flex items-center justify-center mt-10'>
-      <Link href='/signup' className='w-32 p-2 rounded-md flex items-center justify-center bg-newGray-greige'>Get Start</Link>
+    <div>
+      <Header />
+      <SignInPage />
     </div>
-  )
+  );
 }

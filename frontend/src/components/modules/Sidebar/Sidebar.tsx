@@ -6,13 +6,18 @@ import { TbHelpOctagon } from "react-icons/tb";
 import { IoSearchOutline, IoNotificationsOutline, IoClose } from "react-icons/io5";
 import { IoExitOutline } from "react-icons/io5";
 import clsx from "clsx";
+import { useAppStore } from '@/store/useAppStore';
 
 type SidebarProps = {
   isOpen: boolean;
+  isHelpOpen: boolean;
   onClose: () => void;
 };
 
-export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+export default function Sidebar({ isOpen, isHelpOpen, onClose }: SidebarProps) {
+  const { isSidebarOpen, toggleSidebar, currentStep } = useAppStore();
+  const totalSteps: number = 4;
+
   return (
     <>
       {/* Overlay for mobile */}
@@ -35,7 +40,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             "translate-x-0": isOpen,
             "-translate-x-full": !isOpen,
             "md:translate-x-0 md:flex": true,
-            "hidden": !isOpen && typeof window !== "undefined" && window.innerWidth < 768,
+            // "hidden": !isOpen && isHelpOpen && typeof window !== "undefined" && window.innerWidth < 768,
+            
           }
         )}
       >

@@ -1,35 +1,22 @@
-import ProgressSegment from "@/components/modules/ProgressBar/ProgressBar";
-import QuizPage from "@/components/templates/QuizPage/QuizPage";
-import QuizNavigation from "@/components/templates/QuizNavigation/QuizNavigation";
+'use client';
 
+import { useEffect } from 'react';
+import { useAppStore } from '@/store/useAppStore';
+import ClientShell from '@/components/modules/ClientShell/ClientShell';
 
-export default function Quiz({ params }: { params: { numberQuiz?: string } }) {
-  const step = parseInt(params.numberQuiz?? "", 10);
-  
+export default function FirstQuizPage({ params }: { params: { step: string } }) {
+  const { isRegistered, setCurrentStep } = useAppStore();
+  const step = parseInt(params.step, 10);
 
-  return (
-    <div className="w-full flex flex-col items-center justify-center">
-      {/* Progress bar for mobile */}
-      <div className="flex sm:hidden justify-center mb-4">
-        <ProgressSegment numberPage={step} />
-      </div>
+  useEffect(() => {
+    if (isRegistered) {
+      window.location.href = '/mainQuiz/1';
+    } else if (step >= 1 && step <= 4) {
+      setCurrentStep(step);
+    } else {
+      window.location.href = '/firstQuiz/1';
+    }
+  }, [step, isRegistered, setCurrentStep]);
 
-      {/* Quiz Content */}
-      <div className="w-full flex items-center justify-center">
-        <QuizPage currentStep={step} />
-      </div>
-
-      {/* Navigation and progress for larger screens */}
-      <div className="w-full max-w-[800px] flex flex-col items-center justify-center xl:justify-between px-4 sm:px-0 mt-6">
-        <hr className="w-full hidden sm:block my-4" />
-        <div className="w-full mt-auto flex items-center justify-between sm:gap-4">
-          <div className="hidden sm:block">
-            <ProgressSegment numberPage={step} />
-          </div>
-          <QuizNavigation currentPage={step} />
-        </div>
-      </div>
-    </div>
-  );
+  return <ClientShell />;
 }
-
