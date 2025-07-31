@@ -9,7 +9,7 @@ export default function ProgressSegment({ isHelpOpen }: { isHelpOpen: boolean })
   const totalSteps = isRegistered && userType ? 1 : 4;
 
   return (
-    <div className={`w-full max-w-[300px] ${isHelpOpen ? 'ml-64' : ' mx-auto'}  mb-6`}>
+    <div className={`w-full max-w-[300px] ${isHelpOpen ? 'ml-0 lg:ml-40 2xl:ml-64' : ' mx-auto'}  mb-6`}>
       <div className="flex items-center justify-between">
         <div
           className="grid w-full"

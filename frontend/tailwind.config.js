@@ -81,6 +81,7 @@ module.exports = {
           brainstorm: "#817658",
         },
         secondary: {
+          0: "#FAFBFB",
           50: "#EAEDED",
           100: "#DADEE0",
           200: "#BAC2C5",
@@ -106,6 +107,7 @@ module.exports = {
         },
         black: {
           50: "#09101D",
+          100: "#2C2C2C"
         },
         gray: {
           201: "#EBEEF2",

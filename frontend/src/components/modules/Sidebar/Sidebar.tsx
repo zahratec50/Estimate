@@ -35,7 +35,7 @@ export default function Sidebar({ isOpen, isHelpOpen, onClose }: SidebarProps) {
       {/* Sidebar itself */}
       <aside
         className={clsx(
-          "fixed top-0 left-0 h-full w-64 flex-col justify-between p-4 dark:bg-secondary-500 bg-primary-500 shadow-lg z-50 transition-transform duration-300",
+          "fixed top-0 left-0 h-full w-64 flex-col justify-between p-4 dark:bg-secondary-500 bg-primary-500 shadow-lg rounded-2xl z-50 transition-transform duration-300",
           {
             "translate-x-0": isOpen,
             "-translate-x-full": !isOpen,
