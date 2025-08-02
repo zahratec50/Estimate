@@ -1,0 +1,60 @@
+[
+  {
+    "question": "Which of these best describes you?",
+    "answers": [
+      "Homeowner",
+      "Investor",
+      "Installer/Handyman",
+      "Contractor"
+    ]
+  },
+  {
+    "question": "Which city and state do you live or work in?",
+    "answers": [
+      "City and state dropdown"
+    ]
+  },
+  {
+    "question": "What type of property do you typically deal with?",
+    "answers": [
+      "Apartment",
+      "Detached house",
+      "Commercial / Shop",
+      "Industrial",
+      "Other"
+    ]
+  },
+  {
+    "question": "Have you done any renovations or repairs before?",
+    "answers": [
+      "Yes, several times",
+      "Yes, once",
+      "No, this is my first time"
+    ]
+  },
+  {
+    "question": "When would you prefer we reach out if needed?",
+    "answers": [
+      "Morning",
+      "Afternoon",
+      "Evening",
+      "Anytime is fine"
+    ]
+  },
+  {
+    "question": "How did you hear about us?",
+    "answers": [
+      "Online search",
+      "Friends & family",
+      "Social media",
+      "Advertisement",
+      "Other"
+    ]
+  },
+  {
+    "question": "What’s the best way to contact you? (email or phone)",
+    "answers": [
+      "Text input"
+    ]
+  }
+]
