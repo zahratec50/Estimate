@@ -39,7 +39,7 @@ export default function Topbar({
       className={clsx(
         "w-full relative z-30 font-roboto",
         isHome
-          ? "px-2 py-3 flex justify-between items-center dark:bg-secondary-900 bg-white"
+          ? "px-2 py-3 flex justify-between items-center dark:bg-secondary-900"
           : "px-2 py-3 sm:px-6 shadow-md flex justify-between items-center dark:bg-secondary-900 bg-white"
       )}
     >

@@ -1,84 +1,3 @@
-// import React from "react";
-// import Link from "next/link";
-// import { FcGoogle } from "react-icons/fc";
-// import { FaApple } from "react-icons/fa";
-
-// export default function AuthWrapper({
-//   children,
-//   title,
-//   slogan,
-//   isLogin,
-//   forHome,
-// }: {
-//   children: React.ReactNode;
-//   title: string;
-//   slogan?: string;
-//   isLogin: boolean;
-//   forHome?: boolean;
-// }) {
-//   return (
-//     <div className={`${forHome && typeof window !== "undefined" && window.innerWidth < 390 ? 'flex flex-col items-center justify-between' : 'flex items-center justify-center'} h-screen  gap-8 px-4 py-8`}>
-//       <div className="max-w-6xl w-full h-full bg-white rounded-lg flex flex-col md:flex-row overflow-hidden">
-//         {/* Left Image */}
-//         <div className={forHome
-//               ? "w-full md:w-1/2 h-48 md:h-full flex items-center justify-center"
-//               : "hidden md:flex md:w-1/2 h-full"}>
-//           <img
-//             src={`${forHome && typeof window !== "undefined" && window.innerWidth < 390 ? '/images/Frame 1597883540.png' : '/images/register.png'}`}
-//             alt="Auth illustration"
-//             className={`object-cover rounded-2xl w-full h-full ${forHome ? "max-h-48 md:max-h-full" : ""}`}
-//           />
-//         </div>
-
-//         {/* Form area */}
-//         <div className={forHome
-//               ? "w-full md:w-1/2 px-4 flex flex-col items-center justify-center overflow-y-auto border border-gray-300 ml-0 md:ml-3 rounded-3xl h-auto md:h-[589px] mt-4 md:mt-0"
-//               : "w-full md:w-1/2 px-4 flex flex-col items-center justify-center overflow-y-auto"}>
-//           {/* Logo and Title */}
-//           <div className="text-center mb-6">
-//             <img
-//               src="/images/Logo.png"
-//               alt="logo"
-//               className="h-16 w-16 mx-auto mb-2"
-//             />
-//             <h2 className="text-xl font-bold">{title}</h2>
-//             {slogan && <p className="text-gray-500">{slogan}</p>}
-//           </div>
-
-//           {children}
-
-//           {/* Divider */}
-//           <div className="flex items-center w-full max-w-sm my-4">
-//             <div className="flex-grow h-px bg-gray-300" />
-//             <span className="px-2 text-sm text-gray-500">or login with</span>
-//             <div className="flex-grow h-px bg-gray-300" />
-//           </div>
-
-//           {/* Social login */}
-//           <div className="flex gap-4 w-full max-w-sm">
-//             <button className="flex-1 h-11 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100">
-//               <FcGoogle className="text-xl" /> Google
-//             </button>
-//             <button className="flex-1 h-11 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100">
-//               <FaApple className="text-xl" /> Apple ID
-//             </button>
-//           </div>
-
-//           {/* Redirect Link */}
-//           <p className="text-sm text-gray-600 mt-6">
-//             {isLogin ? "Don't have an account?" : "Have an account?"}{" "}
-//             <Link
-//               href={isLogin ? "/signup" : "/signin"}
-//               className="text-primary-600 hover:underline"
-//             >
-//               {isLogin ? "Sign up now" : "Login now"}
-//             </Link>
-//           </p>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
 
 import React from "react";
 import Link from "next/link";
@@ -136,11 +55,6 @@ export default function AuthWrapper({
             />
           )}
 
-          {/* <img
-            src="/images/Frame 1597883540.png"
-            alt="Auth illustration"
-            className="object-cover rounded-2xl w-full h-full md:max-h-full max-h-48"
-          /> */}
         </div>
 
         {/* Form area */}

@@ -72,7 +72,7 @@ export default function ClientShell() {
           onHelpToggle={toggleHelp}
           onMenuClick={toggleSidebar}
         />
-        <main className={`flex-grow  ${isHelpOpen ? 'w-[70%] px-0 md:px-5 lg:pl-10 xl:px-10 sm:ml-72' : 'w-full md:px-10 lg:px-20 xl:px-40'} py-5 sm:py-20`}>
+        <main className={`flex-grow  ${isHelpOpen ? 'w-[70%] px-0 md:px-5 lg:pl-10 xl:px-10 sm:ml-72' : 'w-full md:px-10 lg:px-20 xl:px-40'} py-5 sm:py-10`}>
           <ProgressSegment isHelpOpen={isHelpOpen} />
           <QuizPage isHelpOpen={isHelpOpen} />
           <QuizNavigation isHelpOpen={isHelpOpen} />

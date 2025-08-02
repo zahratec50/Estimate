@@ -7,21 +7,18 @@ import Description from "@/components/templates/index/Description/Description";
 import Features from "@/components/templates/index/Features/Features";
 import Start from "@/components/templates/index/Start/Start";
 import Footer from "@/components/modules/Footer/Footer";
+import FirstVideo from "@/components/templates/index/FirstVideo/FirstVideo";
+import Question from "@/components/templates/index/Question/Question";
 
 export default function HomePage() {
   return (
     <div className="w-full flex items-center justify-center">
       <div className="w-full max-w-6xl flex flex-col gap-5 space-y-5 pb-5">
         <Header />
-        <AuthWrapper
-          title="Welcome Back"
-          slogan="Login to continue"
-          isLogin={true}
-          forHome={true}
-        >
-          <AuthForm isLogin={true} />
-        </AuthWrapper>
+
+        <FirstVideo />
         <YourQuestions />
+        <Question />
         <Description />
         <Features />
         <Start />
