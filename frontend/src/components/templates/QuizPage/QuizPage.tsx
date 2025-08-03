@@ -164,7 +164,7 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
               </div>
             </div>
           ) : questionData.answers[0] === "Text input" ? (
-            <div className="col-span-full w-1/2 flex">
+            <div className="col-span-full md:w-1/2 flex">
               <input
                 type="text"
                 placeholder="Email or Phone Number"
