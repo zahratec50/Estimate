@@ -5,36 +5,13 @@ import { useEffect, useCallback, useState } from "react";
 import clsx from "clsx";
 import { useAppStore } from "@/store/useAppStore";
 import firstQuestion from "@/data/firstQuestion.json";
+import CompletionModal from "./CompletionModal/CompletionModal";
 
-function FinalModal({ onClose }: { onClose: () => void }) {
-  const router = useRouter();
-  const setRegistered = useAppStore((state) => state.setRegistered);
-
-  const handleRegister = () => {
-    setRegistered(true);
-    router.push("/dashboard");
-    onClose();
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 modal">
-      <div className="bg-white dark:bg-secondary-900 dark:border dark:border-secondary-50 w-[90%] max-w-[400px] p-6 rounded-lg shadow-lg text-center">
-        <h2 className="text-xl font-bold mb-4">Well Done!</h2>
-        <p className="mb-4">
-          Please register to continue with your personalized questions.
-        </p>
-        <button
-          onClick={handleRegister}
-          className="bg-primary-500 dark:bg-secondary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 dark:hover:bg-secondary-400 transition"
-        >
-          Register
-        </button>
-      </div>
-    </div>
-  );
-}
-
-export default function QuizNavigation({ isHelpOpen }: { isHelpOpen: boolean }) {
+export default function QuizNavigation({
+  isHelpOpen,
+}: {
+  isHelpOpen: boolean;
+}) {
   const {
     currentStep,
     setCurrentStep,
@@ -68,6 +45,12 @@ export default function QuizNavigation({ isHelpOpen }: { isHelpOpen: boolean }) 
       router.push(`/firstQuiz/${prevStep}`);
     }
   }, [currentStep, setCurrentStep, router]);
+
+  const handleRegister = () => {
+    useAppStore.getState().setRegistered(true);
+    router.push("/dashboard");
+    setShowModal(false);
+  };
 
   return (
     <>
@@ -140,7 +123,7 @@ export default function QuizNavigation({ isHelpOpen }: { isHelpOpen: boolean }) 
         </div>
       </div>
 
-      {showModal && <FinalModal onClose={() => setShowModal(false)} />}
+      {showModal && <CompletionModal handleRegister={handleRegister} />}
     </>
   );
 }
