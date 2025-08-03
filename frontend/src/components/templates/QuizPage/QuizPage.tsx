@@ -132,23 +132,25 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
       } font-roboto px-4 sm:px-0`}
     >
       <h1 className="text-xl md:text-2xl lg:text-3xl font-medium text-black-50 mb-10 dark:text-white">
-        Question: {questionData.question}
+        {questionData.question}
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 sm:pb-[80px]">
         {questionData.answers && questionData.answers.length > 0 ? (
           questionData.answers[0] === "City and state dropdown" ? (
-            <div className="col-span-full flex items-center justify-between gap-4">
-              <div className="w-1/2">
+            <div className="col-span-full flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="w-full md:w-1/2">
+
                 <CustomSelect
                   options={Object.keys(states.countries.USA)}
                   value={selectedState}
                   onChange={handleStateChange}
                   placeholder="Select a state"
+                  name="state list"
                 />
               </div>
 
-              <div className="w-1/2">
+              <div className="w-full md:w-1/2">
                 <CustomSelect
                   options={
                     selectedState ? states.countries.USA[selectedState] : []
@@ -157,6 +159,7 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
                   onChange={handleCityChange}
                   placeholder="Select a city"
                   disabled={!selectedState}
+                  name="city list"
                 />
               </div>
             </div>
@@ -164,7 +167,7 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
             <div className="col-span-full w-1/2 flex">
               <input
                 type="text"
-                placeholder="Email or Phone"
+                placeholder="Email or Phone Number"
                 className="w-full border p-2 rounded-lg outline-primary-500"
                 value={inputValue}
                 onChange={(e) => handleInputChange(e.target.value)}
@@ -178,7 +181,7 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
                   key={index}
                   onClick={() => handleOptionClick(option)}
                   className={clsx(
-                    "relative p-4 rounded-lg border transition-all duration-200 text-left",
+                    "relative p-6 rounded-lg border transition-all duration-200 text-left",
                     {
                       "border-primary-500 bg-primary-50 dark:border-secondary-500 dark:bg-secondary-800 shadow-lg":
                         isSelected,
@@ -192,7 +195,7 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
                       <IoCheckmarkOutline />
                     </span>
                   )}
-                  <h3 className="text-sm sm:text-lg text-black-50 dark:text-white font-medium">
+                  <h3 className="text-lg sm:text-xl text-black-50 dark:text-white font-medium">
                     {option}
                   </h3>
                 </button>
