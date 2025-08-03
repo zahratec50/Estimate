@@ -153,7 +153,7 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
               <div className="w-full md:w-1/2">
                 <CustomSelect
                   options={
-                    selectedState ? states.countries.USA[selectedState] : []
+                    selectedState ? states.countries.USA[selectedState as keyof typeof states.countries.USA] : []
                   }
                   value={selectedCity}
                   onChange={handleCityChange}
