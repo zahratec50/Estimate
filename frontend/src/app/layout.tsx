@@ -4,6 +4,8 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 
+import { Toaster } from "react-hot-toast";
+
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -24,13 +26,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${roboto.variable}`} suppressHydrationWarning>
-      <body className="font-roboto overflow-x-hidden">
+      <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem={false}
         >
-          {children}
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              duration: 5000,
+              style: {
+                background: "transparent",
+                boxShadow: "none",
+              },
+            }}
+          />
+          <div className="font-roboto overflow-x-hidden">{children}</div>
         </ThemeProvider>
       </body>
     </html>

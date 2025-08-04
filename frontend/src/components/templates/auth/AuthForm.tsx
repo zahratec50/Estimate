@@ -1,14 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/modules/Input/Input";
+import { showErrorToast } from "@/components/modules/toasts/ErrorToast";
 
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 
@@ -58,14 +57,48 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
     mode: "onTouched",
   });
 
+  useEffect(() => {
+  if (!isLogin && errors.name) {
+    showErrorToast({
+      title: "Invalid Name",
+      description: errors.name.message || "",
+      actionLabel: "Button",
+      onAction: () => {
+        // Handle button click
+      },
+    });
+  }
+
+  if (errors.email) {
+    showErrorToast({
+      title: "Invalid Email",
+      description: errors.email.message || "",
+      actionLabel: "Button",
+      onAction: () => {
+        // Handle button click
+      },
+    });
+  }
+
+  if (errors.password) {
+    showErrorToast({
+      title: "Invalid Password",
+      description: errors.password.message || "",
+      actionLabel: "Button",
+      onAction: () => {
+        // Handle button click
+      },
+    });
+  }
+}, [errors, isLogin]);
+
+
   const onSubmit = (data: FormData) => {
     console.log("Form submitted:", data);
-    
   };
 
   return (
     <>
-      {/* <ToastContainer /> */}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full max-w-sm space-y-3 text-fontFamily-roboto"
@@ -76,7 +109,7 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
             labelName="Name"
             type="text"
             register={register}
-            error={errors.name}
+            // error={errors.name}
           />
         )}
 
@@ -85,7 +118,7 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
           labelName="Email"
           type="email"
           register={register}
-          error={errors.email}
+          // error={errors.email}
         />
 
         <Input
@@ -93,7 +126,7 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
           labelName="Password"
           type={showPassword ? "text" : "password"}
           register={register}
-          error={errors.password}
+          // error={errors.password}
           icon2={<LuEye className="w-4 h-4" />}
           icon1={<LuEyeClosed className="w-4 h-4" />}
           toggle={() => setShowPassword((prev) => !prev)}

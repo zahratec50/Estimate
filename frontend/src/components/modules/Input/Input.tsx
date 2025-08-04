@@ -4,7 +4,7 @@ type InputProps = {
   labelName: string;
   type: string;
   register: any;
-  error: any;
+  // error: any;
   icon1?: React.ReactNode;
   icon2?: React.ReactNode;
   toggle?: () => void;
@@ -15,7 +15,7 @@ export default function Input({
   labelName,
   type,
   register,
-  error,
+  // error,
   icon1,
   icon2,
   toggle,
@@ -39,7 +39,7 @@ export default function Input({
           </span>
         )}
       </div>
-      {error && <p className="text-xs text-red-500 mt-1">{error.message}</p>}
+      {/* {error && <p className="text-xs text-red-500 mt-1">{error.message}</p>} */}
     </div>
   );
 }
