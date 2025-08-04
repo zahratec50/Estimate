@@ -103,7 +103,7 @@ export default function Topbar({
 
         {isHome ? (
           <button className="bg-secondary-500 text-white text-sm md:text-lg px-4 py-2.5 md:px-8 md:py-2 rounded-lg">
-            <Link href="/register">Sign Up</Link>
+            <Link href="/signup">Sign Up</Link>
           </button>
         ) : (
           <div className="flex items-center space-x-3 md:space-x-6 dark:text-white text-secondary-700 text-sm md:text-base font-medium">
