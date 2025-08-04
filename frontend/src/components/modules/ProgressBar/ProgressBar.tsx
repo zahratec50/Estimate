@@ -418,7 +418,7 @@ export default function ProgressSegment({ isHelpOpen }: { isHelpOpen: boolean })
       className={clsx(
         'w-full max-w-[900px] mx-auto mb-10 rounded-lg',
         isHelpOpen ? 'ml-0 lg:ml-40 2xl:ml-64 px-8 py-6' : 'px-6 py-5',
-        'bg-white dark:bg-gray-900'
+        'dark:bg-gray-900'
       )}
     >
       <div className="relative h-6">

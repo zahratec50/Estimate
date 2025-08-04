@@ -1,69 +1,40 @@
 import React from "react";
 
-import { IoCheckmarkDone } from "react-icons/io5";
-import { BsFillQuestionSquareFill } from "react-icons/bs";
-import { BsArrowReturnRight } from "react-icons/bs";
+// import { IoCheckmarkDone } from "react-icons/io5";
+// import { BsFillQuestionSquareFill } from "react-icons/bs";
+// import { BsArrowReturnRight } from "react-icons/bs";
 
-const YourQuestions = [
-  {
-    id: 1,
-    question: "What is your name?",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-  },
-  {
-    id: 2,
-    question: "What is your age?",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-  },
-  {
-    id: 3,
-    question: "What is your favorite color?",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-  },
-  {
-    id: 4,
-    question: "What is your hobby?",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-  },
-];
+import Link from "next/link";
 
-export default function Question() {
+type QuestionProps = {
+  question: string;
+  answer: string;
+  id: number;
+};
+
+export default function Question({question, answer, id}: QuestionProps) {
   return (
-    <div className="w-full h-full">
-      <div className="w-full">
-        {/* <h2 className="text-3xl font-bold">Your Questions</h2> */}
-        <div className="w-full md:min-h-screen flex items-center justify-start md:justify-center mt-3 px-2 md:px-0">
-          <div className="w-full h-full flex flex-col items-center justify-between">
-            {YourQuestions.map((item) => (
-              <div
-                key={item.id}
-                className="w-full h-[150px] md:h-[250px] mb-3 flex items-center justify-between gap-3"
-              >
-                <div className="hidden sm:block w-1/2 h-full bg-primary-200 rounded-xl">
-                  <span></span>
-                </div>
-                <div className="w-full md:w-1/2 flex flex-col justify-center">
-                  <div className="flex">
-                    <BsFillQuestionSquareFill className="size-6 text-primary-500 mr-2" />
-                    <strong className="text-2xl text-black-50 mb-2">
-                      {item.question}
-                    </strong>
-                  </div>
-                  <div className="w-full flex gap-2 pl-3">
-                    <div className='size-6'>
-                      <BsArrowReturnRight className="text-secondary-600 size-6" />
-                    </div>
-                    <p className="text-[16px] text-neutral-700 font-roboto">
-                      {item.answer}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
+    <div className="w-full h-[400px]">
+      <div className="w-full h-full flex flex-col lg:flex-row items-center justify-between px-5 xl:px-0">
+        <div className={`w-full lg:w-1/2 h-full bg-primary-200 rounded-2xl mb-10 lg:mb-0 ${id%2===0 ? 'order-2 lg:order-1' : 'order-1 lg:order-2'}`}>
+          <span></span>
+        </div>
+
+        <div className={`w-full lg:w-1/2 flex items-center ${id%2===0 ? 'order-2 justify-start lg:justify-end' : 'order-1 justify-start'}`}> 
+          <div className="w-[459px] h-60 flex flex-col gap-5 lg:gap-9">
+            <h2 className="text-[28px] lg:text-4xl font-semibold">
+              {question}
+            </h2>
+            <span>{answer}</span>
+            <div className="flex flex-col lg:flex-row lg:items-center gap-5">
+              <button className="w-36 py-3 bg-newGray-agreeable hover:bg-newGray-warm text-white rounded-md">
+                <Link href="/firstQuiz/1">Get Started</Link>
+              </button>
+              <span className="w-fit border-b border-newGray-white hover:border-newGray transition-all duration-200">
+                <Link href="/signin">Already have an account? Sign in</Link>
+                
+              </span>
+            </div>
           </div>
         </div>
       </div>

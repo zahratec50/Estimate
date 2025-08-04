@@ -17,6 +17,9 @@ type QuestionItem = {
   answers: string[];
 };
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+const usPhoneRegex = /^(\+1\s?)?(\(?\d{3}\)?[\s.-]?)?\d{3}[\s.-]?\d{4}$/;
+
 export default function QuizPage({ isHelpOpen }: QuestionProps) {
   const currentStep = useAppStore((state) => state.currentStep);
   const isRegistered = useAppStore((state) => state.isRegistered);
@@ -24,14 +27,18 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
   const setPreQuizAnswer = useAppStore((state) => state.setPreQuizAnswer);
   const setMainQuizAnswer = useAppStore((state) => state.setMainQuizAnswer);
 
-  // داده سوال جاری
+
+  const [contactInput, setContactInput] = useState("");
+  const [contactError, setContactError] = useState("");
+
+  
   const questionData: QuestionItem | null = useMemo(() => {
     return currentStep >= 1 && currentStep <= firstQuestion.length
       ? firstQuestion[currentStep - 1]
       : null;
   }, [currentStep]);
 
-  // پاسخ انتخاب شده از استور (رشته)
+  
   const selectedAnswer = useAppStore((state) => {
     const questionText = questionData?.question;
     if (!questionText) return null;
@@ -50,7 +57,7 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
     );
   });
 
-  // حالت داخلی برای ایالت و شهر
+  
   const [selectedState, setSelectedState] = useState<string>("");
   const [selectedCity, setSelectedCity] = useState<string>("");
 
@@ -66,18 +73,16 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
     }
   }, [selectedAnswer]);
 
-  // state برای input متنی (ایمیل یا شماره)
-  const [inputValue, setInputValue] = useState("");
-
+  
   useEffect(() => {
     if (questionData?.answers[0] === "Text input" && selectedAnswer) {
-      setInputValue(selectedAnswer);
+      setContactInput(selectedAnswer);
     } else {
-      setInputValue("");
+      setContactInput("");
     }
   }, [selectedAnswer, questionData]);
 
-  // ذخیره پاسخ
+
   const saveAnswer = (answer: string) => {
     const questionText = questionData?.question;
     if (!questionText) return;
@@ -89,14 +94,13 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
     }
   };
 
-  // انتخاب ایالت
+  
   const handleStateChange = (stateName: string) => {
     setSelectedState(stateName);
-    setSelectedCity(""); // Reset city
-    // موقتا ذخیره نکن چون شهر انتخاب نشده
+    setSelectedCity(""); 
   };
 
-  // انتخاب شهر
+ 
   const handleCityChange = (cityName: string) => {
     setSelectedCity(cityName);
     if (selectedState && cityName) {
@@ -104,18 +108,31 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
     }
   };
 
-  // انتخاب گزینه دکمه‌ای
+
   const handleOptionClick = (answer: string) => {
     saveAnswer(answer);
   };
 
-  // ذخیره پاسخ input متنی هنگام تغییر
+  
+  const isValidContact = (val: string) =>
+    emailRegex.test(val) || usPhoneRegex.test(val);
+
   const handleInputChange = (val: string) => {
-    setInputValue(val);
-    if (val.trim().length >= 5) {
-      saveAnswer(val.trim());
-    }
-  };
+  setContactInput(val);
+  saveAnswer(val);
+
+  const trimmed = val.trim();
+  const isValid = emailRegex.test(trimmed) || usPhoneRegex.test(trimmed);
+
+  if (trimmed === "") {
+    setContactError("This field is required.");
+  } else if (!isValid) {
+    setContactError("Please enter a valid email or US phone number.");
+  } else {
+    setContactError("");
+  }
+};
+
 
   if (!questionData) {
     return (
@@ -140,7 +157,6 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
           questionData.answers[0] === "City and state dropdown" ? (
             <div className="col-span-full flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="w-full md:w-1/2">
-
                 <CustomSelect
                   options={Object.keys(states.countries.USA)}
                   value={selectedState}
@@ -153,7 +169,11 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
               <div className="w-full md:w-1/2">
                 <CustomSelect
                   options={
-                    selectedState ? states.countries.USA[selectedState as keyof typeof states.countries.USA] : []
+                    selectedState
+                      ? states.countries.USA[
+                          selectedState as keyof typeof states.countries.USA
+                        ]
+                      : []
                   }
                   value={selectedCity}
                   onChange={handleCityChange}
@@ -164,14 +184,22 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
               </div>
             </div>
           ) : questionData.answers[0] === "Text input" ? (
-            <div className="col-span-full md:w-1/2 flex">
+            <div className="col-span-full md:w-1/2 flex flex-col">
               <input
                 type="text"
                 placeholder="Email or Phone Number"
-                className="w-full border p-2 rounded-lg outline-primary-500"
-                value={inputValue}
+                className={clsx(
+                  "w-full border p-2 rounded-lg outline-primary-500",
+                  contactError
+                    ? "border-red-500 focus:border-red-500"
+                    : "border-gray-300 focus:border-primary-500"
+                )}
+                value={contactInput}
                 onChange={(e) => handleInputChange(e.target.value)}
               />
+              {contactError && (
+                <p className="text-red-500 text-sm mt-1">{contactError}</p>
+              )}
             </div>
           ) : (
             questionData.answers.map((option: string, index: number) => {

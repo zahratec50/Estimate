@@ -1,23 +1,16 @@
-"use client";
-
 import { useRouter } from "next/navigation";
-import { useEffect, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import clsx from "clsx";
 import { useAppStore } from "@/store/useAppStore";
 import firstQuestion from "@/data/firstQuestion.json";
 import CompletionModal from "./CompletionModal/CompletionModal";
 
-export default function QuizNavigation({
-  isHelpOpen,
-}: {
-  isHelpOpen: boolean;
-}) {
+export default function QuizNavigation({ isHelpOpen }: { isHelpOpen: boolean }) {
   const {
     currentStep,
     setCurrentStep,
     isRegistered,
     userType,
-    getCurrentAnswer,
     isContinueAllowed,
   } = useAppStore();
 

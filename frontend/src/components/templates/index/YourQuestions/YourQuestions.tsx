@@ -3,7 +3,6 @@
 import React, { useState, useCallback, memo } from "react";
 import FAQItemComponent from "./FAQItemComponent";
 
-
 // question type
 interface FAQItem {
   id: number;
@@ -38,7 +37,6 @@ const questionAndAnswer: FAQItem[] = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
   },
 ];
-
 
 // FAQItemComponent.displayName = "FAQItemComponent";
 
