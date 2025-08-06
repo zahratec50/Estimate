@@ -109,7 +109,6 @@
 //   );
 // }
 
-
 // 'use client';
 
 // import clsx from 'clsx';
@@ -161,14 +160,18 @@
 
 //! اینو میخوام
 
-'use client';
+"use client";
 
-import clsx from 'clsx';
-import { useAppStore } from '@/store/useAppStore';
-import { Check } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import clsx from "clsx";
+import { useAppStore } from "@/store/useAppStore";
+import { Check } from "lucide-react";
+import { useEffect, useState } from "react";
 
-export default function ProgressSegment({ isHelpOpen }: { isHelpOpen: boolean }) {
+export default function ProgressSegment({
+  isHelpOpen,
+}: {
+  isHelpOpen: boolean;
+}) {
   const { isRegistered, userType } = useAppStore();
   const currentStep = useAppStore((state) => state.currentStep);
   const totalSteps = isRegistered && userType ? 1 : 7;
@@ -183,8 +186,8 @@ export default function ProgressSegment({ isHelpOpen }: { isHelpOpen: boolean })
   return (
     <div
       className={clsx(
-        'w-full max-w-[700px] mx-auto mb-10 transition-all duration-300 rounded-lg bg-opacity-90 dark:bg-secondary-900 dark:bg-opacity-80',
-        isHelpOpen ? 'ml-0 lg:mr-40 2xl:mr-64 px-8 py-6' : 'px-6'
+        "w-full max-w-[700px] mx-auto mb-10 transition-all duration-300 rounded-lg bg-opacity-90 dark:bg-secondary-900 dark:bg-opacity-80",
+        isHelpOpen ? "ml-0 lg:mr-40 2xl:mr-64 px-8 py-6" : "px-6"
       )}
     >
       <div className="relative flex items-center justify-between px-4">
@@ -192,13 +195,17 @@ export default function ProgressSegment({ isHelpOpen }: { isHelpOpen: boolean })
         <div className="absolute top-1/2 left-6 right-6 h-1.5 bg-gray-100 dark:bg-gray-700 z-0 transform -translate-y-1/2 rounded-full" />
         {/* خط پر شده */}
         <div
-          className="absolute top-1/2 left-6 h-1.5 bg-gradient-to-r from-primary-500 to-primary-300 dark:from-secondary-300 dark:to-secondary-200 z-10 transform -translate-y-1/2 rounded-full transition-all duration-500"
-          style={{
-            width:
-              totalSteps > 1
-                ? `${((currentStep - 1) / (totalSteps - 1)) * 100}%`
-                : '100%',
-          }}
+          className={clsx(
+            "absolute top-1/2 left-6 h-1.5 bg-gradient-to-r from-primary-500 to-primary-300 dark:from-secondary-300 dark:to-secondary-200 z-10 transform -translate-y-1/2 rounded-full transition-all duration-500",
+            currentStep === totalSteps ? "progress-except-last" : ""
+          )}
+          style={
+            currentStep === totalSteps
+              ? undefined
+              : {
+                  width: `${((currentStep - 1) / (totalSteps - 1)) * 100}%`,
+                }
+          }
         />
 
         {/* دایره‌ها */}
@@ -213,18 +220,17 @@ export default function ProgressSegment({ isHelpOpen }: { isHelpOpen: boolean })
               key={step}
               className="relative z-20 flex flex-col items-center transition-transform duration-300"
               style={{
-                transform: isAnimated ? 'scale(1.2)' : 'scale(1)',
-                
+                transform: isAnimated ? "scale(1.2)" : "scale(1)",
               }}
             >
               <div
                 className={clsx(
-                  'w-10 h-10 rounded-full flex items-center justify-center text-lg font-semibold transition-colors duration-300',
+                  "w-10 h-10 rounded-full flex items-center justify-center text-lg font-semibold transition-colors duration-300",
                   isDone
-                    ? 'bg-primary-500 text-white dark:bg-secondary-300 dark:text-black'
+                    ? "bg-primary-500 text-white dark:bg-secondary-300 dark:text-black"
                     : isCurrent
-                    ? 'bg-primary-400 text-white dark:bg-secondary-900 dark:border-secondary-300 dark:text-secondary-200'
-                    : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
+                    ? "bg-primary-400 text-white dark:bg-secondary-900 dark:border-secondary-300 dark:text-secondary-200"
+                    : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
                 )}
               >
                 {isDone ? <Check size={20} /> : step}
@@ -236,7 +242,6 @@ export default function ProgressSegment({ isHelpOpen }: { isHelpOpen: boolean })
     </div>
   );
 }
-
 
 // 'use client';
 
@@ -312,7 +317,6 @@ export default function ProgressSegment({ isHelpOpen }: { isHelpOpen: boolean })
 //     </div>
 //   );
 // }
-
 
 //todo: cute
 
@@ -390,8 +394,6 @@ export default function ProgressSegment({ isHelpOpen }: { isHelpOpen: boolean })
 //     </div>
 //   );
 // }
-
-
 
 // 'use client';
 

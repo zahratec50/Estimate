@@ -87,3 +87,8 @@ button:disabled {
 .animate-loading-bar {
   animation: loading-bar 1.5s infinite linear;
 }
+
+/* globals.css یا یک فایل css module */
+.progress-except-last {
+  width: calc(100% - 2.5rem); /* دایره‌ی آخر رو حذف کن */
+}
