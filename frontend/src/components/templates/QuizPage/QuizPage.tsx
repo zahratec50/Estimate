@@ -6,7 +6,7 @@ import { IoCheckmarkOutline } from "react-icons/io5";
 import clsx from "clsx";
 import firstQuestion from "@/data/firstQuestion.json";
 import states from "@/data/states.json";
-import CustomSelect from "@/components/modules/CustomSelect/CustomSelect";
+import CustomSelect from "@/components/templates/QuizPage/CustomSelect/CustomSelect";
 
 type QuestionProps = {
   isHelpOpen: boolean;

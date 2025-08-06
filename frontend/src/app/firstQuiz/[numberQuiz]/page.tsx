@@ -1,12 +1,16 @@
-'use client';
+"use client";
 
-import ClientShell from '@/components/modules/ClientShell/ClientShell';
-import { redirectLogic } from '@/hooks/helpers';
+import ClientShell from "@/components/templates/ClientShell/ClientShell";
+import { redirectLogic } from "@/hooks/helpers";
 
-export default function FirstQuizPage({ params }: { params: { step: string } }) {
+export default function FirstQuizPage({
+  params,
+}: {
+  params: { step: string };
+}) {
   const step = parseInt(params.step, 10);
 
-  redirectLogic(step)
+  redirectLogic(step);
 
   return <ClientShell />;
 }

@@ -1,10 +1,10 @@
-import VerificationPage from '@/components/modules/VerificationCode/VerificationCode'
-import React from 'react'
+import VerificationPage from "@/components/templates/VerificationCode/VerificationCode";
+import React from "react";
 
 export default function ResendCode() {
   return (
     <div>
       <VerificationPage resendCode={true} />
     </div>
-  )
+  );
 }

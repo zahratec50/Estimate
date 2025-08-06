@@ -3,17 +3,19 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
-import Sidebar from "../Sidebar/Sidebar";
-import Topbar from "../Topbar/Topbar";
+import Sidebar from "../../modules/Sidebar/Sidebar";
+import Topbar from "../../modules/Topbar/Topbar";
 import QuizPage from "@/components/templates/QuizPage/QuizPage";
 import QuizNavigation from "@/components/templates/QuizNavigation/QuizNavigation";
-import ProgressSegment from "../ProgressBar/ProgressBar";
-import HelpPanel from "../HelpPanel/HelpPanel";
+import ProgressSegment from "../../modules/ProgressBar/ProgressBar";
+import HelpPanel from "../../modules/HelpPanel/HelpPanel";
 import { useAppStore } from "@/store/useAppStore";
 import firstQuestion from "@/data/firstQuestion.json";
 
 // Helper: Detect userType based on the answer
-const detectUserType = (answer: string): "designer" | "contractor" | "homeowner" => {
+const detectUserType = (
+  answer: string
+): "designer" | "contractor" | "homeowner" => {
   const lower = answer.toLowerCase();
   if (lower.includes("designer") || lower.includes("6")) return "designer";
   if (lower.includes("contractor") || lower === "1") return "contractor";
@@ -57,7 +59,11 @@ export default function ClientShell() {
   return (
     <div className="flex min-h-screen relative dark:bg-secondary-900 bg-gray-50">
       {/* Sidebar */}
-      <Sidebar isOpen={isSidebarOpen} isHelpOpen={isHelpOpen} onClose={toggleSidebar} />
+      <Sidebar
+        isOpen={isSidebarOpen}
+        isHelpOpen={isHelpOpen}
+        onClose={toggleSidebar}
+      />
 
       {/* Main Layout */}
       <div
@@ -67,7 +73,11 @@ export default function ClientShell() {
         )}
       >
         {/* Topbar */}
-        <Topbar onHelpToggle={toggleHelp} isHelpOpen={isHelpOpen} onMenuClick={toggleSidebar} />
+        <Topbar
+          onHelpToggle={toggleHelp}
+          isHelpOpen={isHelpOpen}
+          onMenuClick={toggleSidebar}
+        />
 
         {/* Page Content */}
         <main
@@ -98,7 +108,12 @@ export default function ClientShell() {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
           <HelpPanel isHelpOpen={isHelpOpen} />

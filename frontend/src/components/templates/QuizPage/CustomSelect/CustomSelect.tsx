@@ -1,9 +1,6 @@
-// components/CustomSelect.tsx
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { IoCheckmark } from "react-icons/io5";
-import { FaChevronDown } from "react-icons/fa";
 import { IoIosCheckmark } from "react-icons/io";
 
 type CustomSelectProps = {

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import CodeInput from "../CodeInput/CodeInput";
+import CodeInput from "./CodeInput/CodeInput";
 
 import { ArrowLeft } from "lucide-react";
 

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Input from "@/components/modules/Input/Input";
+import Input from "@/components/templates/auth/Input/Input";
 import { showErrorToast } from "@/components/modules/toasts/ErrorToast";
 
 import { LuEye, LuEyeClosed } from "react-icons/lu";
