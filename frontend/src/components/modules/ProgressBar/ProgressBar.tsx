@@ -184,7 +184,7 @@ export default function ProgressSegment({ isHelpOpen }: { isHelpOpen: boolean })
     <div
       className={clsx(
         'w-full max-w-[700px] mx-auto mb-10 transition-all duration-300 rounded-lg bg-opacity-90 dark:bg-secondary-900 dark:bg-opacity-80',
-        isHelpOpen ? 'ml-0 lg:mr-40 2xl:mr-64 px-8 py-6' : 'px-6 py-5'
+        isHelpOpen ? 'ml-0 lg:mr-40 2xl:mr-64 px-8 py-6' : 'px-6'
       )}
     >
       <div className="relative flex items-center justify-between px-4">

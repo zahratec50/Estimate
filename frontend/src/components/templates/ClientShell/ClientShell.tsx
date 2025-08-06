@@ -82,7 +82,7 @@ export default function ClientShell() {
         {/* Page Content */}
         <main
           className={clsx(
-            "flex-grow py-5 sm:py-10",
+            "flex-grow py-5 sm:py-6",
             isHelpOpen
               ? "w-[70%] px-0 md:px-5 lg:pl-10 xl:px-10 sm:ml-72"
               : "w-full md:px-10 lg:px-20 xl:px-40"
