@@ -14,7 +14,7 @@ type QuestionProps = {
 
 export default function Question({question, answer, id}: QuestionProps) {
   return (
-    <div className="w-full h-[400px]">
+    <div className="w-full h-[558px]">
       <div className="w-full h-full flex flex-col lg:flex-row items-center justify-between px-5 xl:px-0">
         <div className={`w-full lg:w-1/2 h-full bg-primary-200 rounded-2xl mb-10 lg:mb-0 ${id%2===0 ? 'order-2 lg:order-1' : 'order-1 lg:order-2'}`}>
           <span></span>
