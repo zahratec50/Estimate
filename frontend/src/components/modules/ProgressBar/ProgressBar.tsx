@@ -223,7 +223,7 @@ export default function ProgressSegment({ isHelpOpen }: { isHelpOpen: boolean })
                   isDone
                     ? 'bg-primary-500 text-white dark:bg-secondary-300 dark:text-black'
                     : isCurrent
-                    ? 'bg-white border-4 border-primary-500 text-primary-600 dark:bg-secondary-900 dark:border-secondary-300 dark:text-secondary-200'
+                    ? 'bg-primary-400 text-white dark:bg-secondary-900 dark:border-secondary-300 dark:text-secondary-200'
                     : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
                 )}
               >
