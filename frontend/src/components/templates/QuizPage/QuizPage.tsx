@@ -27,18 +27,15 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
   const setPreQuizAnswer = useAppStore((state) => state.setPreQuizAnswer);
   const setMainQuizAnswer = useAppStore((state) => state.setMainQuizAnswer);
 
-
   const [contactInput, setContactInput] = useState("");
   const [contactError, setContactError] = useState("");
 
-  
   const questionData: QuestionItem | null = useMemo(() => {
     return currentStep >= 1 && currentStep <= firstQuestion.length
       ? firstQuestion[currentStep - 1]
       : null;
   }, [currentStep]);
 
-  
   const selectedAnswer = useAppStore((state) => {
     const questionText = questionData?.question;
     if (!questionText) return null;
@@ -57,7 +54,6 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
     );
   });
 
-  
   const [selectedState, setSelectedState] = useState<string>("");
   const [selectedCity, setSelectedCity] = useState<string>("");
 
@@ -73,7 +69,6 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
     }
   }, [selectedAnswer]);
 
-  
   useEffect(() => {
     if (questionData?.answers[0] === "Text input" && selectedAnswer) {
       setContactInput(selectedAnswer);
@@ -81,7 +76,6 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
       setContactInput("");
     }
   }, [selectedAnswer, questionData]);
-
 
   const saveAnswer = (answer: string) => {
     const questionText = questionData?.question;
@@ -94,13 +88,11 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
     }
   };
 
-  
   const handleStateChange = (stateName: string) => {
     setSelectedState(stateName);
-    setSelectedCity(""); 
+    setSelectedCity("");
   };
 
- 
   const handleCityChange = (cityName: string) => {
     setSelectedCity(cityName);
     if (selectedState && cityName) {
@@ -108,31 +100,28 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
     }
   };
 
-
   const handleOptionClick = (answer: string) => {
     saveAnswer(answer);
   };
 
-  
   const isValidContact = (val: string) =>
     emailRegex.test(val) || usPhoneRegex.test(val);
 
   const handleInputChange = (val: string) => {
-  setContactInput(val);
-  saveAnswer(val);
+    setContactInput(val);
+    saveAnswer(val);
 
-  const trimmed = val.trim();
-  const isValid = emailRegex.test(trimmed) || usPhoneRegex.test(trimmed);
+    const trimmed = val.trim();
+    const isValid = emailRegex.test(trimmed) || usPhoneRegex.test(trimmed);
 
-  if (trimmed === "") {
-    setContactError("This field is required.");
-  } else if (!isValid) {
-    setContactError("Please enter a valid email or US phone number.");
-  } else {
-    setContactError("");
-  }
-};
-
+    if (trimmed === "") {
+      setContactError("This field is required.");
+    } else if (!isValid) {
+      setContactError("Please enter a valid email or US phone number.");
+    } else {
+      setContactError("");
+    }
+  };
 
   if (!questionData) {
     return (

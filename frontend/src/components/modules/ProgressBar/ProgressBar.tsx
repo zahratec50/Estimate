@@ -161,81 +161,81 @@
 
 //! اینو میخوام
 
-// 'use client';
+'use client';
 
-// import clsx from 'clsx';
-// import { useAppStore } from '@/store/useAppStore';
-// import { Check } from 'lucide-react';
-// import { useEffect, useState } from 'react';
+import clsx from 'clsx';
+import { useAppStore } from '@/store/useAppStore';
+import { Check } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-// export default function ProgressSegment({ isHelpOpen }: { isHelpOpen: boolean }) {
-//   const { isRegistered, userType } = useAppStore();
-//   const currentStep = useAppStore((state) => state.currentStep);
-//   const totalSteps = isRegistered && userType ? 1 : 7;
+export default function ProgressSegment({ isHelpOpen }: { isHelpOpen: boolean }) {
+  const { isRegistered, userType } = useAppStore();
+  const currentStep = useAppStore((state) => state.currentStep);
+  const totalSteps = isRegistered && userType ? 1 : 7;
 
-//   // حالت برای scale انیمیشن مرحله جاری
-//   const [animatedStep, setAnimatedStep] = useState(currentStep);
+  // حالت برای scale انیمیشن مرحله جاری
+  const [animatedStep, setAnimatedStep] = useState(currentStep);
 
-//   useEffect(() => {
-//     setAnimatedStep(currentStep);
-//   }, [currentStep]);
+  useEffect(() => {
+    setAnimatedStep(currentStep);
+  }, [currentStep]);
 
-//   return (
-//     <div
-//       className={clsx(
-//         'w-full max-w-[900px] mx-auto mb-10 transition-all duration-300 rounded-lg bg-white bg-opacity-90 dark:bg-secondary-900 dark:bg-opacity-80',
-//         isHelpOpen ? 'ml-0 lg:ml-40 2xl:ml-64 px-8 py-6' : 'px-6 py-5'
-//       )}
-//     >
-//       <div className="relative flex items-center justify-between px-4">
-//         {/* خط کلی پیشرفت */}
-//         <div className="absolute top-1/2 left-6 right-6 h-2 bg-gray-200 dark:bg-gray-700 z-0 transform -translate-y-1/2 rounded-full" />
-//         {/* خط پر شده */}
-//         <div
-//           className="absolute top-1/2 left-6 h-2 bg-gradient-to-r from-primary-500 to-primary-300 dark:from-secondary-300 dark:to-secondary-200 z-10 transform -translate-y-1/2 rounded-full transition-all duration-500"
-//           style={{
-//             width:
-//               totalSteps > 1
-//                 ? `${((currentStep - 1) / (totalSteps - 1)) * 100}%`
-//                 : '100%',
-//           }}
-//         />
+  return (
+    <div
+      className={clsx(
+        'w-full max-w-[700px] mx-auto mb-10 transition-all duration-300 rounded-lg bg-opacity-90 dark:bg-secondary-900 dark:bg-opacity-80',
+        isHelpOpen ? 'ml-0 lg:mr-40 2xl:mr-64 px-8 py-6' : 'px-6 py-5'
+      )}
+    >
+      <div className="relative flex items-center justify-between px-4">
+        {/* خط کلی پیشرفت */}
+        <div className="absolute top-1/2 left-6 right-6 h-1.5 bg-gray-100 dark:bg-gray-700 z-0 transform -translate-y-1/2 rounded-full" />
+        {/* خط پر شده */}
+        <div
+          className="absolute top-1/2 left-6 h-1.5 bg-gradient-to-r from-primary-500 to-primary-300 dark:from-secondary-300 dark:to-secondary-200 z-10 transform -translate-y-1/2 rounded-full transition-all duration-500"
+          style={{
+            width:
+              totalSteps > 1
+                ? `${((currentStep - 1) / (totalSteps - 1)) * 100}%`
+                : '100%',
+          }}
+        />
 
-//         {/* دایره‌ها */}
-//         {Array.from({ length: totalSteps }, (_, index) => {
-//           const step = index + 1;
-//           const isDone = currentStep > step;
-//           const isCurrent = currentStep === step;
-//           const isAnimated = animatedStep === step;
+        {/* دایره‌ها */}
+        {Array.from({ length: totalSteps }, (_, index) => {
+          const step = index + 1;
+          const isDone = currentStep > step;
+          const isCurrent = currentStep === step;
+          const isAnimated = animatedStep === step;
 
-//           return (
-//             <div
-//               key={step}
-//               className="relative z-20 flex flex-col items-center transition-transform duration-300"
-//               style={{
-//                 transform: isAnimated ? 'scale(1.2)' : 'scale(1)',
+          return (
+            <div
+              key={step}
+              className="relative z-20 flex flex-col items-center transition-transform duration-300"
+              style={{
+                transform: isAnimated ? 'scale(1.2)' : 'scale(1)',
                 
-//               }}
-//             >
-//               <div
-//                 className={clsx(
-//                   'w-14 h-14 rounded-full flex items-center justify-center text-lg font-semibold transition-colors duration-300',
-//                   isDone
-//                     ? 'bg-primary-500 text-white dark:bg-secondary-300 dark:text-black'
-//                     : isCurrent
-//                     ? 'bg-white border-4 border-primary-500 text-primary-600 dark:bg-secondary-900 dark:border-secondary-300 dark:text-secondary-200'
-//                     : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
-//                 )}
-//               >
-//                 {isDone ? <Check size={24} /> : step}
-//               </div>
-//             </div>
-//           );
-//         })}
-//       </div>
-//     </div>
-//   );
-// }
+              }}
+            >
+              <div
+                className={clsx(
+                  'w-10 h-10 rounded-full flex items-center justify-center text-lg font-semibold transition-colors duration-300',
+                  isDone
+                    ? 'bg-primary-500 text-white dark:bg-secondary-300 dark:text-black'
+                    : isCurrent
+                    ? 'bg-white border-4 border-primary-500 text-primary-600 dark:bg-secondary-900 dark:border-secondary-300 dark:text-secondary-200'
+                    : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
+                )}
+              >
+                {isDone ? <Check size={20} /> : step}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 
 // 'use client';
@@ -393,72 +393,72 @@
 
 
 
-'use client';
+// 'use client';
 
-import { useEffect, useState } from 'react';
-import clsx from 'clsx';
-import { useAppStore } from '@/store/useAppStore';
+// import { useEffect, useState } from 'react';
+// import clsx from 'clsx';
+// import { useAppStore } from '@/store/useAppStore';
 
-export default function ProgressSegment({ isHelpOpen }: { isHelpOpen: boolean }) {
-  const { isRegistered, userType } = useAppStore();
-  const currentStep = useAppStore((state) => state.currentStep);
-  const totalSteps = isRegistered && userType ? 1 : 7;
+// export default function ProgressSegment({ isHelpOpen }: { isHelpOpen: boolean }) {
+//   const { isRegistered, userType } = useAppStore();
+//   const currentStep = useAppStore((state) => state.currentStep);
+//   const totalSteps = isRegistered && userType ? 1 : 7;
 
-  // درصد پیشرفت بر اساس مرحله جاری
-  const progressPercent =
-    totalSteps > 1 ? ((currentStep - 1) / (totalSteps - 1)) * 100 : 100;
+//   // درصد پیشرفت بر اساس مرحله جاری
+//   const progressPercent =
+//     totalSteps > 1 ? ((currentStep - 1) / (totalSteps - 1)) * 100 : 100;
 
-  // مختصات نقاط روی خط به درصد (برای نمایش دایره‌ها)
-  const pointsPercent = Array.from({ length: totalSteps }).map(
-    (_, idx) => (idx / (totalSteps - 1)) * 100
-  );
+//   // مختصات نقاط روی خط به درصد (برای نمایش دایره‌ها)
+//   const pointsPercent = Array.from({ length: totalSteps }).map(
+//     (_, idx) => (idx / (totalSteps - 1)) * 100
+//   );
 
-  return (
-    <div
-      className={clsx(
-        'w-full max-w-[900px] mx-auto mb-10 rounded-lg',
-        isHelpOpen ? 'ml-0 lg:ml-40 2xl:ml-64 px-8 py-6' : 'px-6 py-5',
-        'dark:bg-gray-900'
-      )}
-    >
-      <div className="relative h-6">
-        {/* خط پس زمینه خاکستری */}
-        <div className="absolute inset-0 rounded-full bg-primary-50 dark:bg-gray-700" />
+//   return (
+//     <div
+//       className={clsx(
+//         'w-full max-w-[900px] mx-auto mb-10 rounded-lg',
+//         isHelpOpen ? 'ml-0 lg:ml-40 2xl:ml-64 px-8 py-6' : 'px-6 py-5',
+//         'dark:bg-gray-900'
+//       )}
+//     >
+//       <div className="relative h-6">
+//         {/* خط پس زمینه خاکستری */}
+//         <div className="absolute inset-0 rounded-full bg-primary-50 dark:bg-gray-700" />
 
-        {/* خط پیشرفت با گرادیان متحرک */}
-        <div
-          className="absolute left-0 top-0 h-6 rounded-full"
-          style={{
-            width: `${progressPercent}%`,
-            background:
-              'linear-gradient(90deg, #F4ECE2 0%, #E9D9C5 50%, #D2B48C 100%)',
-            transition: 'width 0.6s ease-in-out',
-          }}
-        />
+//         {/* خط پیشرفت با گرادیان متحرک */}
+//         <div
+//           className="absolute left-0 top-0 h-6 rounded-full"
+//           style={{
+//             width: `${progressPercent}%`,
+//             background:
+//               'linear-gradient(90deg, #F4ECE2 0%, #E9D9C5 50%, #D2B48C 100%)',
+//             transition: 'width 0.6s ease-in-out',
+//           }}
+//         />
 
-        {/* نقاط مراحل */}
-        {pointsPercent.map((pos, idx) => {
-          const isPassed = currentStep - 1 >= idx;
-          return (
-            <div
-              key={idx}
-              className={clsx(
-                'absolute top-1/2 w-6 h-6 rounded-full border-2 transform -translate-y-1/2',
-                isPassed
-                  ? 'bg-primary-400 border-primary-400 shadow-lg'
-                  : 'bg-primary-100 border-primary-100 dark:bg-gray-800 dark:border-gray-600',
-                'transition-all duration-500 ease-in-out'
-              )}
-              style={{ left: `calc(${pos}% - 12px)` }}
-            >
-              {/* نقطه درون دایره برای مراحل گذرانده شده */}
-              {isPassed && (
-                <div className="w-3 h-3 bg-primary-100 border-primary-400 rounded-full mx-auto mt-1 shadow" />
-              )}
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
+//         {/* نقاط مراحل */}
+//         {pointsPercent.map((pos, idx) => {
+//           const isPassed = currentStep - 1 >= idx;
+//           return (
+//             <div
+//               key={idx}
+//               className={clsx(
+//                 'absolute top-1/2 w-6 h-6 rounded-full border-2 transform -translate-y-1/2',
+//                 isPassed
+//                   ? 'bg-primary-400 border-primary-400 shadow-lg'
+//                   : 'bg-primary-100 border-primary-100 dark:bg-gray-800 dark:border-gray-600',
+//                 'transition-all duration-500 ease-in-out'
+//               )}
+//               style={{ left: `calc(${pos}% - 12px)` }}
+//             >
+//               {/* نقطه درون دایره برای مراحل گذرانده شده */}
+//               {isPassed && (
+//                 <div className="w-3 h-3 bg-primary-100 border-primary-400 rounded-full mx-auto mt-1 shadow" />
+//               )}
+//             </div>
+//           );
+//         })}
+//       </div>
+//     </div>
+//   );
+// }
