@@ -18,7 +18,8 @@ type QuestionItem = {
 };
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-const usPhoneRegex = /^(\+1\s?)?(\(?\d{3}\)?[\s.-]?)?\d{3}[\s.-]?\d{4}$/;
+const usPhoneRegex = /^(?:\+1\s?)?(?:\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}$/;
+
 
 export default function QuizPage({ isHelpOpen }: QuestionProps) {
   const currentStep = useAppStore((state) => state.currentStep);
