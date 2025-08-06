@@ -45,7 +45,6 @@ export default function VerificationPage({
     };
   }, []);
 
-  //? ?????????????? بررسی شود
   // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   if (e.target.value.length <= 4) {
   //     setCode(e.target.value);
@@ -77,7 +76,7 @@ export default function VerificationPage({
       )}
 
       {/* form */}
-      <div className="w-[390px] h-[660px] lg:w-1/2 lg:h-[670px] flex flex-col items-center justify-center bg-white rounded-lg">
+      <div className="w-[390px] h-[660px] lg:w-1/2 lg:h-[670px] flex flex-col items-center justify-between lg:justify-center bg-white rounded-lg pt-32 lg:pt-0">
         <div className="w-[350px] md:w-95">
           <button
             className="flex items-center text-lg lg:text-sm text-black-50 mb-8 hover:text-black"
@@ -97,6 +96,8 @@ export default function VerificationPage({
             code
           </label>
           <CodeInput />
+          </div>
+          <div className="w-[350px] md:w-95">
           {isMobile ? (
             resendCode ? (
               <div className="w-[350px] h-[431px] flex flex-col items-center justify-end gap-2">
