@@ -60,10 +60,10 @@ export default function VerificationPage({
   };
 
   return (
-    <div className="h-[800px] lg:h-[670px] flex flex-col md:flex-row items-center justify-center mt-7 md:p-[50px]">
+    <div className="w-full h-full flex flex-col md:flex-row items-center justify-center md:px-[50px] md:mt-4">
       {/* left image*/}
       {!isMobile && (
-        <div className="sm:hidden w-1/2 h-[670px] lg:flex">
+        <div className="hidden w-1/2 h-[660px] lg:flex">
           <div className="relative w-full h-full bg-gray-200 rounded-lg flex items-center justify-center shadow-lg overflow-hidden">
             <div className="absolute inset-0 flex justify-center items-center text-gray-400 font-semibold text-lg">
               <Image
@@ -78,7 +78,7 @@ export default function VerificationPage({
       )}
 
       {/* form */}
-      <div className="w-[390px] h-[800px] lg:w-1/2 lg:h-[670px] flex flex-col items-center justify-center bg-white rounded-lg">
+      <div className="w-[390px] h-[660px] lg:w-1/2 lg:h-[670px] flex flex-col items-center justify-center bg-white rounded-lg">
         <div className="w-[350px] md:w-95">
           <button
             className="flex items-center text-lg lg:text-sm text-black-50 mb-8 hover:text-black"
