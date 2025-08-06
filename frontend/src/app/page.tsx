@@ -21,10 +21,9 @@ export default function HomePage() {
         <FirstVideo />
         <Features />
         {/* <YourQuestions /> */}
-        <Question question={feature[0].question} answer={feature[0].answer} id={feature[0].id} />
-        <Question question={feature[1].question} answer={feature[1].answer} id={feature[1].id} />
-        <Question question={feature[2].question} answer={feature[2].answer} id={feature[2].id} />
-        <Question question={feature[3].question} answer={feature[3].answer} id={feature[3].id} />
+        {feature.slice(0, 4).map(({ question, answer, id }) => (
+          <Question key={id} question={question} answer={answer} id={id} />
+        ))}
         {/* <Description /> */}
         <Start />
         <Footer />
