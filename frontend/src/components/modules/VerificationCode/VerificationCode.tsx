@@ -10,7 +10,6 @@ type MyComponentPropsResendCode = {
   resendCode: boolean;
 };
 
-//! بررسی مشکل از بین نرفتن تصویر توی موقعیت موبایل و حدف بعد از چندثانیه
 export default function VerificationPage({
   resendCode,
 }: MyComponentPropsResendCode) {
@@ -18,7 +17,7 @@ export default function VerificationPage({
     if (typeof window !== "undefined") {
       return window.innerWidth < 768;
     }
-    return false; // در سرور فرض بر این است که دسکتاپ است
+    return false;
   };
 
   const [code, setCode] = useState("");
@@ -47,11 +46,11 @@ export default function VerificationPage({
   }, []);
 
   //? ?????????????? بررسی شود
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length <= 4) {
-      setCode(e.target.value);
-    }
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.value.length <= 4) {
+  //     setCode(e.target.value);
+  //   }
+  // };
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
