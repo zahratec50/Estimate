@@ -3,7 +3,6 @@ import { Roboto } from "next/font/google";
 // import { Inter } from 'next/font/google';
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
-
 import { Toaster } from "react-hot-toast";
 
 const roboto = Roboto({
@@ -26,11 +25,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${roboto.variable}`} suppressHydrationWarning>
-      <body>
+      <body className="font-roboto overflow-x-hidden">
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
-          enableSystem={false}
+          enableSystem={true}
         >
           <Toaster
             position="top-right"
@@ -42,7 +41,7 @@ export default function RootLayout({
               },
             }}
           />
-          <div className="font-roboto overflow-x-hidden dark:bg-secondary-900">{children}</div>
+          {children}
         </ThemeProvider>
       </body>
     </html>

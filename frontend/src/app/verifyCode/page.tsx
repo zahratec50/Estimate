@@ -3,7 +3,7 @@ import React from "react";
 
 export default function verifyCode() {
   return (
-    <div>
+    <div className="dark:bg-secondary-900">
       <VerificationPage resendCode={false} />
     </div>
   );

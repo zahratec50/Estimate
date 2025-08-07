@@ -49,7 +49,7 @@ export default function CodeInput() {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-4 text-fontFamily-roboto-0">
+    <div className="flex flex-col items-center space-y-4 font-roboto">
       <div className="flex space-x-2">
         {code.map((digit, index) => (
           <input
@@ -64,7 +64,7 @@ export default function CodeInput() {
             onChange={(e) => handleChange(e.target.value, index)}
             onKeyDown={(e) => handleKeyDown(e, index)}
             className={clsx(
-              "w-[81.5px] md:w-[89px] h-12 text-center text-xl border rounded-md focus:outline-none",
+              "w-[81.5px] md:w-[89px] h-12 text-center text-xl dark:bg-white dark:text-black-50 border rounded-md font-semibold focus:outline-none",
               error
                 ? "border-red-500"
                 : "border-neutral-300 focus:border-primary-500"

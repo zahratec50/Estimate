@@ -5,9 +5,11 @@ import Footer from "@/components/modules/Footer/Footer";
 
 export default function NotFound() {
   return (
-    <div className="font-roboto w-full flex flex-col items-center justify-center">
-      <div className="w-full max-w-6xl">
+    <div className="font-roboto w-full flex flex-col items-center justify-center dark:bg-secondary-900">
+      <div className="w-full mb-14 lg:mb-28">
         <Header />
+      </div>
+      <div className="w-full max-w-6xl">
         <div className="flex flex-col items-center justify-between gap-5">
           <div>
             <img
@@ -17,14 +19,14 @@ export default function NotFound() {
             />
           </div>
           <div className="flex flex-col items-center justify-center gap-2 mt-3 mb-5 px-5 md:px-0">
-            <h2 className="text-lg md:text-2xl text-black-50 font-bold ">
+            <h2 className="text-lg md:text-2xl text-black-50 dark:text-white font-bold ">
               Page cannot be found
             </h2>
-              <span className="text-lg md:text-2xl text-black-50 font-roboto text-center">
-                The page you are trying to access doesn’t exist or has been
-                moved. Try going back to our homepage.
-              </span>
-            
+            <span className="text-lg md:text-2xl text-black-50 dark:text-white font-roboto text-center">
+              The page you are trying to access doesn’t exist or has been moved.
+              Try going back to our homepage.
+            </span>
+
             <button className="text-white bg-secondary-500 rounded-md py-2 px-3">
               <Link href="/">Our homepage</Link>
             </button>

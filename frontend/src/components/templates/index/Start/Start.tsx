@@ -30,7 +30,7 @@ export default function Start() {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Egestas purus viverra accumsan in nisl nisi. Arcu cursus vitae congue mauris rhoncus aenean vel elit scelerisque.
             </p>
             <Link href="/firstQuiz/1">
-              <button className="bg-primary-500 text-white text-xs md:text-lg font-medium rounded-lg py-2 px-5 md:h-12 md:px-10 mt-3 hover:bg-primary-600 transition">
+              <button className="bg-primary-500 dark:bg-secondary-500 text-white text-xs md:text-lg font-medium rounded-lg py-2 px-5 md:h-12 md:px-10 mt-3 hover:bg-primary-600 transition">
                 Call to Action
               </button>
             </Link>
