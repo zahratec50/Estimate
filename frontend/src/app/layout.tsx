@@ -42,7 +42,7 @@ export default function RootLayout({
               },
             }}
           />
-          <div className="font-roboto overflow-x-hidden">{children}</div>
+          <div className="font-roboto overflow-x-hidden dark:bg-secondary-900">{children}</div>
         </ThemeProvider>
       </body>
     </html>

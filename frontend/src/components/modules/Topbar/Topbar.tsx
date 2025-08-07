@@ -39,7 +39,7 @@ export default function Topbar({
       className={clsx(
         "w-full relative z-30 font-roboto",
         isHome
-          ? "px-2 py-3 flex justify-between items-center dark:bg-secondary-900"
+          ? "px-2 py-2 flex justify-between items-center"
           : "px-2 py-3 sm:px-6 shadow-md flex justify-between items-center dark:bg-secondary-900 bg-white"
       )}
     >
@@ -73,7 +73,7 @@ export default function Topbar({
           height={isHome ? 80 : 48}
           className={clsx(
             "object-contain",
-            isHome ? "w-16 h-16 md:w-20 md:h-20" : "w-10 h-10 block sm:hidden"
+            isHome ? "w-6 h-6 md:w-16 md:h-16" : "w-10 h-10 block sm:hidden"
           )}
         />
         {/* Center Menu for Home */}
@@ -83,7 +83,7 @@ export default function Topbar({
               <Link
                 key={page}
                 href={`/${page}`}
-                className="text-black-50 dark:text-white text-2xl font-bold"
+                className="text-black-50 dark:text-white text-sm font-bold"
               >
                 {page[0].toUpperCase() + page.slice(1)}
               </Link>
@@ -102,7 +102,7 @@ export default function Topbar({
         <ThemeSwitcher />
 
         {isHome ? (
-          <button className="bg-secondary-500 text-white text-sm md:text-lg px-4 py-2.5 md:px-8 md:py-2 rounded-lg">
+          <button className="bg-secondary-500 text-white text-sm px-4 py-2 md:px-4 md:py-2 rounded-lg">
             <Link href="/signup">Sign Up</Link>
           </button>
         ) : (

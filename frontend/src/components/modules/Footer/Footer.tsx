@@ -52,7 +52,7 @@ import { FaFacebookSquare } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="w-full flex justify-center bg-white">
+    <footer className="w-full flex justify-center bg-white dark:bg-secondary-900">
       <div className="w-full flex flex-col items-center font-roboto ">
         
         <Image

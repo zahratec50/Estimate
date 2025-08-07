@@ -14,9 +14,11 @@ import feature from "@/data/feature.json"
 
 export default function HomePage() {
   return (
-    <div className="w-full flex items-center justify-center">
-      <div className="w-full max-w-6xl flex flex-col gap-8 space-y-20 pb-5 px-4 lg:px-0">
+    <div className="w-full flex flex-col items-center justify-center">
+      <div className="w-full mb-28">
         <Header />
+      </div>
+      <div className="w-full max-w-6xl flex flex-col gap-8 space-y-20 pb-5 px-4 lg:px-0">
 
         <FirstVideo />
         <Features />

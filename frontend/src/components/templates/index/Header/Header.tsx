@@ -14,12 +14,15 @@ export default function Header() {
 
   return (
     <div>
-      <Topbar
+      <div className="px-0 lg:px-20 bg-primary-200 dark:bg-secondary-700">
+        <Topbar
         isHelpOpen={isHelpOpen}
         onHelpToggle={toggleHelp}
         onMenuClick={toggleSidebar}
         isHome={true}
       />
+      </div>
+      
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50 bg-black-50/50">
           <div className="absolute left-0 top-0 w-64 h-full bg-white shadow-lg">
