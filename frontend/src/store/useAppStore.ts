@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+import axios from "axios";
+
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 const usPhoneRegex = /^(?:\+1\s?)?(?:\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}$/;
 
@@ -66,7 +68,7 @@ export const useAppStore = create<AppState>()(
       isHelpOpen: false,
 
       setCurrentStep: (step) => set({ currentStep: step }),
-      
+
       setPreQuizAnswer: (question, answer) => {
         const existing = get().preQuizAnswers.find(
           (a) => a.question === question
@@ -182,8 +184,23 @@ export const useAppStore = create<AppState>()(
         set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
       toggleHelp: () => set((state) => ({ isHelpOpen: !state.isHelpOpen })),
 
-      syncWithServer: () => {
+      syncWithServer: async() => {
         console.log("Sync with server...");
+        const state = get();
+        try {
+          const res = await axios.post("/api/saveQuiz", {
+            preQuizAnswers: state.preQuizAnswers,
+            mainQuizAnswers: state.mainQuizAnswers,
+            isRegistered: state.isRegistered,
+            userType: state.userType,
+            projects: state.projects,
+            currentProjectId: state.currentProjectId,
+          });
+
+          console.log("Server response:", res.data);
+        } catch (err) {
+          console.error("Error syncing with server:", err);
+        }
       },
     }),
     {
