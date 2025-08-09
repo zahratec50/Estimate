@@ -1,8 +1,9 @@
-
+"use client"
 import React from "react";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
+import { signIn } from "next-auth/react";
 
 export default function AuthWrapper({
   children,
@@ -87,10 +88,10 @@ export default function AuthWrapper({
 
           {/* Social login */}
           <div className="flex gap-4 w-full max-w-sm">
-            <button className="flex-1 h-11 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100">
+            <button onClick={() => signIn("google")} className="flex-1 h-11 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100">
               <FcGoogle className="text-xl" /> Google
             </button>
-            <button className="flex-1 h-11 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100">
+            <button onClick={() => signIn("apple")} className="flex-1 h-11 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100">
               <FaApple className="text-xl" /> Apple ID
             </button>
           </div>

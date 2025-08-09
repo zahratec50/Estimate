@@ -8,6 +8,7 @@ type InputProps = {
   icon1?: React.ReactNode;
   icon2?: React.ReactNode;
   toggle?: () => void;
+  disabled?: boolean;
 };
 
 export default function Input({
@@ -19,6 +20,7 @@ export default function Input({
   icon1,
   icon2,
   toggle,
+  disabled,
 }: InputProps) {
   return (
     <div className="w-full">
@@ -29,6 +31,7 @@ export default function Input({
           type={type}
           className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-primary-500"
           placeholder={`Enter Your ${name}`}
+          disabled={disabled}
         />
         {toggle && (
           <span
