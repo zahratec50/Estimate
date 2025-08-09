@@ -146,11 +146,14 @@ export default function QuizNavigation({
     userType,
     projects,
     currentProjectId,
+    clearQuizData,
   } = useAppStore();
 
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // const clearQuizData = useAppStore((state) => state.clearQuizData);
 
   const totalSteps = isRegistered && userType ? 1 : firstQuestion.length;
 
@@ -175,6 +178,7 @@ export default function QuizNavigation({
 
         if (res.data.success) {
           setShowModal(true);
+          clearQuizData();
         } else {
           alert("Error in data: " + res.data.message);
         }

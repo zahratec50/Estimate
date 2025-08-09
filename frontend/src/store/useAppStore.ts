@@ -51,6 +51,8 @@ interface AppState {
   toggleHelp: () => void;
 
   syncWithServer: () => void;
+
+  clearQuizData: () => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -66,6 +68,7 @@ export const useAppStore = create<AppState>()(
 
       isSidebarOpen: false,
       isHelpOpen: false,
+
 
       setCurrentStep: (step) => set({ currentStep: step }),
 
@@ -183,6 +186,15 @@ export const useAppStore = create<AppState>()(
       toggleSidebar: () =>
         set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
       toggleHelp: () => set((state) => ({ isHelpOpen: !state.isHelpOpen })),
+      clearQuizData: () => {
+        set({
+          preQuizAnswers: [],
+          mainQuizAnswers: [],
+          currentStep: 1,
+          projects: [],
+          currentProjectId: null,
+        });
+      },
 
       syncWithServer: async() => {
         console.log("Sync with server...");
