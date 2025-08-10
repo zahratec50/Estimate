@@ -1,4 +1,3 @@
-
 type InputProps = {
   name: string;
   labelName: string;

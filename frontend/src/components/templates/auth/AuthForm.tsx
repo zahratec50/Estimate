@@ -10,8 +10,8 @@ import { signIn, type SignInResponse } from "next-auth/react";
 import Input from "@/components/templates/auth/Input/Input";
 import { showErrorToast } from "@/components/modules/toasts/ErrorToast";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
-import { FcGoogle } from "react-icons/fc";
-import { FaApple } from "react-icons/fa";
+import axios from "axios";
+
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
@@ -63,31 +63,124 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
   });
 
   // --- فرم محلی (ثبت نام / لاگین با فرم معمولی) ---
+  // const handleCustomSubmit = async () => {
+  //   const { name, email, password } = getValues();
+
+  //   // بررسی خالی بودن فیلدها
+  //   if ((!isLogin && !name?.trim()) || !email?.trim() || !password?.trim()) {
+  //     showErrorToast({
+  //       title: "Incomplete Form",
+  //       description: "Please fill out all fields before continuing",
+  //       actionLabel: "OK",
+  //       onAction: () => {},
+  //     });
+  //     return;
+  //   }
+
+  //   // اعتبارسنجی با schema
+  //   const isValid = await trigger();
+  //   if (!isValid) return;
+
+  //   // اینجا درخواست به API خودت (signup/login) رو می‌زنی.
+  //   // برای الان فقط لاگ می‌کنیم؛ اگر backend داری میشه axios.post کرد.
+  //   console.log("Form submitted:", { name, email, password });
+
+
+  //   // مثال: بعد از موفقیت ریدایرکت
+  //   // router.push("/dashboard");
+  // };
+
   const handleCustomSubmit = async () => {
-    const { name, email, password } = getValues();
+  const { name, email, password } = getValues();
 
-    // بررسی خالی بودن فیلدها
-    if ((!isLogin && !name?.trim()) || !email?.trim() || !password?.trim()) {
-      showErrorToast({
-        title: "Incomplete Form",
-        description: "Please fill out all fields before continuing",
-        actionLabel: "OK",
-        onAction: () => {},
+  if ((!isLogin && !name?.trim()) || !email?.trim() || !password?.trim()) {
+    showErrorToast({
+      title: "Incomplete Form",
+      description: "Please fill out all fields before continuing",
+      actionLabel: "OK",
+      onAction: () => {},
+    });
+    return;
+  }
+
+  const isValid = await trigger();
+  if (!isValid) return;
+
+  try {
+    if (!isLogin) {
+      // ثبت نام با axios
+      const { data } = await axios.post("/api/auth/signup", {
+        name,
+        email,
+        password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+      // اگر در API خطایی بود باید اینجا هندل کنیم (مثلاً data.success=false)
+      if (data.error) {
+        showErrorToast({
+          title: "Registration failed",
+          description: data.message || "An error occurred during registration.",
+          actionLabel: "OK",
+          onAction: () => {},
+        });
+        return;
+      }
+
+      // پس از ثبت نام موفق، لاگین کن
+      const signInResult = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
       });
-      return;
+
+      if (signInResult?.error) {
+        showErrorToast({
+          title: "Login failed",
+          description: signInResult.error,
+          actionLabel: "OK",
+          onAction: () => {},
+        });
+        return;
+      }
+
+      router.push("/dashboard");
+    } else {
+      // لاگین با credentials
+      const signInResult = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
+
+      if (signInResult?.error) {
+        showErrorToast({
+          title: "Login failed",
+          description: signInResult.error,
+          actionLabel: "OK",
+          onAction: () => {},
+        });
+        return;
+      }
+
+      router.push("/dashboard");
     }
+  } catch (error: any) {
+    console.error(error);
+    showErrorToast({
+      title: "Authentication error",
+      description: error.response?.data?.message || "Something went wrong. Please try again.",
+      actionLabel: "OK",
+      onAction: () => {},
+    });
+  }
+};
 
-    // اعتبارسنجی با schema
-    const isValid = await trigger();
-    if (!isValid) return;
-
-    // اینجا درخواست به API خودت (signup/login) رو می‌زنی.
-    // برای الان فقط لاگ می‌کنیم؛ اگر backend داری میشه axios.post کرد.
-    console.log("Form submitted:", { name, email, password });
-
-    // مثال: بعد از موفقیت ریدایرکت
-    // router.push("/dashboard");
-  };
 
   // --- Social sign-in handlers ---
   const handleSocialSignIn = async (provider: "google" | "apple") => {

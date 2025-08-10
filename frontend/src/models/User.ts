@@ -1,27 +1,20 @@
-const mongoose = require("mongoose");
+import mongoose, { Schema, Document, Model } from "mongoose";
 
-const schema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  password: {
-    // amin1221 -> Hash -> bgr3hvgupt4wbpjrntbijnidjan
-    // Token -> JWT -> Cookies
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    required: true, // USER - ADMIN
-    // default: "USER",
-  },
-});
+export interface IUser extends Document {
+  name: string;
+  email: string;
+  password?: string; // برای Social login لازم نیست
+  image?: string;
+}
 
-const userModel = mongoose.models.User || mongoose.model("User", schema);
+const UserSchema: Schema<IUser> = new Schema(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String },
+    image: { type: String },
+  },
+  { timestamps: true }
+);
 
-export default userModel;
+export const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
