@@ -25,7 +25,6 @@ export default function Topbar({
   isHelpOpen,
   isHome = false,
 }: TopbarProps) {
-
   return (
     <header
       className={clsx(
@@ -57,17 +56,20 @@ export default function Topbar({
             />
           </svg>
         </button>
+
         <Image
           src="/images/Logo.png"
           alt="Estiper logo"
           width={isHome ? 80 : 48}
           height={isHome ? 80 : 48}
           className={clsx(
-            "mb-4 block dark:hidden",
-            isHome ? "w-11 h-11 md:w-16 md:h-16  block dark:hidden" : "w-10 h-10 block sm:hidden"
+            "block dark:hidden",
+            isHome
+              ? "w-11 h-11 md:w-16 md:h-16  block dark:hidden"
+              : "w-10 h-10 block sm:hidden"
           )}
         />
-        
+
         <Image
           src="/images/Frame 20.png"
           alt="Estiper logo dark"
@@ -75,9 +77,12 @@ export default function Topbar({
           height={isHome ? 80 : 48}
           className={clsx(
             "object-contain",
-            isHome ? "w-11 h-11 md:w-16 md:h-16 hidden dark:block" : "w-10 h-10 block sm:hidden"
+            isHome
+              ? "w-11 h-11 md:w-16 md:h-16 hidden dark:block"
+              : "w-10 h-10 block sm:hidden"
           )}
         />
+
         {isHome && (
           <nav className="hidden md:flex items-center gap-6">
             {["features", "about", "contact"].map((page) => (
