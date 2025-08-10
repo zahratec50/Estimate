@@ -16,6 +16,11 @@ interface Project {
   mainQuizAnswers: Answer[];
 }
 
+interface AuthError {
+  type: "manual" | "google" | "apple" | null;
+  message: string | null;
+}
+
 interface AppState {
   currentStep: number;
   preQuizAnswers: Answer[];
@@ -53,6 +58,9 @@ interface AppState {
   syncWithServer: () => void;
 
   clearQuizData: () => void;
+
+  loginMethod: "manual" | "google" | "apple" | null;
+  setLoginMethod: (method: AppState["loginMethod"]) => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -69,7 +77,8 @@ export const useAppStore = create<AppState>()(
       isSidebarOpen: false,
       isHelpOpen: false,
 
-
+      loginMethod: null,
+      setLoginMethod: (method) => set({ loginMethod: method }),
       setCurrentStep: (step) => set({ currentStep: step }),
 
       setPreQuizAnswer: (question, answer) => {
@@ -196,7 +205,7 @@ export const useAppStore = create<AppState>()(
         });
       },
 
-      syncWithServer: async() => {
+      syncWithServer: async () => {
         console.log("Sync with server...");
         const state = get();
         try {

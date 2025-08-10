@@ -1,14 +1,20 @@
-import { hash, compare } from "bcryptjs";
+import { hash, compare, genSalt } from "bcryptjs";
 import { sign, verify } from "jsonwebtoken";
 
 const hashPassword = async (password: string) => {
   // password = ali1212 => Hash => dngsbipnrg9ipbn39ubnj9unertn
-  const hashedPassword = await hash(password, 12);
+  const salt = await genSalt(10);
+  const hashedPassword = await hash(password, salt);
   return hashedPassword;
 };
 
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is not defined in environment variables");
+}
+
 const generateToken = (data: object) => {
-  const token = sign({ ...data }, process.env.JWT_SECRET, {
+  const token = sign({ ...data }, JWT_SECRET, {
     // algorithm: ''
     expiresIn: "24h",
   });
@@ -21,9 +27,9 @@ const verifyPassword = async (password: string, hashedPassword: string) => {
   return isValid;
 };
 
-const verifyToken = (token:string) => {
+const verifyToken = (token: string) => {
   try {
-    const validationResult = verify(token, process.env.JWT_SECRET);
+    const validationResult = verify(token, JWT_SECRET);
     return validationResult;
   } catch (err) {
     console.log("Verify Token Error =>", err);
@@ -32,6 +38,3 @@ const verifyToken = (token:string) => {
 };
 
 export { hashPassword, generateToken, verifyPassword, verifyToken };
-
-
-
