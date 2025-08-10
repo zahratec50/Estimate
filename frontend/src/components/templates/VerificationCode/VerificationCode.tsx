@@ -10,7 +10,9 @@ type MyComponentPropsResendCode = {
   resendCode: boolean;
 };
 
-export default function VerificationPage({ resendCode }: MyComponentPropsResendCode) {
+export default function VerificationPage({
+  resendCode,
+}: MyComponentPropsResendCode) {
   const [code, setCode] = useState("");
   const [isMobile, setIsMobile] = useState(false);
   const [timer, setTimer] = useState(164);
@@ -89,7 +91,7 @@ export default function VerificationPage({ resendCode }: MyComponentPropsResendC
                     Resend Code
                   </button>
                   <button
-                    className="w-full h-11 bg-primary-400 hover:bg-primary-700 dark:bg-secondary-500 dark:hover:bg-secondary-600 text-white font-semibold py-2 px-4 rounded-lg disabled:opacity-50 cursor-pointer transition"
+                    className="w-full h-11 bg-primary-200 hover:bg-primary-700 dark:bg-secondary-500 dark:hover:bg-secondary-600 text-white font-semibold py-2 px-4 rounded-lg disabled:opacity-50 cursor-pointer transition"
                     disabled={code.length < 4}
                   >
                     Submit
@@ -101,7 +103,7 @@ export default function VerificationPage({ resendCode }: MyComponentPropsResendC
                     Resend code in {formatTime(timer)}
                   </p>
                   <button
-                    className="w-full h-11 bg-primary-400 hover:bg-primary-600 dark:bg-secondary-400 dark:hover:bg-secondary-600 text-white font-semibold py-2 px-4 rounded-lg disabled:opacity-50 cursor-pointer transition"
+                    className="w-full h-11 bg-primary-200 hover:bg-primary-200 dark:bg-secondary-400 dark:hover:bg-secondary-600 text-white font-semibold py-2 px-4 rounded-lg disabled:opacity-50 cursor-pointer transition"
                     disabled={code.length < 4}
                   >
                     Submit
@@ -117,7 +119,7 @@ export default function VerificationPage({ resendCode }: MyComponentPropsResendC
                   Resend Code
                 </button>
                 <button
-                  className="w-full h-11 bg-primary-400 hover:bg-primary-700 dark:bg-secondary-400 dark:hover:bg-secondary-600 text-white font-semibold py-2 px-4 rounded-lg disabled:opacity-50 cursor-pointer transition"
+                  className="w-full h-11 bg-primary-200 hover:bg-primary-700 dark:bg-secondary-400 dark:hover:bg-secondary-600 text-white font-semibold py-2 px-4 rounded-lg disabled:opacity-50 cursor-pointer transition"
                   disabled={code.length < 4}
                 >
                   Submit
@@ -129,7 +131,7 @@ export default function VerificationPage({ resendCode }: MyComponentPropsResendC
                   Resend code in {formatTime(timer)}
                 </p>
                 <button
-                  className="w-full h-11 bg-primary-400 hover:bg-primary-600 dark:bg-secondary-400 dark:hover:bg-secondary-600 text-white font-semibold py-2 px-4 rounded-lg disabled:opacity-50 cursor-pointer transition"
+                  className="w-full h-11 bg-primary-200 hover:bg-primary-200 dark:bg-secondary-400 dark:hover:bg-secondary-600 text-white font-semibold py-2 px-4 rounded-lg disabled:opacity-50 cursor-pointer transition"
                   disabled={code.length < 4}
                 >
                   Submit

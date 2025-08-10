@@ -1,26 +1,61 @@
-[
+{
+  "sections": [
     {
-    "id": 1,
-    "question": "What is your name?",
-    "answer":
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-  },
-  {
-    "id": 2,
-    "question": "What is your age?",
-    "answer":
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-  },
-  {
-    "id": 3,
-    "question": "What is your favorite color?",
-    "answer":
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-  },
-  {
-    "id": 4,
-    "question": "What is your hobby?",
-    "answer":
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-  }
-]
+      "id": 1,
+      "title": "Estiper for Homeowners",
+      "description": "Plan your renovation with clarity and peace of mind. Estiper gives you accurate, AI-powered cost estimates before you commit, helping you budget smarter and avoid surprises.",
+      "image": "/images/p5.webp"
+    },
+    {
+      "id": 2,
+      "title": "Estiper for Real Estate Investors",
+      "description": "Maximize your ROI with fast, reliable renovation forecasts.",
+      "bulletPoints": [
+        "Evaluate potential properties in minutes.",
+        "Compare different renovation strategies before making a purchase.",
+        "Identify cost-effective upgrades to boost property value."
+      ],
+      "image": "/images/p2.jpg"
+    },
+    {
+      "id": 3,
+      "title": "Estiper for Contractors",
+      "description": "Win more clients with professional, transparent estimates.",
+      "bulletPoints": [
+        "Save hours on preparing quotes with AI automation.",
+        "Provide detailed cost breakdowns your clients can trust.",
+        "Focus more on building, less on paperwork."
+      ],
+      "image": "/images/p3.png"
+    },
+    {
+      "id": 4,
+      "title": "What You Can Estimate",
+      "description": "From small updates to major renovations, Estiper covers it all:",
+      "bulletPoints": [
+        "Bathrooms, kitchens, and flooring.",
+        "Painting, electrical, plumbing, and HVAC.",
+        "Interior and exterior upgrades, landscaping, and more."
+      ],
+      "image": "/images/p4.png"
+    },
+    {
+      "id": 5,
+      "title": "How Estiper Works",
+      "description": "Get your estimate in just a few steps:",
+      "bulletPoints": [
+        "Enter property details and location.",
+        "Answer targeted questions about your renovation plans.",
+        "Upload a floor plan for more precise results.",
+        "Receive a detailed breakdown of materials and labor costs instantly."
+      ],
+      "image": "/images/p6.jpg"
+    },
+    {
+      "id": 6,
+      "title": "What Sets Estiper Apart",
+      "description": "Estiper combines cutting-edge AI with market-specific data to deliver the most accurate renovation estimates. Easy to use, fast to deliver, and tailored to your needs — all while keeping your data secure.",
+      "image": "/images/p7.jpg"
+    }
+  ]
+}

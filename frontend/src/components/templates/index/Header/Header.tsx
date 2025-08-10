@@ -14,7 +14,7 @@ export default function Header() {
 
   return (
     <div>
-      <div className="px-0 lg:px-20 bg-primary-200 dark:bg-secondary-700">
+      <div className="px-0 lg:px-20 bg-primary-500 dark:bg-secondary-700">
         <Topbar
         isHelpOpen={isHelpOpen}
         onHelpToggle={toggleHelp}

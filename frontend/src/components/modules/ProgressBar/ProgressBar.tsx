@@ -23,7 +23,7 @@
 //                   currentStep > index + 1
 //                     ? 'bg-primary-500 dark:bg-secondary-300'
 //                     : currentStep === index + 1
-//                     ? 'bg-primary-400 dark:bg-secondary-300'
+//                     ? 'bg-primary-200 dark:bg-secondary-300'
 //                     : 'bg-gray-300 dark:bg-gray-600'
 //                 )}
 //               >
@@ -229,7 +229,7 @@ export default function ProgressSegment({
                   isDone
                     ? "bg-primary-500 text-white dark:bg-secondary-300 dark:text-black"
                     : isCurrent
-                    ? "bg-primary-400 text-white dark:bg-secondary-900 dark:border-secondary-300 dark:text-secondary-200"
+                    ? "bg-primary-200 text-white dark:bg-secondary-900 dark:border-secondary-300 dark:text-secondary-200"
                     : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
                 )}
               >
@@ -291,7 +291,7 @@ export default function ProgressSegment({
 //                   className={clsx(
 //                     'w-6 h-6 rounded-full flex items-center justify-center text-sm font-semibold transition-colors duration-300',
 //                     isCompleted
-//                       ? 'bg-primary-600 dark:bg-secondary-400 text-white'
+//                       ? 'bg-primary-200 dark:bg-secondary-400 text-white'
 //                       : isActive
 //                       ? 'bg-white border-2 border-primary-600 dark:border-secondary-400 text-primary-600 dark:text-secondary-400 shadow-md'
 //                       : 'bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
@@ -370,9 +370,9 @@ export default function ProgressSegment({
 //                 className={clsx(
 //                   'w-6 h-6 rounded-full border-2 border-white bg-white dark:bg-gray-900 flex items-center justify-center transition-all duration-500',
 //                   isPassed
-//                     ? 'bg-primary-600 border-primary-600 shadow-lg scale-110'
+//                     ? 'bg-primary-200 border-primary-600 shadow-lg scale-110'
 //                     : isActive
-//                     ? 'bg-primary-400 border-primary-400 shadow-md scale-125'
+//                     ? 'bg-primary-200 border-primary-400 shadow-md scale-125'
 //                     : 'bg-secondary-300 dark:bg-gray-700 border-gray-400'
 //                 )}
 //                 style={{
@@ -447,7 +447,7 @@ export default function ProgressSegment({
 //               className={clsx(
 //                 'absolute top-1/2 w-6 h-6 rounded-full border-2 transform -translate-y-1/2',
 //                 isPassed
-//                   ? 'bg-primary-400 border-primary-400 shadow-lg'
+//                   ? 'bg-primary-200 border-primary-400 shadow-lg'
 //                   : 'bg-primary-100 border-primary-100 dark:bg-gray-800 dark:border-gray-600',
 //                 'transition-all duration-500 ease-in-out'
 //               )}

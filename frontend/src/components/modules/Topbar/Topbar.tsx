@@ -43,7 +43,7 @@ export default function Topbar({
           className="md:hidden"
         >
           <svg
-            className="w-6 h-6 text-black dark:text-white"
+            className="w-6 h-6 text-white"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.5"
@@ -58,7 +58,7 @@ export default function Topbar({
         </button>
 
         <Image
-          src="/images/Logo.png"
+          src="/images/Frame 20.png"
           alt="Estiper logo"
           width={isHome ? 80 : 48}
           height={isHome ? 80 : 48}
@@ -89,7 +89,7 @@ export default function Topbar({
               <Link
                 key={page}
                 href={`/${page}`}
-                className="text-black-50 dark:text-white text-sm font-bold"
+                className="text-white text-sm font-bold"
               >
                 {page[0].toUpperCase() + page.slice(1)}
               </Link>
@@ -108,9 +108,15 @@ export default function Topbar({
         <ThemeSwitcher />
 
         {isHome ? (
-          <button className="bg-secondary-500 text-white text-sm px-4 py-2 md:px-4 md:py-2 rounded-lg">
+          <div className="flex items-center justify-between gap-3">
+            <button className="hidden sm:flex w-20 bg-white text-primary-500 text-sm px-4 py-2 md:px-4 md:py-2 rounded-lg">
+            <Link href="/signin">Login</Link>
+          </button>
+            <button className="w-20 bg-white text-primary-500 text-sm px-4 py-2 md:px-4 md:py-2 rounded-lg">
             <Link href="/signup">Sign Up</Link>
           </button>
+          </div>
+          
         ) : (
           <div className="flex items-center space-x-3 md:space-x-6 dark:text-white text-secondary-700 text-sm md:text-base font-medium">
             <span className="hidden md:flex items-center cursor-pointer">

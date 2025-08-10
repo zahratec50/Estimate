@@ -23,7 +23,7 @@ export default function Description() {
             rhoncus aenean vel elit scelerisque. In egestas erat imperdiet sed
             euismod nisi porta lorem mollis.
           </p>
-          <button className="self-start bg-primary-500 text-white text-base md:text-lg font-medium rounded-lg w-full md:w-28 h-12 transition hover:bg-primary-600">
+          <button className="self-start bg-primary-500 text-white text-base md:text-lg font-medium rounded-lg w-full md:w-28 h-12 transition hover:bg-primary-200">
             Button
           </button>
         </div>

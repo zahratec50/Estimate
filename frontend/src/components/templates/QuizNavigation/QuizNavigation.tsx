@@ -90,7 +90,7 @@
 //               className={clsx(
 //                 "rounded-lg font-medium text-white",
 //                 isContinueAllowed(firstQuestion)
-//                   ? "bg-primary-500 dark:bg-secondary-500 hover:bg-primary-600 dark:hover:bg-secondary-400"
+//                   ? "bg-primary-500 dark:bg-secondary-500 hover:bg-primary-200 dark:hover:bg-secondary-400"
 //                   : "bg-gray-300 dark:bg-secondary-700 text-gray-500 cursor-not-allowed",
 //                 "transition flex items-center justify-center gap-2 w-full max-w-[169px] h-12 text-base sm:text-lg px-3"
 //               )}
@@ -271,7 +271,7 @@ export default function QuizNavigation({
                 "rounded-lg font-medium text-white",
                 !isContinueAllowed(firstQuestion) || loading
                   ? "bg-gray-300 dark:bg-secondary-700 text-gray-500 cursor-not-allowed"
-                  : "bg-primary-500 dark:bg-secondary-500 hover:bg-primary-600 dark:hover:bg-secondary-400",
+                  : "bg-primary-500 dark:bg-secondary-500 hover:bg-primary-200 dark:hover:bg-secondary-400",
                 "transition flex items-center justify-center gap-2 w-full max-w-[169px] h-12 text-base sm:text-lg px-3"
               )}
               aria-label="Continue to next question"

@@ -55,13 +55,17 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
   });
 
   // تابع ارسال فرم دستی
-  const handleFormSubmit = async() => {
+  const handleFormSubmit = async () => {
     clearErrors();
 
     const values = getValues();
 
     // چک خالی بودن
-    if ((!isLogin && !values.name?.trim()) || !values.email?.trim() || !values.password?.trim()) {
+    if (
+      (!isLogin && !values.name?.trim()) ||
+      !values.email?.trim() ||
+      !values.password?.trim()
+    ) {
       showErrorToast({
         title: "Incomplete Form",
         description: "Please fill out all fields before continuing.",
@@ -92,25 +96,26 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
         alert("Login not implemented yet");
       } else {
         // ارسال اطلاعات برای ثبت‌نام
-        await axios.post("/api/auth/signup", {
-          name: values.name,
-          email: values.email,
-          password: values.password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
+        await axios.post(
+          "/api/auth/signup",
+          {
+            name: values.name,
+            email: values.email,
+            password: values.password,
           },
-        }
-      );
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         alert("User registered successfully!");
 
         router.push("/dashboard");
       }
     } catch (error: any) {
-      const message =
-        error.response?.data?.message || "Something went wrong";
+      const message = error.response?.data?.message || "Something went wrong";
 
       showErrorToast({
         title: isLogin ? "Login Failed" : "Registration Failed",
@@ -187,7 +192,9 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
               aria-label="Remember Me"
               className="w-4 h-4 accent-secondary-500"
             />
-            <span className="text-sm font-medium text-black-50">Remember Me</span>
+            <span className="text-sm font-medium text-black-50">
+              Remember Me
+            </span>
           </div>
           <Link
             href="/forgot-password"
@@ -209,7 +216,7 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
 
       <button
         type="submit"
-        className="w-full h-11 bg-primary-200 text-white font-semibold rounded-lg hover:bg-primary-400 transition"
+        className="w-full h-11 bg-primary-200 text-white font-semibold rounded-lg hover:bg-primary-200 transition"
       >
         {isLogin ? "Login" : "Sign up"}
       </button>
