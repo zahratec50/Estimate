@@ -62,34 +62,6 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
     mode: "onTouched",
   });
 
-  // --- فرم محلی (ثبت نام / لاگین با فرم معمولی) ---
-  // const handleCustomSubmit = async () => {
-  //   const { name, email, password } = getValues();
-
-  //   // بررسی خالی بودن فیلدها
-  //   if ((!isLogin && !name?.trim()) || !email?.trim() || !password?.trim()) {
-  //     showErrorToast({
-  //       title: "Incomplete Form",
-  //       description: "Please fill out all fields before continuing",
-  //       actionLabel: "OK",
-  //       onAction: () => {},
-  //     });
-  //     return;
-  //   }
-
-  //   // اعتبارسنجی با schema
-  //   const isValid = await trigger();
-  //   if (!isValid) return;
-
-  //   // اینجا درخواست به API خودت (signup/login) رو می‌زنی.
-  //   // برای الان فقط لاگ می‌کنیم؛ اگر backend داری میشه axios.post کرد.
-  //   console.log("Form submitted:", { name, email, password });
-
-
-  //   // مثال: بعد از موفقیت ریدایرکت
-  //   // router.push("/dashboard");
-  // };
-
   const handleCustomSubmit = async () => {
   const { name, email, password } = getValues();
 
