@@ -22,7 +22,7 @@ export default function FirstVideo() {
           </button>
         </div>
         {/* Left video or Placeholder */}
-        <div className="w-full h-[500px] rounded-2xl bg-primary-200 dark:bg-secondary-600 aspect-[4/3] md:aspect-[16/9] relative overflow-hidden">
+        <div className="w-full h-[500px] rounded-2xl bg-secondary-50 dark:bg-secondary-600 aspect-[4/3] md:aspect-[16/9] relative overflow-hidden">
           <span className="absolute inset-0 flex items-center justify-center text-black-50 text-xl">
             video
           </span>

@@ -109,10 +109,10 @@ export default function Topbar({
 
         {isHome ? (
           <div className="flex items-center justify-between gap-3">
-            <button className="hidden sm:flex w-20 bg-white text-primary-500 text-sm px-4 py-2 md:px-4 md:py-2 rounded-lg">
-            <Link href="/signin">Login</Link>
+            <button className="hidden sm:flex w-20 text-white hover:bg-secondary-800 text-sm px-4 py-2 md:px-4 md:py-2 rounded-lg">
+            <Link href="/signin">Log in</Link>
           </button>
-            <button className="w-20 bg-white text-primary-500 text-sm px-4 py-2 md:px-4 md:py-2 rounded-lg">
+            <button className="w-20 bg-white hover:bg-secondary-100 text-primary-500 text-sm px-4 py-2 md:px-4 md:py-2 rounded-lg">
             <Link href="/signup">Sign Up</Link>
           </button>
           </div>

@@ -33,7 +33,7 @@ export default function Features() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-secondary-0 dark:bg-secondary-600 rounded-xl flex flex-col items-center justify-center text-center p-6 hover:shadow-md transition"
+              className="bg-secondary-50 dark:bg-secondary-600 rounded-xl flex flex-col items-center justify-center text-center p-6 hover:shadow-md transition"
             >
               {feature.icon}
               <span className="mt-4 text-base md:text-lg text-black-100 dark:text-white font-medium">

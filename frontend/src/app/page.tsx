@@ -22,7 +22,7 @@ export default function HomePage() {
         <FirstVideo />
         <Features />
         {/* <YourQuestions /> */}
-        <div className="flex flex-col items-center justify-between space-y-5 sm:space-y-20">
+        <div className="flex flex-col items-center justify-between gap-8 space-y-5 sm:space-y-20">
           {feature.sections
             .slice(0, 6)
             .map(({ title, description, id, image, bulletPoints }) => (
