@@ -19,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={roboto.variable}>
-      <body className="font-roboto overflow-x-hidden">
+    <html lang="en" className={roboto.variable} suppressHydrationWarning>
+      <body className="font-roboto overflow-x-hidden" suppressHydrationWarning>
         {/* SessionProvider manages next-auth session throughout the app */}
         <SessionProvider>
           {/* ThemeProvider handles light/dark mode */}

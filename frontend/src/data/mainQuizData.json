@@ -1,0 +1,129 @@
+[
+  {
+    "id": 1,
+    "type": "single-choice",
+    "title": "Which programming language do you prefer?",
+    "options": ["JavaScript", "Python", "C#", "Go", "Rust"],
+    "multiple": false,
+    "validation": {
+      "required": true,
+      "errorMessage": "Please select one programming language."
+    }
+  },
+  {
+    "id": 2,
+    "type": "multi-choice",
+    "title": "Which skills do you have? (You can select multiple)",
+    "options": [
+      "UI/UX Design",
+      "Web Development",
+      "Artificial Intelligence",
+      "Project Management",
+      "Data Analysis",
+      "Software Testing"
+    ],
+    "multiple": true,
+    "validation": {
+      "required": true,
+      "minSelected": 1,
+      "maxSelected": 5,
+      "errorMessage": "Please select at least one skill."
+    }
+  },
+  {
+    "id": 3,
+    "type": "single-choice",
+    "title": "Do you have experience working in a team?",
+    "options": ["Yes", "No"],
+    "multiple": false,
+    "validation": {
+      "required": true,
+      "errorMessage": "Please select Yes or No."
+    }
+  },
+  {
+    "id": 4,
+    "type": "text-input",
+    "title": "Please enter your contact information:",
+    "fields": [
+      {
+        "label": "Email",
+        "placeholder": "example@email.com",
+        "validation": {
+          "required": true,
+          "pattern": "^[\\w.-]+@[\\w.-]+\\.\\w{2,}$",
+          "errorMessage": "Please enter a valid email address."
+        }
+      },
+      {
+        "label": "Phone Number",
+        "placeholder": "+1 555-555-5555",
+        "validation": {
+          "required": true,
+          "pattern": "^\\+1\\s?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$",
+          "errorMessage": "Please enter a valid US phone number."
+        }
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "type": "select",
+    "title": "What is your programming experience level?",
+    "options": ["Beginner", "Intermediate", "Expert"],
+    "multiple": false,
+    "validation": {
+      "required": true,
+      "errorMessage": "Please select your experience level."
+    }
+  },
+  {
+    "id": 6,
+    "type": "image-choice",
+    "title": "Which design style do you prefer? (You can select multiple)",
+    "multiple": true,
+    "options": [
+      {
+        "label": "Modern",
+        "imageUrl": "https://example.com/images/modern.jpg"
+      },
+      {
+        "label": "Minimal",
+        "imageUrl": "https://example.com/images/minimal.jpg"
+      },
+      {
+        "label": "Classic",
+        "imageUrl": "https://example.com/images/classic.jpg"
+      },
+      {
+        "label": "Fantasy",
+        "imageUrl": "https://example.com/images/fantasy.jpg"
+      }
+    ],
+    "validation": {
+      "required": true,
+      "minSelected": 1,
+      "errorMessage": "Please select at least one design style."
+    }
+  },
+  {
+    "id": 7,
+    "type": "image-choice",
+    "title": "Select a logo:",
+    "multiple": false,
+    "options": [
+      {
+        "label": "Logo 1",
+        "imageUrl": "https://example.com/images/logo1.png"
+      },
+      {
+        "label": "Logo 2",
+        "imageUrl": "https://example.com/images/logo2.png"
+      }
+    ],
+    "validation": {
+      "required": true,
+      "errorMessage": "Please select a logo."
+    }
+  }
+]
