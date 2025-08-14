@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
 import axios from "axios";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
@@ -8,7 +7,7 @@ const usPhoneRegex = /^(?:\+1\s?)?(?:\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}$/;
 
 interface Answer {
   question: string;
-  answer: string;
+  answer: string | string[];
 }
 
 interface Project {
@@ -16,9 +15,24 @@ interface Project {
   mainQuizAnswers: Answer[];
 }
 
-interface AuthError {
-  type: "manual" | "google" | "apple" | null;
-  message: string | null;
+interface QuestionItem {
+  id: number;
+  type: "single-choice" | "multi-choice" | "select" | "text-input";
+  title: string;
+  options: string[];
+  multiple?: boolean;
+  validation: {
+    required: boolean;
+    errorMessage: string;
+    minSelected?: number;
+    maxSelected?: number;
+    pattern?: string;
+  };
+  fields?: Array<{
+    label: string;
+    placeholder: string;
+    validation: { required: boolean; pattern: string; errorMessage: string };
+  }>;
 }
 
 interface AppState {
@@ -30,22 +44,18 @@ interface AppState {
   projects: Project[];
   currentProjectId: string | null;
 
-  // پنل‌ها
   isSidebarOpen: boolean;
   isHelpOpen: boolean;
 
-  // Setter ها و توابع
   setCurrentStep: (step: number) => void;
-  setPreQuizAnswer: (question: string, answer: string) => void;
+  setPreQuizAnswer: (question: string, answer: string | string[]) => void;
   setMainQuizAnswer: (
     projectId: string,
     question: string,
-    answer: string
+    answer: string | string[]
   ) => void;
-  getCurrentAnswer: (questions: { question: string }[]) => string | null;
-  isContinueAllowed: (
-    questions: { question: string; answers: string[] }[]
-  ) => boolean;
+  getCurrentAnswer: (questions: QuestionItem[]) => string | string[] | null;
+  isContinueAllowed: (question: QuestionItem) => boolean;
 
   setRegistered: (value: boolean) => void;
   setUserType: (value: string) => void;
@@ -89,12 +99,10 @@ export const useAppStore = create<AppState>()(
         let updated: Answer[];
 
         if (existing) {
-          // اگر قبلاً وجود داشته، فقط مقدارش رو به‌روزرسانی کن
           updated = get().preQuizAnswers.map((a) =>
             a.question === question ? { question, answer } : a
           );
         } else {
-          // اگر وجود نداشته، اضافه کن
           updated = [...get().preQuizAnswers, { question, answer }];
         }
 
@@ -105,8 +113,9 @@ export const useAppStore = create<AppState>()(
         const projects = get().projects.map((p) => {
           if (p.id === projectId) {
             let updatedAnswers;
-            if (answer.trim() === "") {
-              // حذف پاسخ اگر مقدار خالی است
+            if (
+              Array.isArray(answer) ? answer.length === 0 : answer.trim() === ""
+            ) {
               updatedAnswers = p.mainQuizAnswers.filter(
                 (a) => a.question !== question
               );
@@ -144,17 +153,17 @@ export const useAppStore = create<AppState>()(
           const project = projects.find((p) => p.id === currentProjectId);
           return (
             project?.mainQuizAnswers.find(
-              (a) => a.question === currentQuestion.question
+              (a) => a.question === currentQuestion.title
             )?.answer || null
           );
         }
         return (
-          preQuizAnswers.find((a) => a.question === currentQuestion.question)
+          preQuizAnswers.find((a) => a.question === currentQuestion.title)
             ?.answer || null
         );
       },
 
-      isContinueAllowed: (questions) => {
+      isContinueAllowed: (question: QuestionItem) => {
         const {
           currentStep,
           isRegistered,
@@ -162,26 +171,43 @@ export const useAppStore = create<AppState>()(
           preQuizAnswers,
           projects,
         } = get();
-        const currentQuestion = questions[currentStep - 1];
-        if (!currentQuestion) return false;
+        if (!question) return false;
 
         let answerEntry: Answer | undefined;
         if (isRegistered && currentProjectId) {
           const project = projects.find((p) => p.id === currentProjectId);
           answerEntry = project?.mainQuizAnswers.find(
-            (a) => a.question === currentQuestion.question
+            (a) => a.question === question.title
           );
         } else {
           answerEntry = preQuizAnswers.find(
-            (a) => a.question === currentQuestion.question
+            (a) => a.question === question.title
           );
         }
 
         if (!answerEntry || !answerEntry.answer) return false;
 
-        if (currentQuestion.answers.includes("Text input")) {
-          const answer = answerEntry.answer.trim();
+        if (question.type === "text-input") {
+          const answer = Array.isArray(answerEntry.answer)
+            ? answerEntry.answer.join("")
+            : answerEntry.answer.trim();
           return emailRegex.test(answer) || usPhoneRegex.test(answer);
+        }
+
+        if (question.type === "multi-choice") {
+          const answers = Array.isArray(answerEntry.answer)
+            ? answerEntry.answer
+            : answerEntry.answer.split(",");
+          if (
+            question.validation.minSelected &&
+            answers.length < question.validation.minSelected
+          )
+            return false;
+          if (
+            question.validation.maxSelected &&
+            answers.length > question.validation.maxSelected
+          )
+            return false;
         }
 
         return true;
@@ -195,6 +221,7 @@ export const useAppStore = create<AppState>()(
       toggleSidebar: () =>
         set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
       toggleHelp: () => set((state) => ({ isHelpOpen: !state.isHelpOpen })),
+
       clearQuizData: () => {
         set({
           preQuizAnswers: [],
@@ -208,16 +235,30 @@ export const useAppStore = create<AppState>()(
       syncWithServer: async () => {
         console.log("Sync with server...");
         const state = get();
+        const formattedPreQuizAnswers = state.preQuizAnswers.map((answer) => ({
+          question: answer.question,
+          answer: Array.isArray(answer.answer)
+            ? answer.answer.join(",")
+            : answer.answer,
+        }));
+        const formattedProjects = state.projects.map((project) => ({
+          ...project,
+          mainQuizAnswers: project.mainQuizAnswers.map((answer) => ({
+            question: answer.question,
+            answer: Array.isArray(answer.answer)
+              ? answer.answer.join(",")
+              : answer.answer,
+          })),
+        }));
         try {
           const res = await axios.post("/api/saveQuiz", {
-            preQuizAnswers: state.preQuizAnswers,
+            preQuizAnswers: formattedPreQuizAnswers,
             mainQuizAnswers: state.mainQuizAnswers,
             isRegistered: state.isRegistered,
             userType: state.userType,
-            projects: state.projects,
+            projects: formattedProjects,
             currentProjectId: state.currentProjectId,
           });
-
           console.log("Server response:", res.data);
         } catch (err) {
           console.error("Error syncing with server:", err);

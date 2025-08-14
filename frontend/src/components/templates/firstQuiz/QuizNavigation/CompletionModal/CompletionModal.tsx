@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Lottie from "lottie-react";
-import Click from "../../../../../public/assets/Clock.json";
+import Click from "../../../../../../public/assets/Clock.json"
 
 export default function CompletionModal({
   handleRegister,

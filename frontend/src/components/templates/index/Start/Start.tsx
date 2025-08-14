@@ -17,15 +17,15 @@ export default function Start() {
         />
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-primary-200/60" />
+        <div className="absolute inset-0 bg-[#94A3B899]/60" />
 
         {/* Content */}
         <div className="absolute inset-0 flex items-center justify-center px-4">
           <div className="max-w-4xl text-center space-y-4">
-            <h2 className="text-base md:text-3xl text-primary-50 font-bold">
+            <h2 className="text-base md:text-3xl text-primary-800 font-bold">
               Get started today
             </h2>
-            <p className="text-xs md:text-2xl text-primary-100 font-roboto leading-relaxed">
+            <p className="text-xs md:text-2xl text-neutral-700 font-roboto leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua.
               Egestas purus viverra accumsan in nisl nisi. Arcu cursus vitae

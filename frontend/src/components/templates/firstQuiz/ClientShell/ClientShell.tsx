@@ -3,14 +3,16 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
-import Sidebar from "../../modules/Sidebar/Sidebar";
-import Topbar from "../../modules/Topbar/Topbar";
-import QuizPage from "@/components/templates/QuizPage/QuizPage";
-import QuizNavigation from "@/components/templates/QuizNavigation/QuizNavigation";
-import ProgressSegment from "../../modules/ProgressBar/ProgressBar";
-import HelpPanel from "../../modules/HelpPanel/HelpPanel";
+import Sidebar from "../../../modules/Sidebar/Sidebar";
+import Topbar from "../../../modules/Topbar/Topbar";
+import QuizPage from "../QuizPage/QuizPage";
+import QuizNavigation from "../QuizNavigation/QuizNavigation";
+import ProgressSegment from "../../../modules/ProgressBar/ProgressBar";
+import HelpPanel from "../../../modules/HelpPanel/HelpPanel";
 import { useAppStore } from "@/store/useAppStore";
-import firstQuestion from "@/data/firstQuestion.json";
+import fQuestion from "@/data/firstQuestion.json";
+import {firstQuizForValidation, firstQuestion} from "@/data/firstQuestion";
+// import mainQuestions from "@/data/mainQuizData.json";
 
 // Helper: Detect userType based on the answer
 const detectUserType = (
@@ -38,15 +40,30 @@ export default function ClientShell() {
 
   // Determine userType based on preQuizAnswers
   useEffect(() => {
-    if (!isRegistered && preQuizAnswers.length === firstQuestion.length) {
-      const budgetQuestion = firstQuestion[2];
+    if (!isRegistered && preQuizAnswers.length === fQuestion.length) {
+      const budgetQuestion = fQuestion[2];
       const budgetAnswer = preQuizAnswers.find(
-        (a) => a.question === budgetQuestion?.question
+        (a) => a.question === budgetQuestion?.title
       )?.answer;
 
       if (budgetAnswer) {
-        const detectedType = detectUserType(budgetAnswer);
-        setUserType(detectedType);
+        let answerString: string;
+
+        if (typeof budgetAnswer === "string") {
+          answerString = budgetAnswer;
+        } else if (Array.isArray(budgetAnswer)) {
+          answerString = budgetAnswer[0]; // فقط اولین گزینه
+        } else if (typeof budgetAnswer === "object") {
+          // اگر Record است، یکی از مقادیرش را استفاده کن
+          answerString = Object.values(budgetAnswer)[0] || "";
+        } else {
+          answerString = "";
+        }
+
+        if (answerString) {
+          const detectedType = detectUserType(answerString);
+          setUserType(detectedType);
+        }
       }
     }
   }, [isRegistered, preQuizAnswers, setUserType]);
@@ -89,8 +106,17 @@ export default function ClientShell() {
           )}
         >
           <ProgressSegment isHelpOpen={isHelpOpen} />
-          <QuizPage isHelpOpen={isHelpOpen} />
-          <QuizNavigation isHelpOpen={isHelpOpen} />
+          <QuizPage
+            isHelpOpen={isHelpOpen}
+            questions={firstQuestion}
+            isAllowedFn={() =>
+              useAppStore.getState().isContinueAllowedBySchema(firstQuestion)
+            }
+            totalSteps={fQuestion.length}
+            basePath="/firstQuiz"
+            onSubmitApi="/api/saveFirstQuiz"
+          />
+          <QuizNavigation isHelpOpen={isHelpOpen} isFirstQuiz={true} />
         </main>
       </div>
 

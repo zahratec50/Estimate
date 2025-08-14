@@ -1,60 +1,97 @@
 [
   {
-    "question": "Which of these best describes you?",
-    "answers": [
-      "Homeowner",
-      "Investor",
-      "Installer/Handyman",
-      "Contractor"
-    ]
+    "id": 1,
+    "type": "single-choice",
+    "title": "Which of these best describes you?",
+    "options": ["Homeowner", "Investor", "Installer/Handyman", "Contractor"],
+    "multiple": false,
+    "validation": {
+      "required": true,
+      "errorMessage": "Please select one option."
+    }
   },
   {
-    "question": "Which city and state do you live or work in?",
-    "answers": [
-      "City and state dropdown"
-    ]
+    "id": 2,
+    "type": "select",
+    "title": "Which city and state do you live or work in?",
+    "options": ["City and state dropdown"],
+    "multiple": false,
+    "validation": {
+      "required": true,
+      "errorMessage": "Please select your city and state."
+    }
   },
   {
-    "question": "What type of property do you typically deal with?",
-    "answers": [
-      "Apartment",
-      "Detached house",
-      "Commercial / Shop",
-      "Industrial",
-      "Other"
-    ]
+    "id": 3,
+    "type": "single-choice",
+    "title": "What type of property do you typically deal with?",
+    "options": ["Apartment", "Detached house", "Commercial / Shop", "Industrial", "Other"],
+    "multiple": false,
+    "validation": {
+      "required": true,
+      "minSelected": 1,
+      "maxSelected": 5,
+      "errorMessage": "Please select at least one property type."
+    }
   },
   {
-    "question": "Have you done any renovations or repairs before?",
-    "answers": [
-      "Yes, several times",
-      "Yes, once",
-      "No, this is my first time"
-    ]
+    "id": 4,
+    "type": "single-choice",
+    "title": "Have you done any renovations or repairs before?",
+    "options": ["Yes, several times", "Yes, once", "No, this is my first time"],
+    "multiple": false,
+    "validation": {
+      "required": true,
+      "errorMessage": "Please select one option."
+    }
   },
   {
-    "question": "When would you prefer we reach out if needed?",
-    "answers": [
-      "Morning",
-      "Afternoon",
-      "Evening",
-      "Anytime is fine"
-    ]
+    "id": 5,
+    "type": "single-choice",
+    "title": "When would you prefer we reach out if needed?",
+    "options": ["Morning", "Afternoon", "Evening", "Anytime is fine"],
+    "multiple": false,
+    "validation": {
+      "required": true,
+      "errorMessage": "Please select one option."
+    }
   },
   {
-    "question": "How did you hear about us?",
-    "answers": [
-      "Online search",
-      "Friends & family",
-      "Social media",
-      "Advertisement",
-      "Other"
-    ]
+    "id": 6,
+    "type": "multi-choice",
+    "title": "How did you hear about us?",
+    "options": ["Online search", "Friends & family", "Social media", "Advertisement", "Other"],
+    "multiple": true,
+    "validation": {
+      "required": true,
+      "minSelected": 1,
+      "maxSelected": 5,
+      "errorMessage": "Please select at least one source."
+    }
   },
   {
-    "question": "What’s the best way to contact you? (email or phone)",
-    "answers": [
-      "Text input"
+    "id": 7,
+    "type": "text-input",
+    "title": "What’s the best way to contact you? (email or phone)",
+    "fields": [
+      {
+        "label": "Email",
+        "placeholder": "example@email.com",
+        "validation": {
+          "required": true,
+          "pattern": "^[\\w.-]+@[\\w.-]+\\.\\w{2,}$",
+          "errorMessage": "Please enter a valid email address."
+        }
+      },
+      {
+        "label": "Phone Number",
+        "placeholder": "+1 555-555-5555",
+        "validation": {
+          "required": true,
+          "pattern": "^\\+1\\s?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$",
+          "errorMessage": "Please enter a valid US phone number."
+        }
+      }
     ]
   }
 ]
