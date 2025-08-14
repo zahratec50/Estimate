@@ -10,9 +10,9 @@ import QuizNavigation from "../QuizNavigation/QuizNavigation";
 import ProgressSegment from "../../../modules/ProgressBar/ProgressBar";
 import HelpPanel from "../../../modules/HelpPanel/HelpPanel";
 import { useAppStore } from "@/store/useAppStore";
-import fQuestion from "@/data/firstQuestion.json";
-import {firstQuizForValidation, firstQuestion} from "@/data/firstQuestion";
-// import mainQuestions from "@/data/mainQuizData.json";
+import firstQuestion from "@/data/firstQuestion.json";
+import mainQuizData from "@/data/mainQuizData.json";
+import { usePathname } from "next/navigation";
 
 // Helper: Detect userType based on the answer
 const detectUserType = (
@@ -24,7 +24,7 @@ const detectUserType = (
   return "homeowner";
 };
 
-export default function ClientShell() {
+export default function ClientShell({ isFirstQuiz }: { isFirstQuiz: boolean }) {
   const {
     isRegistered,
     preQuizAnswers,
@@ -34,36 +34,41 @@ export default function ClientShell() {
     isHelpOpen,
     toggleSidebar,
     toggleHelp,
+    currentStepFirstQuiz,
+    currentStepMainQuiz,
+    setCurrentStepFirstQuiz,
+    setCurrentStepMainQuiz,
   } = useAppStore();
 
   const router = useRouter();
 
+  const pathname = usePathname(); // مثلا /mainQuiz/2
+  const stepFromPath = parseInt(pathname.split("/").pop() || "1", 10);
+
+  useEffect(() => {
+    if (isFirstQuiz) setCurrentStepFirstQuiz(stepFromPath);
+    else setCurrentStepMainQuiz(stepFromPath);
+  }, [stepFromPath, isFirstQuiz]);
+
   // Determine userType based on preQuizAnswers
   useEffect(() => {
-    if (!isRegistered && preQuizAnswers.length === fQuestion.length) {
-      const budgetQuestion = fQuestion[2];
+    if (!isRegistered && preQuizAnswers.length === firstQuestion.length) {
+      const budgetQuestion = firstQuestion[2];
       const budgetAnswer = preQuizAnswers.find(
         (a) => a.question === budgetQuestion?.title
       )?.answer;
 
-      if (budgetAnswer) {
-        let answerString: string;
+      let answerString = "";
+      if (typeof budgetAnswer === "string") answerString = budgetAnswer;
+      else if (Array.isArray(budgetAnswer))
+        answerString = budgetAnswer[0] || "";
+      else if (budgetAnswer && typeof budgetAnswer === "object") {
+        const firstValue = Object.values(budgetAnswer)[0];
+        if (typeof firstValue === "string") answerString = firstValue;
+      }
 
-        if (typeof budgetAnswer === "string") {
-          answerString = budgetAnswer;
-        } else if (Array.isArray(budgetAnswer)) {
-          answerString = budgetAnswer[0]; // فقط اولین گزینه
-        } else if (typeof budgetAnswer === "object") {
-          // اگر Record است، یکی از مقادیرش را استفاده کن
-          answerString = Object.values(budgetAnswer)[0] || "";
-        } else {
-          answerString = "";
-        }
-
-        if (answerString) {
-          const detectedType = detectUserType(answerString);
-          setUserType(detectedType);
-        }
+      if (answerString) {
+        setUserType(detectUserType(answerString));
       }
     }
   }, [isRegistered, preQuizAnswers, setUserType]);
@@ -72,6 +77,11 @@ export default function ClientShell() {
   useEffect(() => {
     if (isRegistered) syncWithServer();
   }, [isRegistered, syncWithServer]);
+
+  // Select current question based on quiz type
+  const currentQuestion = isFirstQuiz
+    ? firstQuestion[currentStepFirstQuiz - 1]
+    : mainQuizData[currentStepMainQuiz - 1];
 
   return (
     <div className="flex min-h-screen relative dark:bg-secondary-900 bg-gray-50">
@@ -105,18 +115,11 @@ export default function ClientShell() {
               : "w-full md:px-10 lg:px-20 xl:px-40"
           )}
         >
-          <ProgressSegment isHelpOpen={isHelpOpen} />
-          <QuizPage
-            isHelpOpen={isHelpOpen}
-            questions={firstQuestion}
-            isAllowedFn={() =>
-              useAppStore.getState().isContinueAllowedBySchema(firstQuestion)
-            }
-            totalSteps={fQuestion.length}
-            basePath="/firstQuiz"
-            onSubmitApi="/api/saveFirstQuiz"
-          />
-          <QuizNavigation isHelpOpen={isHelpOpen} isFirstQuiz={true} />
+          <ProgressSegment isHelpOpen={isHelpOpen} isFirstQuiz={isFirstQuiz} />
+          <QuizPage isHelpOpen={isHelpOpen} isFirstQuiz={isFirstQuiz} />
+          {currentQuestion && (
+            <QuizNavigation isHelpOpen={isHelpOpen} isFirstQuiz={isFirstQuiz} />
+          )}
         </main>
       </div>
 

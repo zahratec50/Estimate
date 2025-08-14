@@ -2,7 +2,8 @@
 
 import { useAppStore } from "@/store/useAppStore";
 import { useMemo } from "react";
-import mainQuizData from "@/data/mainQuizData.json"
+import firstQuestion from "@/data/firstQuestion.json";
+import mainQuizData from "@/data/mainQuizData.json";
 import SingleChoiceQuestion from "@/components/modules/QuizField/SingleChoiceQuestion";
 import MultiChoiceQuestion from "@/components/modules/QuizField/MultiChoiceQuestion";
 import SelectQuestion from "@/components/modules/QuizField/SelectQuestion";
@@ -10,13 +11,24 @@ import TextInputQuestion from "@/components/modules/QuizField/TextInputQuestion"
 
 type QuestionProps = {
   isHelpOpen: boolean;
+  isFirstQuiz: boolean;
 };
+
+interface ImageOption {
+  label: string;
+  imageUrl: string;
+}
 
 type QuestionItem = {
   id: number;
-  type: "single-choice" | "multi-choice" | "select" | "text-input";
+  type:
+    | "single-choice"
+    | "multi-choice"
+    | "select"
+    | "text-input"
+    | "image-choice";
   title: string;
-  options: string[];
+  options: string[] | ImageOption[];
   multiple?: boolean;
   validation: {
     required: boolean;
@@ -32,16 +44,23 @@ type QuestionItem = {
   }>;
 };
 
-export default function QuizPage({ isHelpOpen }: QuestionProps) {
-  const currentStep = useAppStore((state) => state.currentStep);
+export default function QuizPage({ isHelpOpen, isFirstQuiz }: QuestionProps) {
+  const currentStep = useAppStore((state) =>
+    isFirstQuiz ? state.currentStepFirstQuiz : state.currentStepMainQuiz
+  );
+  const setCurrentStep = useAppStore((state) =>
+    isFirstQuiz ? state.setCurrentStepFirstQuiz : state.setCurrentStepMainQuiz
+  );
   const isRegistered = useAppStore((state) => state.isRegistered);
   const currentProjectId = useAppStore((state) => state.currentProjectId);
   const setPreQuizAnswer = useAppStore((state) => state.setPreQuizAnswer);
   const setMainQuizAnswer = useAppStore((state) => state.setMainQuizAnswer);
 
+  const quiz = isFirstQuiz ? firstQuestion : mainQuizData;
+
   const questionData: QuestionItem | null = useMemo(() => {
-    return currentStep >= 1 && currentStep <= mainQuizData.length
-      ? mainQuizData[currentStep - 1]
+    return currentStep >= 1 && currentStep <= quiz.length
+      ? quiz[currentStep - 1]
       : null;
   }, [currentStep]);
 
@@ -92,28 +111,39 @@ export default function QuizPage({ isHelpOpen }: QuestionProps) {
         {questionData.title}
       </h1>
 
-      {questionData.type === "single-choice" && questionData.options.length > 0 ? (
+      {questionData.type === "single-choice" &&
+      questionData.options.length > 0 ? (
         <SingleChoiceQuestion
-          questionData={questionData}
+          questionData={
+            questionData as Extract<QuestionItem, { type: "single-choice" }>
+          }
           selectedAnswer={selectedAnswer}
           setAnswer={saveAnswer}
           error=""
         />
-      ) : questionData.type === "multi-choice" && questionData.options.length > 0 ? (
+      ) : questionData.type === "multi-choice" &&
+        questionData.options.length > 0 ? (
         <MultiChoiceQuestion
-          questionData={questionData}
+          questionData={
+            questionData as Extract<QuestionItem, { type: "multi-choice" }>
+          }
           selectedAnswer={selectedAnswer}
           setAnswer={saveAnswer}
         />
       ) : questionData.type === "select" && questionData.options.length > 0 ? (
         <SelectQuestion
-          questionData={questionData}
+          questionData={
+            questionData as Extract<QuestionItem, { type: "select" }>
+          }
           selectedAnswer={selectedAnswer}
           setAnswer={saveAnswer}
+          isFirstQuiz={isFirstQuiz}
         />
       ) : questionData.type === "text-input" ? (
         <TextInputQuestion
-          questionData={questionData}
+          questionData={
+            questionData as Extract<QuestionItem, { type: "text-input" }>
+          }
           selectedAnswer={selectedAnswer}
           setAnswer={saveAnswer}
         />
