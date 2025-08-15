@@ -80,24 +80,24 @@
   {
     "id": 6,
     "type": "image-choice",
-    "title": "Which design style do you prefer? (You can select multiple)",
+    "title": "Which design style for bathroom do you prefer?",
     "multiple": true,
     "options": [
       {
         "label": "Modern",
-        "imageUrl": "https://example.com/images/modern.jpg"
+        "imageUrl": "/images/b1.jpg"
       },
       {
         "label": "Minimal",
-        "imageUrl": "https://example.com/images/minimal.jpg"
+        "imageUrl": "/images/b2.webp"
       },
       {
         "label": "Classic",
-        "imageUrl": "https://example.com/images/classic.jpg"
+        "imageUrl": "/images/b3.jpg"
       },
       {
         "label": "Fantasy",
-        "imageUrl": "https://example.com/images/fantasy.jpg"
+        "imageUrl": "/images/b4.jpg"
       }
     ],
     "validation": {
@@ -109,16 +109,28 @@
   {
     "id": 7,
     "type": "image-choice",
-    "title": "Select a logo:",
+    "title": "Which design style for bedroom do you prefer?",
     "multiple": false,
     "options": [
       {
         "label": "Logo 1",
-        "imageUrl": "https://example.com/images/logo1.png"
+        "imageUrl": "/images/r1.webp"
       },
       {
         "label": "Logo 2",
-        "imageUrl": "https://example.com/images/logo2.png"
+        "imageUrl": "/images/r6.jpeg"
+      },
+      {
+        "label": "Logo 3",
+        "imageUrl": "/images/r3.webp"
+      },
+      {
+        "label": "Logo 4",
+        "imageUrl": "/images/r4.jpg"
+      },
+      {
+        "label": "Logo 5",
+        "imageUrl": "/images/r5.jpg"
       }
     ],
     "validation": {

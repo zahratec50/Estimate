@@ -29,7 +29,6 @@ export default function ClientShell({ isFirstQuiz }: { isFirstQuiz: boolean }) {
     isRegistered,
     preQuizAnswers,
     setUserType,
-    syncWithServer,
     isSidebarOpen,
     isHelpOpen,
     toggleSidebar,
@@ -38,13 +37,15 @@ export default function ClientShell({ isFirstQuiz }: { isFirstQuiz: boolean }) {
     currentStepMainQuiz,
     setCurrentStepFirstQuiz,
     setCurrentStepMainQuiz,
+    syncFirstQuizWithServer,
+    syncMainQuizWithServer,
   } = useAppStore();
 
   const router = useRouter();
-
   const pathname = usePathname(); // مثلا /mainQuiz/2
   const stepFromPath = parseInt(pathname.split("/").pop() || "1", 10);
 
+  // Update step from URL
   useEffect(() => {
     if (isFirstQuiz) setCurrentStepFirstQuiz(stepFromPath);
     else setCurrentStepMainQuiz(stepFromPath);
@@ -60,8 +61,7 @@ export default function ClientShell({ isFirstQuiz }: { isFirstQuiz: boolean }) {
 
       let answerString = "";
       if (typeof budgetAnswer === "string") answerString = budgetAnswer;
-      else if (Array.isArray(budgetAnswer))
-        answerString = budgetAnswer[0] || "";
+      else if (Array.isArray(budgetAnswer)) answerString = budgetAnswer[0] || "";
       else if (budgetAnswer && typeof budgetAnswer === "object") {
         const firstValue = Object.values(budgetAnswer)[0];
         if (typeof firstValue === "string") answerString = firstValue;
@@ -74,11 +74,23 @@ export default function ClientShell({ isFirstQuiz }: { isFirstQuiz: boolean }) {
   }, [isRegistered, preQuizAnswers, setUserType]);
 
   // Sync with server if already registered
-  useEffect(() => {
-    if (isRegistered) syncWithServer();
-  }, [isRegistered, syncWithServer]);
 
-  // Select current question based on quiz type
+  useEffect(() => {
+    if (!isRegistered) return;
+
+    const isLastQuestion = isFirstQuiz
+      ? currentStepFirstQuiz === firstQuestion.length
+      : currentStepMainQuiz === mainQuizData.length;
+
+    if (isLastQuestion) {
+      if (isFirstQuiz) {
+        syncFirstQuizWithServer();
+      } else {
+        syncMainQuizWithServer();
+      }
+    }
+  }, [isRegistered, isFirstQuiz, currentStepFirstQuiz, currentStepMainQuiz]);
+
   const currentQuestion = isFirstQuiz
     ? firstQuestion[currentStepFirstQuiz - 1]
     : mainQuizData[currentStepMainQuiz - 1];

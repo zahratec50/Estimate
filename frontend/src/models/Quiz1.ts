@@ -2,14 +2,15 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 
 export interface IAnswer {
   question: string;
+  /** stored as comma-joined for multi-select */
   answer: string;
 }
 
 export interface IQuestion {
   id: number;
   title: string;
-  type: "single-choice" | "multi-choice" | "select" | "text-input";
-  options: string[];
+  type: "single-choice" | "multi-choice" | "select" | "text-input" | "image-choice";
+  options: string[] | { label: string; imageUrl: string }[];
   multiple?: boolean;
   validation: {
     required: boolean;
@@ -21,11 +22,7 @@ export interface IQuestion {
   fields?: Array<{
     label: string;
     placeholder: string;
-    validation: {
-      required: boolean;
-      pattern: string;
-      errorMessage: string;
-    };
+    validation: { required: boolean; pattern: string; errorMessage: string };
   }>;
 }
 
@@ -41,7 +38,7 @@ export interface IQuiz extends Document {
   isRegistered: boolean;
   userType: string;
   projects: IProject[];
-  currentProjectId?: string;
+  currentProjectId?: string | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -60,10 +57,11 @@ const QuestionSchema = new Schema<IQuestion>(
     title: { type: String, required: true },
     type: {
       type: String,
-      enum: ["single-choice", "multi-choice", "select", "text-input"],
+      enum: ["single-choice", "multi-choice", "select", "text-input", "image-choice"],
       required: true,
     },
-    options: { type: [String], default: [] },
+    // store options as Mixed to support string[] or image options
+    options: { type: Schema.Types.Mixed, default: [] },
     multiple: { type: Boolean, default: false },
     validation: {
       required: { type: Boolean, default: false },
@@ -100,7 +98,7 @@ const QuizSchema = new Schema<IQuiz>(
     isRegistered: { type: Boolean, required: true },
     userType: { type: String, required: true },
     projects: [ProjectSchema],
-    currentProjectId: { type: String },
+    currentProjectId: { type: String, default: null },
   },
   { timestamps: true }
 );
