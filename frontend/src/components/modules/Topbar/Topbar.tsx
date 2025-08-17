@@ -2,39 +2,36 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import {
-  IoNotificationsOutline,
-  IoSearchOutline,
-  IoClose,
-} from "react-icons/io5";
+import { IoNotificationsOutline, IoSearchOutline } from "react-icons/io5";
 import { TbHelpOctagon } from "react-icons/tb";
 import clsx from "clsx";
-
-import ThemeSwitcher from "../Theme/Theme";
+import React from "react";
 
 interface TopbarProps {
   onMenuClick: () => void;
   onHelpToggle: (open: boolean) => void;
   isHelpOpen: boolean;
   isHome?: boolean;
+  isFirstQuiz?: boolean;
 }
 
-export default function Topbar({
+const TopbarBase = ({
   onMenuClick,
   onHelpToggle,
   isHelpOpen,
   isHome = false,
-}: TopbarProps) {
+  isFirstQuiz,
+}: TopbarProps) => {
   return (
     <header
       className={clsx(
         "w-full relative z-30 font-roboto",
         isHome
           ? "px-2 py-2 flex justify-between items-center"
-          : "px-2 py-3 sm:px-6 shadow-md flex justify-between items-center dark:bg-secondary-900 bg-white"
+          : "px-2 py-3 sm:py-0 sm:px-0 flex justify-between items-center dark:bg-secondary-900 bg-white"
       )}
     >
-      {/* Left Side: Menu Button + Logo */}
+      {/* Left: Menu + Logo */}
       <div className="flex items-center gap-3">
         <button
           type="button"
@@ -57,6 +54,7 @@ export default function Topbar({
           </svg>
         </button>
 
+        {/* Logos */}
         <Image
           src="/images/Frame 20.png"
           alt="Estiper logo"
@@ -64,12 +62,9 @@ export default function Topbar({
           height={isHome ? 80 : 48}
           className={clsx(
             "block dark:hidden",
-            isHome
-              ? "w-11 h-11 md:w-16 md:h-16  block dark:hidden"
-              : "w-10 h-10 block sm:hidden"
+            isHome ? "w-11 h-11 md:w-16 md:h-16" : "w-10 h-10 block sm:hidden"
           )}
         />
-
         <Image
           src="/images/Frame 20.png"
           alt="Estiper logo dark"
@@ -98,45 +93,49 @@ export default function Topbar({
         )}
       </div>
 
-      {/* Right Side: Theme + Actions */}
+      {/* Right: Actions */}
       <div
-        className={clsx("flex items-center gap-2", {
-          "ml-5 md:ml-64": !isHome && isHelpOpen,
-          "ml-2": !isHome && !isHelpOpen,
+        className={clsx("w-full gap-2", {
+          "ml-5 md:ml-64 items-end": !isHome && isHelpOpen,
+          "ml-0": !isHome && !isHelpOpen,
         })}
       >
-        <ThemeSwitcher />
-
         {isHome ? (
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center justify-end gap-3">
             <button className="hidden sm:flex w-20 text-white hover:bg-secondary-800 text-sm px-4 py-2 md:px-4 md:py-2 rounded-lg">
-            <Link href="/signin">Log in</Link>
-          </button>
+              <Link href="/signin">Log in</Link>
+            </button>
             <button className="w-20 bg-white hover:bg-secondary-100 text-primary-500 text-sm px-4 py-2 md:px-4 md:py-2 rounded-lg">
-            <Link href="/signup">Sign Up</Link>
-          </button>
+              <Link href="/signup">Sign Up</Link>
+            </button>
           </div>
-          
         ) : (
-          <div className="flex items-center space-x-3 md:space-x-6 dark:text-white text-secondary-700 text-sm md:text-base font-medium">
-            <span className="hidden md:flex items-center cursor-pointer">
-              <IoNotificationsOutline className="w-5 h-5 mr-1" />
-              Notifications
-            </span>
-            <span className="hidden md:flex items-center cursor-pointer">
-              <IoSearchOutline className="w-5 h-5 mr-1" />
-              {!isHelpOpen && "Search"}
-            </span>
-            <span
-              className="flex items-center cursor-pointer"
-              onClick={() => onHelpToggle(true)}
-            >
-              <TbHelpOctagon className="w-5 h-5 mr-1" />
-              {!isHelpOpen && "Help"}
-            </span>
+          <div className="w-full">
+            <div className="w-full flex items-center justify-end space-x-3 md:space-x-6 dark:text-white text-secondary-700 text-sm md:text-base font-medium border-b-2 border-neutral-300 p-2">
+              <span className="hidden md:flex items-center cursor-pointer">
+                <IoNotificationsOutline className="w-5 h-5 mr-1" />
+                Notifications
+              </span>
+              <span className="hidden md:flex items-center cursor-pointer">
+                <IoSearchOutline className="w-5 h-5 mr-1" />
+                {!isHelpOpen && "Search"}
+              </span>
+              <span
+                className="flex items-center cursor-pointer"
+                onClick={() => onHelpToggle(true)}
+              >
+                <TbHelpOctagon className="w-5 h-5 mr-1" />
+                {!isHelpOpen && "Help"}
+              </span>
+            </div>
           </div>
         )}
       </div>
     </header>
   );
-}
+};
+
+// ✅ React.memo جلوگیری از ری‌رندرهای غیرضروری
+const Topbar = React.memo(TopbarBase);
+
+export default Topbar;

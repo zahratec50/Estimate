@@ -46,7 +46,7 @@ export interface QuestionItem {
   }>;
 }
 
-interface AppState {
+export interface AppState {
   currentStepFirstQuiz: number;
   currentStepMainQuiz: number;
   preQuizAnswers: Answer[];

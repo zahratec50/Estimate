@@ -1,6 +1,6 @@
 "use client";
 
-import ClientShell from "@/components/templates/Quiz/ClientShell/ClientShell";
+import Quiz from "@/components/templates/Quiz/Quiz"
 import { redirectLogic } from "@/hooks/helpers";
 
 export default function FirstQuizPage({
@@ -12,5 +12,5 @@ export default function FirstQuizPage({
 
   redirectLogic(step);
 
-  return <ClientShell isFirstQuiz={true} />;
+  return <Quiz isFirstQuiz={false} />;
 }

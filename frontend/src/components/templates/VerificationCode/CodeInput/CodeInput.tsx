@@ -10,6 +10,7 @@ const CORRECT_CODE = "1234"; // for test
 export default function CodeInput() {
   const [code, setCode] = useState<string[]>(Array(CODE_LENGTH).fill(""));
   const [error, setError] = useState(false);
+
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
   const router = useRouter();
 

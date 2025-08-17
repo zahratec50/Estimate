@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { ImageOption } from "@/store/useAppStore";
 
+
 type ImageModalProps = {
   isSelectImage: boolean;
   setIsSelectImage: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,6 +25,7 @@ export default function ImageModal({
   selectedImages,
 }: ImageModalProps) {
   const [localSelected, setLocalSelected] = useState<ImageOption[]>(selectedImages);
+
 
   useEffect(() => {
     setLocalSelected(selectedImages);
@@ -126,3 +128,4 @@ export default function ImageModal({
     </div>
   );
 }
+

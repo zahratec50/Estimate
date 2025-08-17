@@ -1,18 +1,17 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useMemo, useCallback } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import clsx from "clsx";
+
 import Sidebar from "../../../modules/Sidebar/Sidebar";
 import Topbar from "../../../modules/Topbar/Topbar";
-import QuizPage from "../QuizPage/QuizPage";
-import QuizNavigation from "../QuizNavigation/QuizNavigation";
-import ProgressSegment from "../../../modules/ProgressBar/ProgressBar";
+import TopbarActions from "@/components/modules/Topbar/TopbarActions";
 import HelpPanel from "../../../modules/HelpPanel/HelpPanel";
+
 import { useAppStore } from "@/store/useAppStore";
 import firstQuestion from "@/data/firstQuestion.json";
 import mainQuizData from "@/data/mainQuizData.json";
-import { usePathname } from "next/navigation";
 
 // Helper: Detect userType based on the answer
 const detectUserType = (
@@ -24,39 +23,58 @@ const detectUserType = (
   return "homeowner";
 };
 
-export default function ClientShell({ isFirstQuiz }: { isFirstQuiz: boolean }) {
-  const {
-    isRegistered,
-    preQuizAnswers,
-    setUserType,
-    isSidebarOpen,
-    isHelpOpen,
-    toggleSidebar,
-    toggleHelp,
-    currentStepFirstQuiz,
-    currentStepMainQuiz,
-    setCurrentStepFirstQuiz,
-    setCurrentStepMainQuiz,
-    syncFirstQuizWithServer,
-    syncMainQuizWithServer,
-  } = useAppStore();
+// --------------------
+// ClientShellBase
+// --------------------
+type ClientShellProps = {
+  isFirstQuiz: boolean;
+  children: React.ReactNode;
+};
 
+const ClientShellBase = ({ isFirstQuiz, children }: ClientShellProps) => {
   const router = useRouter();
-  const pathname = usePathname(); // مثلا /mainQuiz/2
-  const stepFromPath = parseInt(pathname.split("/").pop() || "1", 10);
+  const pathname = usePathname();
 
-  // Update step from URL
+  // --------------------
+  // Store selectors (فقط مقادیر ضروری)
+  // --------------------
+  const isSidebarOpen = useAppStore(state => state.isSidebarOpen);
+  const isHelpOpen = useAppStore(state => state.isHelpOpen);
+
+  const toggleSidebar = useAppStore(state => state.toggleSidebar);
+  const toggleHelp = useAppStore(state => state.toggleHelp);
+
+  const isRegistered = useAppStore(state => state.isRegistered);
+  const preQuizAnswers = useAppStore(state => state.preQuizAnswers);
+  const setUserType = useAppStore(state => state.setUserType);
+
+  const setCurrentStepFirstQuiz = useAppStore(state => state.setCurrentStepFirstQuiz);
+  const setCurrentStepMainQuiz = useAppStore(state => state.setCurrentStepMainQuiz);
+
+  const syncFirstQuizWithServer = useAppStore(state => state.syncFirstQuizWithServer);
+  const syncMainQuizWithServer = useAppStore(state => state.syncMainQuizWithServer);
+
+  // --------------------
+  // URL Step
+  // --------------------
+  const stepFromPath = useMemo(
+    () => parseInt(pathname.split("/").pop() || "1", 10),
+    [pathname]
+  );
+
   useEffect(() => {
     if (isFirstQuiz) setCurrentStepFirstQuiz(stepFromPath);
     else setCurrentStepMainQuiz(stepFromPath);
-  }, [stepFromPath, isFirstQuiz]);
+  }, [stepFromPath, isFirstQuiz, setCurrentStepFirstQuiz, setCurrentStepMainQuiz]);
 
-  // Determine userType based on preQuizAnswers
+  // --------------------
+  // UserType detection
+  // --------------------
   useEffect(() => {
     if (!isRegistered && preQuizAnswers.length === firstQuestion.length) {
       const budgetQuestion = firstQuestion[2];
       const budgetAnswer = preQuizAnswers.find(
-        (a) => a.question === budgetQuestion?.title
+        a => a.question === budgetQuestion?.title
       )?.answer;
 
       let answerString = "";
@@ -67,13 +85,15 @@ export default function ClientShell({ isFirstQuiz }: { isFirstQuiz: boolean }) {
         if (typeof firstValue === "string") answerString = firstValue;
       }
 
-      if (answerString) {
-        setUserType(detectUserType(answerString));
-      }
+      if (answerString) setUserType(detectUserType(answerString));
     }
   }, [isRegistered, preQuizAnswers, setUserType]);
 
-  // Sync with server if already registered
+  // --------------------
+  // Sync with server
+  // --------------------
+  const currentStepFirstQuiz = useAppStore(state => state.currentStepFirstQuiz);
+  const currentStepMainQuiz = useAppStore(state => state.currentStepMainQuiz);
 
   useEffect(() => {
     if (!isRegistered) return;
@@ -83,25 +103,43 @@ export default function ClientShell({ isFirstQuiz }: { isFirstQuiz: boolean }) {
       : currentStepMainQuiz === mainQuizData.length;
 
     if (isLastQuestion) {
-      if (isFirstQuiz) {
-        syncFirstQuizWithServer();
-      } else {
-        syncMainQuizWithServer();
-      }
+      if (isFirstQuiz) syncFirstQuizWithServer();
+      else syncMainQuizWithServer();
     }
-  }, [isRegistered, isFirstQuiz, currentStepFirstQuiz, currentStepMainQuiz]);
+  }, [
+    isRegistered,
+    isFirstQuiz,
+    currentStepFirstQuiz,
+    currentStepMainQuiz,
+    syncFirstQuizWithServer,
+    syncMainQuizWithServer
+  ]);
 
-  const currentQuestion = isFirstQuiz
-    ? firstQuestion[currentStepFirstQuiz - 1]
-    : mainQuizData[currentStepMainQuiz - 1];
+  // --------------------
+  // Current Question
+  // --------------------
+  const currentQuestion = useMemo(() => {
+    return isFirstQuiz
+      ? firstQuestion[currentStepFirstQuiz - 1]
+      : mainQuizData[currentStepMainQuiz - 1];
+  }, [isFirstQuiz, currentStepFirstQuiz, currentStepMainQuiz]);
 
+  // --------------------
+  // Callbacks
+  // --------------------
+  const handleHelpToggle = useCallback(() => toggleHelp(), [toggleHelp]);
+  const handleMenuClick = useCallback(() => toggleSidebar(), [toggleSidebar]);
+
+  // --------------------
+  // Render
+  // --------------------
   return (
     <div className="flex min-h-screen relative dark:bg-secondary-900 bg-gray-50">
       {/* Sidebar */}
       <Sidebar
         isOpen={isSidebarOpen}
         isHelpOpen={isHelpOpen}
-        onClose={toggleSidebar}
+        onClose={handleMenuClick}
       />
 
       {/* Main Layout */}
@@ -113,10 +151,18 @@ export default function ClientShell({ isFirstQuiz }: { isFirstQuiz: boolean }) {
       >
         {/* Topbar */}
         <Topbar
-          onHelpToggle={toggleHelp}
+          onHelpToggle={handleHelpToggle}
           isHelpOpen={isHelpOpen}
-          onMenuClick={toggleSidebar}
+          isFirstQuiz={isFirstQuiz}
+          onMenuClick={handleMenuClick}
         />
+
+        {!isFirstQuiz && (
+          <TopbarActions
+            isFirstQuiz={isFirstQuiz}
+            isHelpOpen={isHelpOpen}
+          />
+        )}
 
         {/* Page Content */}
         <main
@@ -127,11 +173,7 @@ export default function ClientShell({ isFirstQuiz }: { isFirstQuiz: boolean }) {
               : "w-full md:px-10 lg:px-20 xl:px-40"
           )}
         >
-          <ProgressSegment isHelpOpen={isHelpOpen} isFirstQuiz={isFirstQuiz} />
-          <QuizPage isHelpOpen={isHelpOpen} isFirstQuiz={isFirstQuiz} />
-          {currentQuestion && (
-            <QuizNavigation isHelpOpen={isHelpOpen} isFirstQuiz={isFirstQuiz} />
-          )}
+          {children}
         </main>
       </div>
 
@@ -139,7 +181,7 @@ export default function ClientShell({ isFirstQuiz }: { isFirstQuiz: boolean }) {
       {isHelpOpen && (
         <aside className="fixed top-0 right-0 h-full w-[320px] z-50 bg-white dark:bg-secondary-800 shadow-lg p-4">
           <button
-            onClick={toggleHelp}
+            onClick={handleHelpToggle}
             className="absolute top-4 right-4 text-gray-500 dark:text-gray-300"
             aria-label="Close help panel"
           >
@@ -162,4 +204,10 @@ export default function ClientShell({ isFirstQuiz }: { isFirstQuiz: boolean }) {
       )}
     </div>
   );
-}
+};
+
+// --------------------
+// Memoize کل Shell
+// --------------------
+const ClientShell = React.memo(ClientShellBase);
+export default ClientShell;

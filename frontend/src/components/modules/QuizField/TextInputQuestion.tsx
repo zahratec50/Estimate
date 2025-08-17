@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+"use client";
+
+import { useState, useEffect, useCallback, memo } from "react";
 import clsx from "clsx";
 
 interface QuestionItem {
@@ -30,14 +32,15 @@ interface TextInputQuestionProps {
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 const usPhoneRegex = /^(?:\+1\s?)?(?:\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}$/;
 
-export default function TextInputQuestion({
+const TextInputQuestion = memo(function TextInputQuestion({
   questionData,
   selectedAnswer,
   setAnswer,
 }: TextInputQuestionProps) {
-  const [contactInput, setContactInput] = useState("");
-  const [contactError, setContactError] = useState("");
+  const [contactInput, setContactInput] = useState<string>("");
+  const [contactError, setContactError] = useState<string>("");
 
+  // بارگذاری پاسخ قبلی
   useEffect(() => {
     if (questionData.type === "text-input" && selectedAnswer) {
       setContactInput(typeof selectedAnswer === "string" ? selectedAnswer : "");
@@ -46,29 +49,35 @@ export default function TextInputQuestion({
     }
   }, [selectedAnswer, questionData]);
 
-  const isValidContact = (val: string) =>
-    emailRegex.test(val) || usPhoneRegex.test(val);
+  const validateInput = useCallback(
+    (val: string) => {
+      const trimmed = val.trim();
+      const isValid = emailRegex.test(trimmed) || usPhoneRegex.test(trimmed);
 
-  const handleInputChange = (val: string) => {
-    setContactInput(val);
-    setAnswer(val);
+      if (trimmed === "") {
+        setContactError(
+          questionData.validation.errorMessage || "This field is required."
+        );
+      } else if (!isValid) {
+        setContactError(
+          questionData.fields?.[0]?.validation.errorMessage ||
+            "Please enter a valid email or US phone number."
+        );
+      } else {
+        setContactError("");
+      }
+    },
+    [questionData]
+  );
 
-    const trimmed = val.trim();
-    const isValid = emailRegex.test(trimmed) || usPhoneRegex.test(trimmed);
-
-    if (trimmed === "") {
-      setContactError(
-        questionData.validation.errorMessage || "This field is required."
-      );
-    } else if (!isValid) {
-      setContactError(
-        questionData.fields?.[0]?.validation.errorMessage ||
-          "Please enter a valid email or US phone number."
-      );
-    } else {
-      setContactError("");
-    }
-  };
+  const handleInputChange = useCallback(
+    (val: string) => {
+      setContactInput(val);
+      setAnswer(val);
+      validateInput(val);
+    },
+    [setAnswer, validateInput]
+  );
 
   return (
     <div className="col-span-full md:w-1/2 flex flex-col mt-4 sm:pb-[80px]">
@@ -89,4 +98,6 @@ export default function TextInputQuestion({
       )}
     </div>
   );
-}
+});
+
+export default TextInputQuestion;

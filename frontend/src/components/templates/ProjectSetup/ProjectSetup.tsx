@@ -25,7 +25,7 @@ const ProjectSetup: React.FC = () => {
 
     if (editingId) {
       // ویرایش پروژه
-      const updatedProjects = projects.map(p =>
+      const updatedProjects = projects.map((p) =>
         p.id === editingId ? { ...p, name: nameTrimmed } : p
       );
       setProjects(updatedProjects);
@@ -45,7 +45,7 @@ const ProjectSetup: React.FC = () => {
   };
 
   const handleDelete = (id: string) => {
-    const filtered = projects.filter(p => p.id !== id);
+    const filtered = projects.filter((p) => p.id !== id);
     setProjects(filtered);
     if (currentProjectId === id) setCurrentProjectId(null);
   };
@@ -89,7 +89,9 @@ const ProjectSetup: React.FC = () => {
             <div
               key={project.id}
               className={`flex justify-between items-center p-2 border rounded-md ${
-                currentProjectId === project.id ? "border-green-500 bg-green-50" : "border-gray-300"
+                currentProjectId === project.id
+                  ? "border-green-500 bg-green-50"
+                  : "border-gray-300"
               }`}
             >
               <span className="font-medium">{project.name}</span>
@@ -115,7 +117,11 @@ const ProjectSetup: React.FC = () => {
               </div>
             </div>
           ))}
-          {projects.length === 0 && <p className="text-gray-400 text-sm text-center">هیچ پروژه‌ای ایجاد نشده است</p>}
+          {projects.length === 0 && (
+            <p className="text-gray-400 text-sm text-center">
+              هیچ پروژه‌ای ایجاد نشده است
+            </p>
+          )}
         </div>
 
         {/* دکمه ادامه */}

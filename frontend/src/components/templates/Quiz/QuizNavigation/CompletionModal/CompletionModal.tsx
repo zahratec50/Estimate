@@ -3,29 +3,27 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Lottie from "lottie-react";
-import Click from "../../../../../../public/assets/Clock.json"
+import Click from "../../../../../../public/assets/Clock.json";
 
-export default function CompletionModal({
-  handleRegister,
-}: {
+interface CompletionModalProps {
   handleRegister: () => void;
-}) {
+}
+
+const CompletionModalBase = ({ handleRegister }: CompletionModalProps) => {
   const router = useRouter();
-  const [secondsLeft, setSecondsLeft] = useState(5); 
+  const [secondsLeft, setSecondsLeft] = useState(5);
+
+  // ✅ Countdown logic
   useEffect(() => {
-    if (secondsLeft === 0) {
-      handleRegister();
-      router.push("/dashboard");
+    if (secondsLeft <= 0) {
+      handleRegister(); // callback parent
+      router.push("/dashboard"); // navigate once
       return;
     }
 
-    const timer = setTimeout(() => {
-      setSecondsLeft((prev) => prev - 1);
-    }, 1000);
-
+    const timer = setTimeout(() => setSecondsLeft((prev) => prev - 1), 1000);
     return () => clearTimeout(timer);
   }, [secondsLeft, handleRegister, router]);
-
 
   return (
     <div className="fixed inset-0 bg-black-50/50 flex items-center justify-center z-50">
@@ -33,7 +31,7 @@ export default function CompletionModal({
         <h2 className="text-xl font-bold mb-4">Well done!</h2>
 
         <div className="w-32 h-32 mx-auto mb-2">
-          <Lottie animationData={Click} loop={true} />
+          <Lottie animationData={Click} loop />
         </div>
 
         <div className="text-center">
@@ -42,10 +40,15 @@ export default function CompletionModal({
           </span>
         </div>
 
-        <p className="text-gray-700 dark:text-gray-300">
+        <p className="text-gray-700 dark:text-gray-300 mt-2">
           Just give us 1 hour and your building will be beautifully rebuilt.
         </p>
       </div>
     </div>
   );
-}
+};
+
+// ✅ Prevent unnecessary re-renders
+const CompletionModal = React.memo(CompletionModalBase);
+
+export default CompletionModal;

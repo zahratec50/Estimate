@@ -20,6 +20,7 @@ export default function ImageQuestion({
   const [selectedImages, setSelectedImages] = useState<ImageOption[]>([]);
   const { currentProjectId, isRegistered } = useAppStore();
 
+
   // بارگذاری پاسخ قبلی
   useEffect(() => {
     const storedAnswers =
@@ -146,3 +147,4 @@ export default function ImageQuestion({
     </div>
   );
 }
+

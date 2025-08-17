@@ -1,14 +1,10 @@
-import ClientShell from '@/components/templates/Quiz/ClientShell/ClientShell';
 import React from 'react'
-type Params = {
-  id: string;
-};
+import Quiz from "@/components/templates/Quiz/Quiz"
 
-export default async function MainQuizPage({params}: {params: Params}) {
-  const { id } = await params;
+export default async function MainQuizPage() {
   return (
     <div>
-      <ClientShell isFirstQuiz={false} />
+      <Quiz isFirstQuiz={false} />
     </div>
   )
 }

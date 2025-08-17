@@ -63,7 +63,10 @@ export default function Question({
                 {features.map((feature, index) => {
                   const Icon = icons[index % icons.length]; // انتخاب آیکون بر اساس ایندکس
                   return (
-                    <li key={index} className="flex items-center gap-2 mb-1 leading-tight ">
+                    <li
+                      key={index}
+                      className="flex items-center gap-2 mb-1 leading-tight "
+                    >
                       <div className="size-4 lg:size-5">
                         <Icon className="text-primary-500 dark:text-primary-300 text-lg" />
                       </div>

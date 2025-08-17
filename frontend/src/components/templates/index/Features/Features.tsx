@@ -1,22 +1,30 @@
-'use client';
+"use client";
 
 import { RiArmchairLine } from "react-icons/ri";
 
 const features = [
   {
-    icon: <RiArmchairLine className="w-10 h-10 text-primary-500 dark:text-white" />,
+    icon: (
+      <RiArmchairLine className="w-10 h-10 text-primary-500 dark:text-white" />
+    ),
     title: "Lorem ipsum dolor sit",
   },
   {
-    icon: <RiArmchairLine className="w-10 h-10 text-primary-500 dark:text-white" />,
+    icon: (
+      <RiArmchairLine className="w-10 h-10 text-primary-500 dark:text-white" />
+    ),
     title: "Dolor sit amet",
   },
   {
-    icon: <RiArmchairLine className="w-10 h-10 text-primary-500 dark:text-white" />,
+    icon: (
+      <RiArmchairLine className="w-10 h-10 text-primary-500 dark:text-white" />
+    ),
     title: "Consectetur adipiscing",
   },
   {
-    icon: <RiArmchairLine className="w-10 h-10 text-primary-500 dark:text-white" />,
+    icon: (
+      <RiArmchairLine className="w-10 h-10 text-primary-500 dark:text-white" />
+    ),
     title: "Eiusmod tempor",
   },
 ];

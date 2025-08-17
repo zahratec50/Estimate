@@ -261,17 +261,11 @@ export default function ProgressSegment({
   isHelpOpen,
   isFirstQuiz,
 }: ProgressSegmentProps) {
-  const {
-    currentStepFirstQuiz,
-    currentStepMainQuiz,
-    isRegistered,
-    userType,
-  } = useAppStore();
+  const { currentStepFirstQuiz, currentStepMainQuiz, isRegistered, userType } =
+    useAppStore();
 
   const currentStep = isFirstQuiz ? currentStepFirstQuiz : currentStepMainQuiz;
-  const totalSteps = isFirstQuiz
-    ? firstQuestion.length
-    : mainQuizData.length;
+  const totalSteps = isFirstQuiz ? firstQuestion.length : mainQuizData.length;
 
   // حالت برای scale انیمیشن مرحله جاری
   const [animatedStep, setAnimatedStep] = useState(currentStep);
@@ -296,7 +290,10 @@ export default function ProgressSegment({
             "absolute top-1/2 left-6 h-1.5 bg-gradient-to-r from-primary-500 to-primary-300 dark:from-secondary-300 dark:to-secondary-200 z-10 transform -translate-y-1/2 rounded-full transition-all duration-500"
           )}
           style={{
-            width: `${((currentStep - 1) / (totalSteps - 1)) * 100}%`,
+            width:
+              currentStep === totalSteps
+                ? "calc(100% - 2.5rem)" // کم کردن فاصله برای حذف دم
+                : `${((currentStep - 1) / (totalSteps - 1)) * 100}%`,
           }}
         />
 
@@ -334,8 +331,6 @@ export default function ProgressSegment({
     </div>
   );
 }
-
-
 
 // 'use client';
 
