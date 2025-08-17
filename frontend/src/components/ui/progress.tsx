@@ -70,7 +70,7 @@ const ProgressSegment = React.memo(
     return (
       <div
         className={clsx(
-          "w-full max-w-[400px] mx-auto px-6 py-4 rounded-lg bg-white dark:bg-secondary-900 transition-all duration-500 ease-in-out",
+          "w-full max-w-[400px] mx-auto py-4 rounded-lg bg-white dark:bg-secondary-900 transition-all duration-500 ease-in-out",
           isHelpOpen && "lg:mr-40 2xl:mr-64"
         )}
       >
