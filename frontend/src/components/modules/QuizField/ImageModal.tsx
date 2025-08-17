@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { ImageOption } from "@/store/useAppStore";
-
+import { showErrorToast } from "../toasts/ErrorToast";
 
 type ImageModalProps = {
   isSelectImage: boolean;
@@ -24,8 +24,8 @@ export default function ImageModal({
   multiple,
   selectedImages,
 }: ImageModalProps) {
-  const [localSelected, setLocalSelected] = useState<ImageOption[]>(selectedImages);
-
+  const [localSelected, setLocalSelected] =
+    useState<ImageOption[]>(selectedImages);
 
   useEffect(() => {
     setLocalSelected(selectedImages);
@@ -46,7 +46,12 @@ export default function ImageModal({
 
   const handleSubmit = () => {
     if (localSelected.length === 0) {
-      alert("لطفاً حداقل یک تصویر انتخاب کنید!");
+      showErrorToast({
+        title: "Selection Required",
+        description: "Please select at least one image!",
+        actionLabel: "OK",
+        onAction: () => {},
+      });
       return;
     }
     console.log("ImageModal handleSubmit:", { selectedImages: localSelected });
@@ -72,20 +77,28 @@ export default function ImageModal({
             stroke="currentColor"
             className="w-6 h-6"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </div>
 
         {/* Title */}
         <div className="py-4">
-          <h3 className="text-2xl font-medium">انتخاب تصویر</h3>
-          <span className="text-gray-500">لطفاً یک گزینه از زیر انتخاب کنید</span>
+          <h3 className="text-2xl font-medium">Select an Image</h3>
+          <span className="text-gray-500">
+            Please choose one of the options
+          </span>
         </div>
 
         {/* Options */}
         <div className="flex flex-wrap justify-center gap-6">
           {questionData.map((option) => {
-            const selected = localSelected.find((o) => o.imageUrl === option.imageUrl);
+            const selected = localSelected.find(
+              (o) => o.imageUrl === option.imageUrl
+            );
             return (
               <div
                 key={option.imageUrl}
@@ -115,17 +128,16 @@ export default function ImageModal({
             onClick={() => setIsSelectImage(false)}
             className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg"
           >
-            بستن
+            Close
           </button>
           <button
             onClick={handleSubmit}
             className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-4 rounded-lg"
           >
-            ثبت
+            Submit
           </button>
         </div>
       </div>
     </div>
   );
 }
-

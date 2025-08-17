@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import ImageModal from "./ImageModal";
 import { useAppStore, ImageOption, QuestionItem } from "@/store/useAppStore";
+import { showErrorToast } from "../toasts/ErrorToast";
 
 type ImageQuestionProps = {
   questionData: QuestionItem;
@@ -19,7 +20,6 @@ export default function ImageQuestion({
   const multiple = questionData.multiple || false;
   const [selectedImages, setSelectedImages] = useState<ImageOption[]>([]);
   const { currentProjectId, isRegistered } = useAppStore();
-
 
   // بارگذاری پاسخ قبلی
   useEffect(() => {
@@ -70,7 +70,12 @@ export default function ImageQuestion({
   // ثبت انتخاب‌ها
   const handleSubmit = (images: ImageOption[]) => {
     if (images.length === 0) {
-      alert("لطفاً حداقل یک تصویر انتخاب کنید!");
+      showErrorToast({
+        title: "Selection Required",
+        description: "Please select at least one image!",
+        actionLabel: "OK",
+        onAction: () => {},
+      });
       return;
     }
 
@@ -130,7 +135,7 @@ export default function ImageQuestion({
         onClick={() => setIsSelectImage(true)}
         className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600"
       >
-        {selectedImages.length > 0 ? "تغییر تصویر" : "انتخاب تصویر"}
+        {selectedImages.length > 0 ? "Change Photo" : "Select Photo"}
       </button>
 
       {isSelectImage && (
@@ -147,4 +152,3 @@ export default function ImageQuestion({
     </div>
   );
 }
-
