@@ -106,12 +106,7 @@ export const useAppStore = create<AppState>()(
       setCurrentStepMainQuiz: (step) => set({ currentStepMainQuiz: step }),
 
       setAnswer: (question, answer, isFirstQuiz) => {
-        console.log("setAnswer called:", {
-          question: question.title,
-          answer,
-          isFirstQuiz,
-        });
-        if (isFirstQuiz) {
+        if(isFirstQuiz) {
           const existing = get().preQuizAnswers.find(
             (a) => a.question === question.title
           );
@@ -177,7 +172,7 @@ export const useAppStore = create<AppState>()(
           );
 
           set({ projects: updatedProjects });
-          console.log("Updated projects:", updatedProjects);
+          
         }
       },
 
@@ -199,7 +194,6 @@ export const useAppStore = create<AppState>()(
           ),
           mainQuizAnswersTemp: [],
         });
-        console.log("Transferred temp answers to project:", updatedProject);
       },
 
       addProject: (name: string) => {
@@ -211,7 +205,7 @@ export const useAppStore = create<AppState>()(
           currentStepMainQuiz: 1,
         }));
         get().transferTempAnswersToProject(id);
-        console.log("New project added:", { id, name });
+        
       },
 
       removeProject: (id: string) => {
@@ -270,13 +264,6 @@ export const useAppStore = create<AppState>()(
         }
 
         if (!answerEntry || !answerEntry.answer) {
-          console.log("No answer found for question:", {
-            question: question.title,
-            isFirstQuiz,
-            store: isFirstQuiz
-              ? get().preQuizAnswers
-              : project?.mainQuizAnswers || get().mainQuizAnswersTemp,
-          });
           return false;
         }
 
@@ -312,15 +299,6 @@ export const useAppStore = create<AppState>()(
 
           const minSelected = question.validation.minSelected ?? 1;
           const maxSelected = question.validation.maxSelected ?? Infinity;
-
-          console.log("Image-choice validation:", {
-            question: question.title,
-            answers,
-            minSelected,
-            maxSelected,
-            isValid:
-              answers.length >= minSelected && answers.length <= maxSelected,
-          });
 
           return answers.length >= minSelected && answers.length <= maxSelected;
         }

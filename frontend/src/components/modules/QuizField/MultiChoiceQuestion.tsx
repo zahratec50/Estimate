@@ -1,102 +1,148 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import clsx from "clsx";
 import { QuestionItem } from "@/store/useAppStore";
 
 interface MultiChoiceQuestionProps {
   questionData: QuestionItem;
-  selectedAnswer: string | string[] | null;
-  setAnswer: (answer: string[]) => void; // فقط array از string
+  selectedAnswer: string[] | null; // پاسخ فعلی از استور
+  setAnswer: (answer: string[]) => void; // ذخیره مستقیم در Zustand
 }
+
+type ImageOption = {
+  label: string;
+  imageUrl?: string;
+};
+
+// کامپوننت جداگانه برای هر گزینه
+const OptionButton = React.memo(function OptionButton({
+  text,
+  isSelected,
+  onClick,
+  imageUrl,
+}: {
+  text: string;
+  isSelected: boolean;
+  onClick: () => void;
+  imageUrl?: string;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={clsx(
+        "relative p-6 rounded-lg border transition-all duration-200 text-left",
+        {
+          "border-primary-500 bg-primary-50 dark:border-secondary-500 dark:bg-secondary-800 shadow-lg":
+            isSelected,
+          "border-neutral-300 hover:bg-primary-50 dark:border-secondary-500 dark:hover:bg-secondary-800 dark:bg-secondary-900":
+            !isSelected,
+        }
+      )}
+    >
+      {isSelected && (
+        <span className="absolute -top-3 right-4 p-1 bg-primary-500 dark:bg-secondary-500 dark:text-secondary-900 text-white rounded-lg">
+          <IoCheckmarkOutline />
+        </span>
+      )}
+      {imageUrl && (
+        <img
+          src={imageUrl}
+          alt={text}
+          className="w-full h-32 object-cover rounded mb-2"
+        />
+      )}
+      <h3 className="text-lg sm:text-xl text-black-50 dark:text-white font-medium">
+        {text}
+      </h3>
+    </button>
+  );
+});
 
 const MultiChoiceQuestion = React.memo(function MultiChoiceQuestion({
   questionData,
   selectedAnswer,
   setAnswer,
 }: MultiChoiceQuestionProps) {
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [selectionError, setSelectionError] = useState("");
+  const [showAllOptions, setShowAllOptions] = useState(false);
 
-  // بارگذاری پاسخ قبلی
-  useEffect(() => {
-    if (questionData.type === "multi-choice" && selectedAnswer) {
-      setSelectedOptions(Array.isArray(selectedAnswer) ? selectedAnswer : []);
-    } else {
-      setSelectedOptions([]);
-    }
-  }, [selectedAnswer, questionData]);
+  // پاسخ فعلی از Zustand یا prop گرفته می‌شود
+  const selectedOptions = selectedAnswer ?? [];
 
   // اعتبارسنجی انتخاب‌ها
   useEffect(() => {
-    const min = questionData.validation.minSelected ?? 0;
-    const max = questionData.validation.maxSelected ?? Infinity;
+    const { minSelected = 0, maxSelected = Infinity, required, errorMessage } =
+      questionData.validation;
     const length = selectedOptions.length;
 
     let error = "";
-    if (questionData.validation.required && length === 0) {
-      error = questionData.validation.errorMessage;
-    } else if (length < min) {
+    if (required && length === 0) {
+      error = errorMessage;
+    } else if (length < minSelected) {
       error =
-        questionData.validation.errorMessage ||
-        `لطفاً حداقل ${min} گزینه انتخاب کنید.`;
-    } else if (length > max) {
+        errorMessage || `لطفاً حداقل ${minSelected} گزینه انتخاب کنید.`;
+    } else if (length > maxSelected) {
       error =
-        questionData.validation.errorMessage ||
-        `لطفاً حداکثر ${max} گزینه انتخاب کنید.`;
+        errorMessage || `لطفاً حداکثر ${maxSelected} گزینه انتخاب کنید.`;
     }
     setSelectionError(error);
   }, [selectedOptions, questionData.validation]);
 
-  const handleOptionClick = useCallback(
-    (option: string) => {
-      const value = typeof option === "string" ? option : option;
-      setSelectedOptions((prev) => {
-        const newOptions = prev.includes(option)
-          ? prev.filter((opt) => opt !== option)
-          : [...prev, option];
-        setAnswer(newOptions); // ذخیره پاسخ در استور یا والد
-        return newOptions;
-      });
-    },
-    [setAnswer]
-  );
+  // کلیک روی گزینه
+  const handleOptionClick = (text: string) => {
+    const newOptions = selectedOptions.includes(text)
+      ? selectedOptions.filter((opt) => opt !== text)
+      : [...selectedOptions, text];
+    setAnswer(newOptions); // مستقیم در Zustand ذخیره شود
+  };
+
+  const initialOptions = questionData.options.slice(0, 4);
+  const remainingOptions = questionData.options.slice(4);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 sm:pb-[80px]">
-      {questionData.options.map((option, index) => {
-        const isSelected = selectedOptions.includes(option as string);
+      {initialOptions.map((option, index) => {
+        const text = typeof option === "string" ? option : option.label;
+        const imageUrl = typeof option === "string" ? undefined : option.imageUrl;
         return (
-          <label
+          <OptionButton
             key={index}
-            className={clsx(
-              "relative p-6 rounded-lg border transition-all duration-200 flex items-center cursor-pointer",
-              {
-                "border-primary-500 bg-primary-50 dark:border-secondary-500 dark:bg-secondary-800 shadow-lg":
-                  isSelected,
-                "border-neutral-300 hover:bg-primary-50 dark:border-secondary-500 dark:hover:bg-secondary-800 dark:bg-secondary-900":
-                  !isSelected,
-              }
-            )}
-          >
-            <input
-              type="checkbox"
-              checked={isSelected}
-              onChange={() => handleOptionClick(option as string)}
-              className="mr-2"
-            />
-            <h3 className="text-lg sm:text-xl text-black-50 dark:text-white font-medium">
-              {option as string}
-            </h3>
-            {isSelected && (
-              <span className="absolute -top-3 right-4 p-1 bg-primary-500 dark:bg-secondary-500 dark:text-secondary-900 text-white rounded-lg">
-                <IoCheckmarkOutline />
-              </span>
-            )}
-          </label>
+            text={text}
+            imageUrl={imageUrl}
+            isSelected={selectedOptions.includes(text)}
+            onClick={() => handleOptionClick(text)}
+          />
         );
       })}
+
+      {showAllOptions &&
+        remainingOptions.map((option, index) => {
+          const text = typeof option === "string" ? option : option.label;
+          const imageUrl = typeof option === "string" ? undefined : option.imageUrl;
+          return (
+            <OptionButton
+              key={index + 4}
+              text={text}
+              imageUrl={imageUrl}
+              isSelected={selectedOptions.includes(text)}
+              onClick={() => handleOptionClick(text)}
+            />
+          );
+        })}
+
+      {!showAllOptions && remainingOptions.length > 0 && (
+        <div className="col-span-full text-center">
+          <button
+            onClick={() => setShowAllOptions(true)}
+            className="py-3 px-7 text-center text-primary-500 border border-dashed border-neutral-400 rounded hover:bg-primary-50 dark:border-secondary-500 dark:text-secondary-500 dark:hover:bg-secondary-800"
+          >
+            More Options
+          </button>
+        </div>
+      )}
+
       {selectionError && (
         <p className="text-red-500 text-sm mt-1 col-span-full">{selectionError}</p>
       )}
