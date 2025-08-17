@@ -87,7 +87,7 @@ const DigitalCountdown: React.FC<DigitalCountdownProps> = ({
   const formatTime = (num: number) => num.toString().padStart(2, "0");
 
   return (
-    <div className="flex justify-center items-center text-xl font-mono p-2 rounded-lg">
+    <div className="flex justify-center items-center text-sm md:text-xl font-mono p-2">
       <span>{formatTime(hours)}</span>
       <span>:</span>
       <span>{formatTime(minutes)}</span>

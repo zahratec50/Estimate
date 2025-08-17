@@ -28,7 +28,7 @@ const TopbarBase = ({
         "w-full relative z-30 font-roboto",
         isHome
           ? "px-2 py-2 flex justify-between items-center"
-          : "px-2 py-3 sm:py-0 sm:px-0 flex justify-between items-center dark:bg-secondary-900 bg-white"
+          : "px-2 py-3 sm:py-0 sm:px-0 flex justify-between items-center dark:bg-secondary-900 bg-black-50 md:bg-white"
       )}
     >
       {/* Left: Menu + Logo */}
@@ -55,7 +55,7 @@ const TopbarBase = ({
         </button>
 
         {/* Logos */}
-        <Image
+        {/* <Image
           src="/images/Frame 20.png"
           alt="Estiper logo"
           width={isHome ? 80 : 48}
@@ -64,7 +64,7 @@ const TopbarBase = ({
             "block dark:hidden",
             isHome ? "w-11 h-11 md:w-16 md:h-16" : "w-10 h-10 block sm:hidden"
           )}
-        />
+        /> */}
         <Image
           src="/images/Frame 20.png"
           alt="Estiper logo dark"
@@ -111,7 +111,7 @@ const TopbarBase = ({
           </div>
         ) : (
           <div className="w-full">
-            <div className="w-full flex items-center justify-end space-x-3 md:space-x-6 dark:text-white text-secondary-700 text-sm md:text-base font-medium border-b-2 border-neutral-300 p-2">
+            <div className="w-full flex items-center justify-end space-x-3 md:space-x-6 dark:text-white text-white md:text-secondary-700 text-sm md:text-base font-medium md:border-b-2 md:border-neutral-300 p-2">
               <span className="hidden md:flex items-center cursor-pointer">
                 <IoNotificationsOutline className="w-5 h-5 mr-1" />
                 Notifications
