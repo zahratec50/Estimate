@@ -11,7 +11,7 @@ type TopbarActionsProps = {
 
 function TopbarActions({ isFirstQuiz, isHelpOpen }: TopbarActionsProps) {
   return (
-    <div className="flex items-center gap-5 py-2 px-5 border-b border-neutral-300">
+    <div className="flex items-center gap-5 px-5 border-b border-neutral-300">
       <ThemeSwitch />
       <div className="w-95">
         <ProgressSegment isFirstQuiz={isFirstQuiz} isHelpOpen={isHelpOpen} />
