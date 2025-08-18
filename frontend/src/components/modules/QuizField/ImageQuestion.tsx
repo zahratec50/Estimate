@@ -11,50 +11,29 @@ type ImageQuestionProps = {
   setAnswer: (answer: string | string[]) => void; // پراپ برای ذخیره پاسخ
 };
 
-export default function ImageQuestion({
-  questionData,
-  isFirstQuiz,
-  setAnswer,
-}: ImageQuestionProps) {
+export default function ImageQuestion({ questionData, isFirstQuiz, setAnswer }: ImageQuestionProps) {
   const [isSelectImage, setIsSelectImage] = useState(false);
   const multiple = questionData.multiple || false;
   const [selectedImages, setSelectedImages] = useState<ImageOption[]>([]);
   const { currentProjectId, isRegistered } = useAppStore();
 
-  // بارگذاری پاسخ قبلی
+  // بارگذاری پاسخ قبلی به صورت آرایه
   useEffect(() => {
-    const storedAnswers =
-      isRegistered && currentProjectId
-        ? (() => {
-            const project = useAppStore
-              .getState()
-              .projects.find((p) => p.id === currentProjectId);
-            return (
-              project?.mainQuizAnswers
-                .filter((a) => a.question === questionData.title)
-                .flatMap((a) =>
-                  (questionData.options as ImageOption[]).filter((o) =>
-                    a.answer.includes(o.imageUrl)
-                  )
-                ) || []
-            );
-          })()
-        : useAppStore
-            .getState()
-            .preQuizAnswers.filter((a) => a.question === questionData.title)
-            .flatMap((a) =>
-              (questionData.options as ImageOption[]).filter((o) =>
-                a.answer.includes(o.imageUrl)
-              )
-            );
+    const storedAnswers: ImageOption[] = (() => {
+      const allAnswers = isRegistered && currentProjectId
+        ? useAppStore.getState().projects.find((p) => p.id === currentProjectId)?.mainQuizAnswers || []
+        : useAppStore.getState().preQuizAnswers;
 
-    if (storedAnswers.length) {
-      setSelectedImages(storedAnswers);
-      console.log("Loaded stored answers:", storedAnswers);
-    }
+      const answerEntry = allAnswers.find((a) => a.question === questionData.title);
+      if (!answerEntry || !answerEntry.answer) return [];
+
+      const selectedUrls = Array.isArray(answerEntry.answer) ? answerEntry.answer : [answerEntry.answer];
+      return (questionData.options as ImageOption[]).filter((o) => selectedUrls.includes(o.imageUrl));
+    })();
+
+    if (storedAnswers.length) setSelectedImages(storedAnswers);
   }, [questionData, currentProjectId, isRegistered]);
 
-  // انتخاب تصویر
   const handleSelect = (option: ImageOption) => {
     if (multiple) {
       setSelectedImages((prev) => {
@@ -67,46 +46,15 @@ export default function ImageQuestion({
     }
   };
 
-  // ثبت انتخاب‌ها
   const handleSubmit = (images: ImageOption[]) => {
     if (images.length === 0) {
-      showErrorToast({
-        title: "Selection Required",
-        description: "Please select at least one image!",
-        actionLabel: "OK",
-        onAction: () => {},
-      });
+      showErrorToast({ title: "Selection Required", description: "Please select at least one image!", actionLabel: "OK", onAction: () => {} });
       return;
     }
 
-    const answerToSave = multiple
-      ? images.map((o) => o.imageUrl).join(",")
-      : images[0]?.imageUrl || "";
-
-    if (answerToSave) {
-      console.log("Saving answer:", {
-        question: questionData.title,
-        answer: answerToSave,
-        isFirstQuiz,
-        currentProjectId,
-      });
-      setAnswer(answerToSave); // استفاده از پراپ setAnswer
-      setTimeout(() => {
-        const updatedStore = isRegistered
-          ? useAppStore
-              .getState()
-              .projects.find((p) => p.id === currentProjectId)?.mainQuizAnswers
-          : useAppStore.getState().preQuizAnswers;
-        console.log("Answer saved:", {
-          question: questionData.title,
-          answer: answerToSave,
-          isFirstQuiz,
-          storeState: updatedStore,
-          currentProjectId,
-        });
-      }, 0);
-    }
-
+    // ذخیره به صورت آرایه همیشه
+    const answerToSave: string[] = images.map((o) => o.imageUrl);
+    setAnswer(answerToSave);
     setSelectedImages(images);
     setIsSelectImage(false);
   };
@@ -116,25 +64,15 @@ export default function ImageQuestion({
       {selectedImages.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {selectedImages.map((img) => (
-            <div
-              key={img.imageUrl}
-              className="flex items-center gap-2 bg-primary-50 border border-primary-500 rounded p-1"
-            >
-              <img
-                src={img.imageUrl}
-                alt={img.label}
-                className="w-16 h-16 rounded"
-              />
+            <div key={img.imageUrl} className="flex items-center gap-2 bg-primary-50 border border-primary-500 rounded p-1">
+              <img src={img.imageUrl} alt={img.label} className="w-16 h-16 rounded" />
               <span className="text-lg">{img.label}</span>
             </div>
           ))}
         </div>
       )}
 
-      <button
-        onClick={() => setIsSelectImage(true)}
-        className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600"
-      >
+      <button onClick={() => setIsSelectImage(true)} className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-300">
         {selectedImages.length > 0 ? "Change Photo" : "Select Photo"}
       </button>
 

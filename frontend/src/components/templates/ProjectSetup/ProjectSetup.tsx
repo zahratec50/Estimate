@@ -64,6 +64,7 @@ const ProjectSetup: React.FC = () => {
   const handleSelect = (id: string) => {
     // Mark the selected project as the current active project
     setCurrentProjectId(id);
+    router.push(`/dashboard/project/${id}`);
   };
 
   return (
@@ -100,7 +101,8 @@ const ProjectSetup: React.FC = () => {
           {[...projects].reverse().map((project) => (
             <div
               key={project.id}
-              className={`flex justify-between items-center p-3 rounded-lg border ${
+              onClick={() => handleSelect(project.id)}
+              className={`flex justify-between items-center p-3 rounded-lg border cursor-pointer ${
                 currentProjectId === project.id
                   ? "border-gray-400 bg-neutral-100"
                   : "border-gray-200"
@@ -110,7 +112,10 @@ const ProjectSetup: React.FC = () => {
               <div className="flex gap-3">
                 {/* Edit project button */}
                 <button
-                  onClick={() => handleEdit(project)}
+                  onClick={(e) => {
+                    e.stopPropagation(); // جلوگیری از trigger شدن handleSelect
+                    handleEdit(project);
+                  }}
                   className="text-neutral-300 hover:text-neutral-400"
                   title="Edit"
                 >
@@ -118,7 +123,10 @@ const ProjectSetup: React.FC = () => {
                 </button>
                 {/* Delete project button */}
                 <button
-                  onClick={() => handleDelete(project.id)}
+                  onClick={(e) => {
+                    e.stopPropagation(); // جلوگیری از trigger شدن handleSelect
+                    handleDelete(project.id);
+                  }}
                   className="text-neutral-300 hover:text-neutral-400"
                   title="Delete"
                 >

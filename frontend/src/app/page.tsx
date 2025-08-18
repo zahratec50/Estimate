@@ -1,9 +1,5 @@
 import Header from "@/components/templates/index/Header/Header";
 import React from "react";
-import AuthForm from "@/components/templates/auth/AuthForm";
-import AuthWrapper from "@/components/templates/auth/AuthWrapper";
-import YourQuestions from "@/components/templates/index/YourQuestions/YourQuestions";
-import Description from "@/components/templates/index/Description/Description";
 import Features from "@/components/templates/index/Features/Features";
 import Start from "@/components/templates/index/Start/Start";
 import Footer from "@/components/modules/Footer/Footer";
@@ -21,7 +17,6 @@ export default function HomePage() {
       <div className="w-full max-w-6xl flex flex-col gap-8 space-y-10 lg:space-y-20 pb-5 px-4 lg:px-0">
         <FirstVideo />
         <Features />
-        {/* <YourQuestions /> */}
         <div className="flex flex-col items-center justify-between gap-8 space-y-5 sm:space-y-20">
           {feature.sections
             .slice(0, 6)
@@ -36,8 +31,6 @@ export default function HomePage() {
                 />
               ))}
           </div>
-      
-      {/* <Description /> */}
       <Start />
       <Footer />
       </div>
