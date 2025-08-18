@@ -8,6 +8,7 @@ import {
   IoClose,
   IoExitOutline,
 } from "react-icons/io5";
+import { FaHourglassStart } from "react-icons/fa6";
 import clsx from "clsx";
 import { useAppStore } from "@/store/useAppStore";
 
@@ -75,6 +76,13 @@ const Sidebar = ({
           >
             <IoClose className="w-6 h-6" />
           </button>
+        </div>
+
+        <div className="space-y-4 dark:text-secondary-200 text-white font-medium pl-1">
+          <Link href='/dashboard' className="flex items-center gap-2 hover:text-primary-100">
+            <FaHourglassStart className="size-5" />
+            Start
+          </Link>
         </div>
 
         {/* Nav Links */}
