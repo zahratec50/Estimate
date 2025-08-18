@@ -66,7 +66,7 @@ export interface AppState {
     answer: string | string[],
     isFirstQuiz: boolean
   ) => void;
-  addProject: (name: string) => void;
+  addProject: (name: string) => string;
   removeProject: (id: string) => void;
   transferTempAnswersToProject: (projectId: string) => void;
   getCurrentAnswer: (
@@ -205,6 +205,8 @@ export const useAppStore = create<AppState>()(
           currentStepMainQuiz: 1,
         }));
         get().transferTempAnswersToProject(id);
+
+        return id;
         
       },
 

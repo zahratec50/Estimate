@@ -55,16 +55,19 @@ const TopbarBase = ({
         </button>
 
         {/* Logos */}
-        {/* <Image
-          src="/images/Frame 20.png"
-          alt="Estiper logo"
-          width={isHome ? 80 : 48}
-          height={isHome ? 80 : 48}
-          className={clsx(
-            "block dark:hidden",
-            isHome ? "w-11 h-11 md:w-16 md:h-16" : "w-10 h-10 block sm:hidden"
-          )}
-        /> */}
+        {isHome && (
+          <Image
+            src="/images/Frame 20.png"
+            alt="Estiper logo"
+            width={isHome ? 80 : 48}
+            height={isHome ? 80 : 48}
+            className={clsx(
+              "block dark:hidden",
+              isHome ? "w-11 h-11 md:w-16 md:h-16" : "w-10 h-10 block sm:hidden"
+            )}
+          />
+        )}
+
         <Image
           src="/images/Frame 20.png"
           alt="Estiper logo dark"
