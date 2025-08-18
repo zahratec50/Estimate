@@ -6,6 +6,7 @@ import { IoNotificationsOutline, IoSearchOutline } from "react-icons/io5";
 import { TbHelpOctagon } from "react-icons/tb";
 import clsx from "clsx";
 import React from "react";
+import TopbarUserInfo from "@/components/templates/Profile/TopbarUserInfo";
 
 interface TopbarProps {
   onMenuClick: () => void;
@@ -115,6 +116,7 @@ const TopbarBase = ({
         ) : (
           <div className="w-full">
             <div className="w-full flex items-center justify-end space-x-3 md:space-x-6 dark:text-white text-white md:text-secondary-700 text-sm md:text-base font-medium md:border-b-2 md:border-neutral-300 p-2">
+              
               <span className="hidden md:flex items-center cursor-pointer">
                 <IoNotificationsOutline className="w-5 h-5 mr-1" />
                 Notifications
@@ -130,6 +132,7 @@ const TopbarBase = ({
                 <TbHelpOctagon className="w-5 h-5 mr-1" />
                 {!isHelpOpen && "Help"}
               </span>
+              <TopbarUserInfo />
             </div>
           </div>
         )}

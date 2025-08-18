@@ -81,6 +81,9 @@ const Sidebar = ({
 
         {isRegistered && (
           <div className="space-y-4 dark:text-secondary-200 text-white font-medium pl-1">
+            <Link href='/dashboard/profile'>
+              Profile
+            </Link>
             <Link
               href="/dashboard/projectStart"
               className="flex items-center gap-2 hover:text-primary-100"

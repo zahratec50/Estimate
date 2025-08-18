@@ -60,6 +60,14 @@ export interface AppState {
   isSidebarOpen: boolean;
   isHelpOpen: boolean;
   loginMethod: "manual" | "google" | "apple" | null;
+  userName: string;
+  userEmail: string;
+  userAvatar: string;
+
+  setUserAvatar: (avatar: string) => void;
+
+  setUserName: (name: string) => void;
+  setUserEmail: (email: string) => void;
 
   setCurrentStepFirstQuiz: (step: number) => void;
   setCurrentStepMainQuiz: (step: number) => void;
@@ -102,6 +110,14 @@ export const useAppStore = create<AppState>()(
       isSidebarOpen: false,
       isHelpOpen: false,
       loginMethod: null,
+      userName: "",
+      userEmail: "",
+      userAvatar: "",
+      
+      setUserAvatar: (avatar: string) => set({ userAvatar: avatar }),
+
+      setUserName: (name: string) => set({ userName: name }),
+      setUserEmail: (email: string) => set({ userEmail: email }),
 
       setLoginMethod: (method) => set({ loginMethod: method }),
       setCurrentStepFirstQuiz: (step) => set({ currentStepFirstQuiz: step }),
