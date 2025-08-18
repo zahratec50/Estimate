@@ -25,6 +25,7 @@ const detectUserType = (
 export default function UserDashboard({ children, isFirstQuiz }: { children: React.ReactNode; isFirstQuiz: boolean }) {
   const {
     isRegistered,
+    setRegistered,
     preQuizAnswers,
     setUserType,
     isSidebarOpen,
@@ -72,10 +73,11 @@ export default function UserDashboard({ children, isFirstQuiz }: { children: Rea
   }, [isRegistered, preQuizAnswers, setUserType]);
 
   // Sync with server if already registered
-
+  // ! test you have to change it
   useEffect(() => {
-    if (!isRegistered) return;
-
+    // if (!isRegistered) return;
+    // for test
+    setRegistered(true)
     const isLastQuestion = isFirstQuiz
       ? currentStepFirstQuiz === firstQuestion.length
       : currentStepMainQuiz === mainQuizData.length;
@@ -100,6 +102,7 @@ export default function UserDashboard({ children, isFirstQuiz }: { children: Rea
         isOpen={isSidebarOpen}
         isHelpOpen={isHelpOpen}
         onClose={toggleSidebar}
+        
       />
 
       {/* Main Layout */}

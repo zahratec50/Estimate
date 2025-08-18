@@ -25,6 +25,7 @@ const Sidebar = ({
 }: SidebarProps) => {
   const isSidebarOpen = useAppStore((state) => state.isSidebarOpen);
   const toggleSidebar = useAppStore((state) => state.toggleSidebar);
+  const isRegistered = useAppStore((state) => state.isRegistered);
 
   // اگر props داده شده بود از آن استفاده کن، در غیر این صورت از استور
   const isOpen = propsIsOpen ?? isSidebarOpen;
@@ -78,12 +79,17 @@ const Sidebar = ({
           </button>
         </div>
 
-        <div className="space-y-4 dark:text-secondary-200 text-white font-medium pl-1">
-          <Link href='/dashboard' className="flex items-center gap-2 hover:text-primary-100">
-            <FaHourglassStart className="size-5" />
-            Start
-          </Link>
-        </div>
+        {isRegistered && (
+          <div className="space-y-4 dark:text-secondary-200 text-white font-medium pl-1">
+            <Link
+              href="/dashboard/projectStart"
+              className="flex items-center gap-2 hover:text-primary-100"
+            >
+              <FaHourglassStart className="size-5" />
+              Start
+            </Link>
+          </div>
+        )}
 
         {/* Nav Links */}
         <nav className="space-y-4 dark:text-secondary-200 text-white font-medium pl-1">
