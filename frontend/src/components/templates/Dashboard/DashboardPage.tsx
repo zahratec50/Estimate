@@ -145,7 +145,7 @@ export default function DashboardPage() {
             variants={containerVariants}
             initial="hidden"
             animate="show"
-            className="grid grid-cols-2 lg:grid-cols-3 gap-6"
+            className="w-full flex items-start gap-6"
           >
             <ProjectsGrid projects={sortedProjects} />
           </motion.div>

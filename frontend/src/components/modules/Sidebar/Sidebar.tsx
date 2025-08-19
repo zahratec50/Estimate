@@ -96,6 +96,9 @@ const Sidebar = ({
             <Link href='/dashboard/history'className="hover:text-primary-100">
               History
             </Link>
+            <Link href='/subscription'className="hover:text-primary-100">
+              Subscription
+            </Link>
           </div>
         )}
 
