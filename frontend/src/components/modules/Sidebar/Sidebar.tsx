@@ -37,7 +37,7 @@ const Sidebar = ({
       <div
         onClick={handleClose}
         className={clsx(
-          "fixed inset-0 bg-black/40 z-40 transition-opacity duration-300 md:hidden",
+          "fixed inset-0 bg-black/40 z-40 transition-opacity duration-300 lg:hidden",
           {
             "opacity-100 pointer-events-auto": isOpen,
             "opacity-0 pointer-events-none": !isOpen,
@@ -80,16 +80,21 @@ const Sidebar = ({
         </div>
 
         {isRegistered && (
-          <div className="space-y-4 dark:text-secondary-200 text-white font-medium pl-1">
-            <Link href='/dashboard/profile'>
+          <div className="flex flex-col space-y-4 dark:text-secondary-200 text-white font-medium pl-1">
+            <Link href='/dashboard/profile'className="hover:text-primary-100">
               Profile
+            </Link>
+            <Link href='/dashboard'className="hover:text-primary-100">
+              Dashboard
             </Link>
             <Link
               href="/dashboard/projectStart"
-              className="flex items-center gap-2 hover:text-primary-100"
+              className="hover:text-primary-100"
             >
-              <FaHourglassStart className="size-5" />
               Start
+            </Link>
+            <Link href='/dashboard/history'className="hover:text-primary-100">
+              History
             </Link>
           </div>
         )}

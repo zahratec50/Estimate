@@ -11,7 +11,7 @@ interface CompletionModalProps {
 
 const CompletionModalBase = ({ handleRegister }: CompletionModalProps) => {
   const router = useRouter();
-  const [secondsLeft, setSecondsLeft] = useState(5);
+  const [secondsLeft, setSecondsLeft] = useState(3);
 
   // ✅ Countdown logic
   useEffect(() => {

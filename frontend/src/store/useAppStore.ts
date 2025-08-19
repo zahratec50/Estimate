@@ -16,6 +16,7 @@ export interface Project {
   mainQuizAnswers: Answer[];
   completed?: boolean;
   description?: string;
+  updatedAt?: string;
 }
 
 export interface ImageOption {

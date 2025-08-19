@@ -8,7 +8,7 @@ const TopbarUserInfo = () => {
   if (!isRegistered) return null;
 
   return (
-    <Link href="/profile" className="flex items-center gap-2 cursor-pointer">
+    <Link href="/dashboard/profile" className="flex items-center gap-2 cursor-pointer">
       <Avatar className="w-10 h-10">
         {userAvatar ? (
           <AvatarImage src={userAvatar} alt={userName} />

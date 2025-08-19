@@ -109,7 +109,7 @@ export default function UserDashboard({ children, isFirstQuiz }: { children: Rea
       <div
         className={clsx(
           "flex flex-col flex-1 transition-all duration-300",
-          isHelpOpen ? "lg:mr-[320px]" : "md:ml-64"
+          isHelpOpen ? "lg:mr-[305px]" : "md:ml-64"
         )}
       >
         {/* Topbar */}
@@ -125,7 +125,7 @@ export default function UserDashboard({ children, isFirstQuiz }: { children: Rea
             "flex-grow py-5 sm:py-6",
             isHelpOpen
               ? "w-[70%] px-0 md:px-5 lg:pl-10 xl:px-10 sm:ml-72"
-              : "w-full md:px-10 lg:px-20 xl:px-40"
+              : "w-full md:px-0 lg:px-20 xl:px-32"
           )}
         >
           {/* <ProgressSegment isHelpOpen={isHelpOpen} isFirstQuiz={isFirstQuiz} /> */}
