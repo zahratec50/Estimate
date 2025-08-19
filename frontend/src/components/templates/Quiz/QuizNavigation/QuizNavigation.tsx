@@ -128,14 +128,15 @@ export default function QuizNavigation({
     setLoading(true);
     try {
       const apiPath = isFirstQuiz ? "/api/saveFirstQuiz" : "/api/saveMainQuiz";
-      const res = await axios.post(apiPath, payload);
+      router.push('/subscription')
+      // const res = await axios.post(apiPath, payload);
 
-      if (res.data.success) {
-        setShowModal(true);
-        clearQuizData();
-      } else {
-        alert("خطا در داده‌ها: " + res.data.message);
-      }
+      // if (res.data.success) {
+      //   setShowModal(true);
+      //   clearQuizData();
+      // } else {
+      //   alert("خطا در داده‌ها: " + res.data.message);
+      // }
     } catch (err) {
       console.error("خطا در ارسال به API:", err);
       alert("خطا در ارسال داده‌ها، لطفاً دوباره تلاش کنید.");
@@ -170,7 +171,7 @@ export default function QuizNavigation({
 
   const handleRegister = useCallback(() => {
     setRegistered(true);
-    router.push("/dashboard");
+    router.push("/subscription");
     setShowModal(false);
   }, [setRegistered, router]);
 

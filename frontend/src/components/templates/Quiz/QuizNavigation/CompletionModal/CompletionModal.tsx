@@ -17,7 +17,7 @@ const CompletionModalBase = ({ handleRegister }: CompletionModalProps) => {
   useEffect(() => {
     if (secondsLeft <= 0) {
       handleRegister(); // callback parent
-      router.push("/dashboard"); // navigate once
+      router.push("/subscription"); // navigate once
       return;
     }
 

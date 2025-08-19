@@ -116,13 +116,10 @@ export default function DashboardPage() {
         <h1 className="text-2xl sm:text-3xl font-bold">Dashboard</h1>
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
           <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 w-full sm:w-auto">
-            <Link href="/dashboard/projectStart">
-              + Start New Estimate
-            </Link>
-            
+            <Link href="/dashboard/projectStart">+ Start New Estimate</Link>
           </button>
           <button className="border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 w-full sm:w-auto">
-            <Link href='/dashboard/history'>View History</Link>
+            <Link href="/dashboard/history">View History</Link>
           </button>
         </div>
       </div>
@@ -142,9 +139,6 @@ export default function DashboardPage() {
         {sortedProjects.length === 0 ? (
           <div className="text-center text-gray-500 py-10 bg-gray-50 dark:bg-gray-800 rounded-lg shadow">
             <p>No projects yet. Start your first estimate!</p>
-            <button className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-              Start New Estimate
-            </button>
           </div>
         ) : (
           <motion.div
@@ -162,7 +156,9 @@ export default function DashboardPage() {
       <section>
         <h2 className="text-2xl font-semibold mb-4">Recent Activity</h2>
         {recentActivities.length === 0 ? (
-          <p className="text-gray-500">No recent activity.</p>
+          <div className="text-center text-gray-500 py-10 bg-gray-50 dark:bg-gray-800 rounded-lg shadow">
+            <p className="text-gray-500">No recent activity.</p>
+          </div>
         ) : (
           <motion.div
             variants={containerVariants}

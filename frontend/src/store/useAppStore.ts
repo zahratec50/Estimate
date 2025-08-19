@@ -1,9 +1,18 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axios from "axios";
+import { showErrorToast } from "@/components/modules/toasts/ErrorToast";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 const usPhoneRegex = /^(?:\+1\s?)?(?:\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}$/;
+
+export type PlanId = "basic" | "pro" | "enterprise";
+
+interface SubscriptionState {
+  subscribedPlan: PlanId | null;
+  subscribePlan: (plan: PlanId) => void;
+  cancelSubscription: () => void;
+}
 
 export interface Answer {
   question: string;
@@ -64,6 +73,11 @@ export interface AppState {
   userName: string;
   userEmail: string;
   userAvatar: string;
+  subscribedPlan: PlanId | null; // پلان فعلی کاربر
+  subscriptionLimits: { [key in PlanId]: number }; // محدودیت پروژه‌ها بر اساس پلان
+  
+  subscribePlan: (plan: PlanId) => void;
+  cancelSubscription: () => void;
 
   setUserAvatar: (avatar: string) => void;
 
@@ -114,7 +128,18 @@ export const useAppStore = create<AppState>()(
       userName: "",
       userEmail: "",
       userAvatar: "",
-      
+      subscribedPlan: null,
+      subscriptionLimits: { basic: 3, pro: 5, enterprise: Infinity },
+
+      subscribePlan: (plan: PlanId) => {
+        set({ subscribedPlan: plan });
+        // می‌تونی اینجا dailyProjectCount و lastProjectDate رو هم ریست کنی اگر لازم باشه
+      },
+
+      cancelSubscription: () => {
+        set({ subscribedPlan: null });
+      },
+
       setUserAvatar: (avatar: string) => set({ userAvatar: avatar }),
 
       setUserName: (name: string) => set({ userName: name }),
@@ -234,6 +259,17 @@ export const useAppStore = create<AppState>()(
       },
 
       addProject: (name: string) => {
+        const plan = get().subscribedPlan ?? "basic";
+        const limit = get().subscriptionLimits[plan];
+
+        if (get().projects.length >= limit) {
+          // Show error toast using the custom toast component
+          showErrorToast({
+            title: "Project Limit Reached",
+            description: `You have reached the maximum number of projects for the ${plan} plan (${limit})`,
+          });
+          return ""; // Prevent project creation
+        }
         const id = crypto.randomUUID();
         const newProject: Project = { id, name, mainQuizAnswers: [] };
         set((state) => ({
