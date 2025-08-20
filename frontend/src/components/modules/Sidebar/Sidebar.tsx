@@ -8,7 +8,6 @@ import {
   IoClose,
   IoExitOutline,
 } from "react-icons/io5";
-import { FaHourglassStart } from "react-icons/fa6";
 import clsx from "clsx";
 import { useAppStore } from "@/store/useAppStore";
 
@@ -27,7 +26,6 @@ const Sidebar = ({
   const toggleSidebar = useAppStore((state) => state.toggleSidebar);
   const isRegistered = useAppStore((state) => state.isRegistered);
 
-  // اگر props داده شده بود از آن استفاده کن، در غیر این صورت از استور
   const isOpen = propsIsOpen ?? isSidebarOpen;
   const handleClose = propsOnClose ?? toggleSidebar;
 
@@ -37,7 +35,7 @@ const Sidebar = ({
       <div
         onClick={handleClose}
         className={clsx(
-          "fixed inset-0 bg-black/40 z-40 transition-opacity duration-300 lg:hidden",
+          "fixed inset-0 bg-black-50/40 z-40 transition-opacity duration-300 lg:hidden",
           {
             "opacity-100 pointer-events-auto": isOpen,
             "opacity-0 pointer-events-none": !isOpen,
@@ -48,23 +46,23 @@ const Sidebar = ({
       {/* Sidebar */}
       <aside
         className={clsx(
-          "fixed top-0 left-0 h-full w-64 flex-col justify-between p-4 dark:bg-secondary-500 bg-primary-500 shadow-lg z-50 transition-transform duration-300",
+          "fixed top-0 left-0 h-full flex flex-col justify-between p-4 dark:bg-secondary-500 bg-primary-500 shadow-lg z-50 transition-transform duration-300",
           {
-            "translate-x-0": isOpen,
-            "-translate-x-full": !isOpen,
-            "md:translate-x-0 md:flex": true,
+            "w-2/3 md:w-64": true, // موبایل full، دسکتاپ ثابت
+            "translate-x-0": isOpen, // باز در موبایل
+            "-translate-x-full md:translate-x-0": !isOpen, // در دسکتاپ همیشه باز
           }
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between mb-6 md:justify-center">
+        <div className="flex items-center justify-between mb-6 w-full">
           <Link href="/" onClick={handleClose}>
             <Image
               src="/images/Frame 20.png"
               alt="logo"
               width={80}
               height={80}
-              className="cursor-pointer"
+              className=" cursor-pointer"
             />
           </Link>
 
@@ -73,18 +71,19 @@ const Sidebar = ({
             type="button"
             aria-label="Close Sidebar"
             onClick={handleClose}
-            className="md:hidden text-gray-600 hover:text-gray-200 dark:text-secondary-300 dark:hover:text-secondary-100"
+            className="md:hidden text-white hover:text-gray-200 dark:text-secondary-300 dark:hover:text-secondary-100"
           >
             <IoClose className="w-6 h-6" />
           </button>
         </div>
 
+        {/* Registered user links */}
         {isRegistered && (
           <div className="flex flex-col space-y-4 dark:text-secondary-200 text-white font-medium pl-1">
-            <Link href='/dashboard/profile'className="hover:text-primary-100">
+            <Link href="/dashboard/profile" className="hover:text-primary-100">
               Profile
             </Link>
-            <Link href='/dashboard'className="hover:text-primary-100">
+            <Link href="/dashboard" className="hover:text-primary-100">
               Dashboard
             </Link>
             <Link
@@ -93,17 +92,17 @@ const Sidebar = ({
             >
               Start
             </Link>
-            <Link href='/dashboard/history'className="hover:text-primary-100">
+            <Link href="/dashboard/history" className="hover:text-primary-100">
               History
             </Link>
-            <Link href='/subscription'className="hover:text-primary-100">
+            <Link href="/subscription" className="hover:text-primary-100">
               Subscription
             </Link>
           </div>
         )}
 
         {/* Nav Links */}
-        <nav className="space-y-4 dark:text-secondary-200 text-white font-medium pl-1">
+        <nav className="space-y-4 dark:text-secondary-200 text-white font-medium pl-1 mt-6">
           <Link
             href="/notifications"
             className="flex items-center gap-2 hover:text-primary-100"

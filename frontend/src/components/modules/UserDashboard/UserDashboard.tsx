@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import Sidebar from "../Sidebar/Sidebar";
 import Topbar from "../Topbar/Topbar";
-import ProgressSegment from "../ProgressBar/ProgressBar";
 import HelpPanel from "../HelpPanel/HelpPanel";
 import { useAppStore } from "@/store/useAppStore";
 import firstQuestion from "@/data/firstQuestion.json";
@@ -41,7 +40,7 @@ export default function UserDashboard({ children, isFirstQuiz }: { children: Rea
   } = useAppStore();
 
   const router = useRouter();
-  const pathname = usePathname(); // مثلا /mainQuiz/2
+  const pathname = usePathname();
   const stepFromPath = parseInt(pathname.split("/").pop() || "1", 10);
 
   // Update step from URL

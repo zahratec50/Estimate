@@ -32,7 +32,7 @@ export const RecentActivityList = ({ activities }: RecentActivityListProps) => {
       initial="hidden"
       animate="show"
     >
-      {activities.map((act, idx) => (
+      {[...activities].reverse().slice(0, 5).map((act, idx) => (
         <RecentActivityItem key={idx} text={act.text} time={act.time} />
       ))}
     </motion.div>

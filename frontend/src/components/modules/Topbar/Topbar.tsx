@@ -64,7 +64,7 @@ const TopbarBase = ({
             height={isHome ? 80 : 48}
             className={clsx(
               "block dark:hidden",
-              isHome ? "w-11 h-11 md:w-16 md:h-16" : "w-10 h-10 block sm:hidden"
+              isHome ? "w-11 h-11 md:w-16 md:h-16" : "w-12 h-12 block sm:hidden"
             )}
           />
         )}
@@ -78,7 +78,7 @@ const TopbarBase = ({
             "object-contain",
             isHome
               ? "w-11 h-11 md:w-16 md:h-16 hidden dark:block"
-              : "w-10 h-10 block sm:hidden"
+              : "w-12 h-12 block sm:hidden"
           )}
         />
 
