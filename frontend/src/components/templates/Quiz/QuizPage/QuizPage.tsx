@@ -118,7 +118,7 @@ export default function QuizPage({ isHelpOpen, isFirstQuiz }: QuestionProps) {
       ) : questionData.type === "multi-choice" && questionData.options.length > 0 ? (
         <MultiChoiceQuestion
           questionData={questionData as Extract<QuestionItem, { type: "multi-choice" }>}
-          selectedAnswer={selectedAnswer}
+          selectedAnswer={selectedAnswer as string[]}
           setAnswer={saveAnswerHandler}
         />
       ) : questionData.type === "select" && questionData.options.length > 0 ? (

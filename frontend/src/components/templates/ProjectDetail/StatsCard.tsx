@@ -1,17 +1,3 @@
-// interface StatsCardProps {
-//   label: string;
-//   value: string | number;
-// }
-
-// const StatsCard = ({ label, value }: StatsCardProps) => (
-//   <div className="p-4 bg-gray-100 dark:bg-secondary-700 rounded-lg flex flex-col items-center shadow-md">
-//     <p className="text-sm font-medium text-gray-500 dark:text-gray-300">{label}</p>
-//     <p className="text-3xl font-bold text-primary-500">{value}</p>
-//   </div>
-// );
-
-// export default StatsCard;
-
 "use client";
 
 import { motion } from "framer-motion";

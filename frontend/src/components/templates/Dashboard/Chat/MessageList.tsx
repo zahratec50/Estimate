@@ -1,31 +1,3 @@
-// "use client";
-// import React, { useEffect, useRef } from "react";
-// import { useChatStore } from "@/store/chatStore";
-// import MessageBubble from "./MessageBubble";
-
-// export default function MessageList() {
-//   const { messages, self } = useChatStore();
-//   const ref = useRef<HTMLDivElement>(null);
-
-//   useEffect(() => {
-//     ref.current?.scrollTo({
-//       top: ref.current.scrollHeight,
-//       behavior: "smooth",
-//     });
-//   }, [messages.length]);
-
-//   if (!self) return null;
-
-//   return (
-//     <div ref={ref} className="flex-1 overflow-y-auto p-3 space-y-2 bg-white">
-//       {messages.map((m) => (
-//         <MessageBubble key={m.id} msg={m} selfId={self._id} />
-//       ))}
-//     </div>
-//   );
-// }
-
-
 "use client";
 
 import React, { useRef, useEffect } from "react";

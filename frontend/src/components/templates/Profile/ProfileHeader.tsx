@@ -1,30 +1,3 @@
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-// import { Input } from "@/components/ui/input";
-// import { EditableField } from "./EditableField";
-
-// interface ProfileHeaderProps {
-//   name: string;
-//   email: string;
-//   userType: string;
-//   onChange: (field: string, value: string) => void;
-// }
-
-// export const ProfileHeader = ({ name, email, userType, onChange }: ProfileHeaderProps) => (
-//   <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-6">
-//     <div className="flex items-center gap-4">
-//       <Avatar className="w-16 h-16">
-//         <AvatarImage src={`/avatars/${name.toLowerCase()}.png`} alt={name} />
-//         <AvatarFallback>{name[0]}</AvatarFallback>
-//       </Avatar>
-//       <div className="flex gap-6">
-//         <EditableField label="Name" value={name} onChange={(v: string) => onChange("name", v)} />
-//         <EditableField label="Email" value={email} onChange={(v: string) => onChange("email", v)} />
-//         <EditableField label="User Type" value={userType} onChange={(v: string) => onChange("userType", v)} />
-//       </div>
-//     </div>
-//   </div>
-// );
-
 "use client";
 
 import { useState, useEffect } from "react";
