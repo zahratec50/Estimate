@@ -1,0 +1,212 @@
+// "use client";
+// import React from "react";
+// import type { IMessageDTO } from "@/lib/types";
+
+// export default function MessageBubble({
+//   msg,
+//   selfId,
+// }: {
+//   msg: IMessageDTO;
+//   selfId: string;
+// }) {
+//   const mine = msg.senderId === selfId;
+//   return (
+//     <div className={`w-full flex ${mine ? "justify-end" : "justify-start"}`}>
+//       <div
+//         className={`max-w-[75%] rounded-2xl px-3 py-2 text-sm shadow ${
+//           mine ? "bg-primary-500 text-white" : "bg-gray-100"
+//         }`}
+//       >
+//         {msg.content}
+//         {msg.attachments && msg.attachments.length > 0 && (
+//           <div className="mt-2 space-y-1">
+//             {msg.attachments.map((a, i) => (
+//               <a
+//                 key={i}
+//                 href={a.url}
+//                 target="_blank"
+//                 className="underline break-words text-xs"
+//               >
+//                 {a.name} ({Math.round(a.size / 1024)} KB)
+//               </a>
+//             ))}
+//           </div>
+//         )}
+//         <div className="text-[10px] opacity-80 mt-1 text-right">
+//           {new Date(msg.createdAt).toLocaleTimeString([], {
+//             hour: "2-digit",
+//             minute: "2-digit",
+//           })}
+//           {mine && (
+//             <span className="ml-1">
+//               {msg.status === "seen"
+//                 ? "✓✓"
+//                 : msg.status === "delivered"
+//                 ? "✓"
+//                 : "…"}
+//             </span>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// "use client";
+// import React from "react";
+// import type { IMessageDTO } from "@/lib/types";
+
+// export default function MessageBubble({
+//   msg,
+//   selfId,
+//   avatarUrl,
+// }: {
+//   msg: IMessageDTO;
+//   selfId: string;
+//   avatarUrl?: string;
+// }) {
+//   const mine = msg.senderId === selfId;
+
+//   return (
+//     <div
+//       className={`w-full flex items-end mb-3 transition-all duration-200 ${
+//         mine ? "justify-end" : "justify-start"
+//       }`}
+//     >
+//       {!mine && avatarUrl && (
+//         <img
+//           src={avatarUrl}
+//           alt="avatar"
+//           className="w-8 h-8 rounded-full rounded-br-none object-cover mr-2 sm:mr-3 flex-shrink-0"
+//         />
+//       )}
+//       <div
+//         className={`relative max-w-[80%] sm:max-w-[65%] px-4 py-2 text-sm rounded-2xl shadow-md break-words animate-slideFade
+//           ${mine ? "bg-primary-500 text-white rounded-br-none" : "bg-gray-100 text-gray-800 rounded-bl-none"}
+//           select-text`}
+//       >
+//         {msg.content}
+//         {msg.attachments && msg.attachments.length > 0 && (
+//           <div className="mt-2 space-y-1">
+//             {msg.attachments.map((a, i) => (
+//               <a
+//                 key={i}
+//                 href={a.url}
+//                 target="_blank"
+//                 className="underline break-words text-xs block hover:text-blue-600"
+//               >
+//                 {a.name} ({Math.round(a.size / 1024)} KB)
+//               </a>
+//             ))}
+//           </div>
+//         )}
+//         <div className="text-[10px] opacity-70 mt-1 flex justify-end items-center gap-1">
+//           <span>{new Date(msg.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
+//           {mine && (
+//             <span>
+//               {msg.status === "seen" ? "✓✓" : msg.status === "delivered" ? "✓" : "…"}
+//             </span>
+//           )}
+//         </div>
+//       </div>
+//       {mine && avatarUrl && (
+//         <img
+//           src={avatarUrl}
+//           alt="avatar"
+//           className="w-8 h-8 rounded-full object-cover ml-2 sm:ml-3 flex-shrink-0"
+//         />
+//       )}
+//     </div>
+//   );
+// }
+
+"use client";
+import React from "react";
+import type { IMessageDTO } from "@/lib/types";
+
+export default function MessageBubble({
+  msg,
+  selfId,
+  avatarUrl,
+}: {
+  msg: IMessageDTO;
+  selfId: string;
+  avatarUrl?: string;
+}) {
+  const mine = msg.senderId === selfId;
+  console.log(mine);
+  
+
+  return (
+    <div
+      className={`flex w-full mb-3 items-end ${
+        mine ? "justify-end" : "justify-start"
+      }`}
+    >
+      {/* Avatar for received messages */}
+      {!mine && avatarUrl && (
+        <img
+          src={avatarUrl}
+          alt="avatar"
+          className="w-8 h-8 rounded-full object-cover mr-2"
+        />
+      )}
+
+      <div
+        className={`relative px-4 py-2 rounded-full max-w-[75%] shadow-md break-words 
+        text-sm leading-relaxed transition-all duration-200
+        ${mine
+          ? "bg-gray-900 text-white rounded-br-none"
+          : "bg-gray-300 text-gray-900 rounded-bl-none"
+        }`}
+      >
+        {/* Message Content */}
+        <div>{msg.content}</div>
+
+        {/* Attachments */}
+        {msg.attachments && msg.attachments.length > 0 && (
+          <div className="mt-2 space-y-1">
+            {msg.attachments.map((a, i) => (
+              <a
+                key={i}
+                href={a.url}
+                target="_blank"
+                className="text-xs block text-blue-600 underline break-words hover:text-blue-800"
+              >
+                {a.name} ({Math.round(a.size / 1024)} KB)
+              </a>
+            ))}
+          </div>
+        )}
+
+        {/* Timestamp + Status */}
+        <div className="text-[10px] opacity-70 mt-1 flex justify-end items-center gap-1">
+          <span>
+            {new Date(msg.createdAt).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </span>
+          {mine && (
+            <span>
+              {msg.status === "seen"
+                ? "✓✓"
+                : msg.status === "delivered"
+                ? "✓"
+                : "…"}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Avatar for sent messages */}
+      {mine && avatarUrl && (
+        <img
+          src={avatarUrl}
+          alt="avatar"
+          className="w-8 h-8 rounded-full object-cover ml-2"
+        />
+      )}
+    </div>
+  );
+}

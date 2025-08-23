@@ -8,6 +8,7 @@ import {
   IoClose,
   IoExitOutline,
 } from "react-icons/io5";
+import { IoChatbubblesOutline } from "react-icons/io5";
 import clsx from "clsx";
 import { useAppStore } from "@/store/useAppStore";
 
@@ -38,7 +39,7 @@ const Sidebar = ({
           "fixed inset-0 bg-black-50/40 z-40 transition-opacity duration-300 lg:hidden",
           {
             "opacity-100 pointer-events-auto": isOpen,
-            "opacity-0 pointer-events-none": !isOpen,
+            "opacity-0 pointer-events-none": !isOpen && !isHelpOpen,
           }
         )}
       />
@@ -55,7 +56,7 @@ const Sidebar = ({
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between mb-6 w-full">
+        <div className="flex items-center justify-between md:justify-center mb-6 w-full">
           <Link href="/" onClick={handleClose}>
             <Image
               src="/images/Frame 20.png"
@@ -104,6 +105,14 @@ const Sidebar = ({
         {/* Nav Links */}
         <nav className="space-y-4 dark:text-secondary-200 text-white font-medium pl-1 mt-6">
           <Link
+            href="/chat"
+            className="flex items-center gap-2 hover:text-primary-100"
+            onClick={handleClose}
+          >
+            <IoChatbubblesOutline className="w-5 h-5" />
+            Contact
+          </Link>
+          <Link
             href="/notifications"
             className="flex items-center gap-2 hover:text-primary-100"
             onClick={handleClose}
@@ -119,14 +128,14 @@ const Sidebar = ({
             <IoSearchOutline className="w-5 h-5" />
             Search
           </Link>
-          <button
+          <Link href='/'
             type="button"
             className="flex items-center gap-2 hover:text-primary-100"
             onClick={handleClose}
           >
             <IoExitOutline className="w-5 h-5" />
             Sign Out
-          </button>
+          </Link>
         </nav>
       </aside>
     </>

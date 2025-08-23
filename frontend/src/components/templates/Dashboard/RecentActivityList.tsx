@@ -27,7 +27,7 @@ export const RecentActivityList = ({ activities }: RecentActivityListProps) => {
 
   return (
     <motion.div
-      className="space-y-4 mt-4"
+      className="space-y-1 mt-4"
       variants={containerVariants}
       initial="hidden"
       animate="show"
