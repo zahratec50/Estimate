@@ -6,10 +6,28 @@
 // }
 
 
+// import { NextResponse } from "next/server";
+// import { clearRefreshTokenCookie } from "@/utils/auth";
+
+// export async function POST() {
+//   await clearRefreshTokenCookie();
+//   return NextResponse.json({ message: "Signed out successfully" });
+// }
+
 import { NextResponse } from "next/server";
-import { clearRefreshTokenCookie } from "@/utils/auth";
 
 export async function POST() {
-  await clearRefreshTokenCookie();
-  return NextResponse.json({ message: "Signed out successfully" });
+  // پاک کردن refresh token
+  const response = NextResponse.json({ message: "Signed out successfully" });
+  response.cookies.set({
+    name: "refreshToken",
+    value: "",
+    httpOnly: true,
+    path: "/",
+    maxAge: 0,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
+
+  return response;
 }

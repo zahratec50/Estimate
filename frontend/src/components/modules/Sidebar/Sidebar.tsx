@@ -11,6 +11,8 @@ import {
 import { IoChatbubblesOutline } from "react-icons/io5";
 import clsx from "clsx";
 import { useAppStore } from "@/store/useAppStore";
+import { clearRefreshTokenCookie } from "@/utils/auth";
+import { useRouter } from "next/navigation";
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -30,6 +32,17 @@ const Sidebar = ({
   const isOpen = propsIsOpen ?? isSidebarOpen;
   const handleClose = propsOnClose ?? toggleSidebar;
 
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    try {
+      await fetch("/api/auth/signout", { method: "POST" });
+      router.push("/"); // ریدایرکت به صفحه اصلی
+    } catch (error) {
+      console.error("Sign out failed:", error);
+    }
+  };
+  
   return (
     <>
       {/* Overlay for mobile */}
@@ -128,14 +141,14 @@ const Sidebar = ({
             <IoSearchOutline className="w-5 h-5" />
             Search
           </Link>
-          <Link href='/'
+          <button
             type="button"
             className="flex items-center gap-2 hover:text-primary-100"
-            onClick={handleClose}
+            onClick={handleSignOut}
           >
             <IoExitOutline className="w-5 h-5" />
             Sign Out
-          </Link>
+          </button>
         </nav>
       </aside>
     </>
