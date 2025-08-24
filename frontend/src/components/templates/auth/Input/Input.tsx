@@ -3,7 +3,7 @@ type InputProps = {
   labelName: string;
   type: string;
   register: any;
-  // error: any;
+  error?: string;
   icon1?: React.ReactNode;
   icon2?: React.ReactNode;
   toggle?: () => void;
@@ -15,7 +15,7 @@ export default function Input({
   labelName,
   type,
   register,
-  // error,
+  error,
   icon1,
   icon2,
   toggle,
@@ -28,7 +28,9 @@ export default function Input({
         <input
           {...register(name)}
           type={type}
-          className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-primary-500"
+          className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-1 ${
+            error ? "border-px border-rose-500 focus:ring-1 focus:ring-rose-500" : "border-gray-300 focus:ring-primary-500"
+          }`}
           placeholder={`Enter Your ${name}`}
           disabled={disabled}
         />

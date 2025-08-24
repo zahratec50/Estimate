@@ -1,5 +1,6 @@
 import { hash, compare } from "bcryptjs";
 import { sign, verify, JwtPayload } from "jsonwebtoken";
+import { cookies } from "next/headers";
 
 type TokenData = Record<string, unknown>;
 
@@ -51,6 +52,28 @@ export const generateRefreshToken = (data: TokenData): string => {
   }
   return sign({ ...data }, secret, { expiresIn: "15d" });
 };
+
+export async function setRefreshTokenCookie(token: string) {
+  const cookieStore = await cookies();
+  cookieStore.set("refreshToken", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 30, // 30 days
+  });
+}
+
+export async function clearRefreshTokenCookie() {
+  const cookieStore = await cookies();
+  cookieStore.set("refreshToken", "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    path: "/",
+    maxAge: 0,
+  });
+}
 
 // Validate email
 export const validateEmail = (email: string): boolean => {

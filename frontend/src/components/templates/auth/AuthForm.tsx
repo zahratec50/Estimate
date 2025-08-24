@@ -42,6 +42,8 @@ export type FormData = z.infer<typeof schema>;
 
 export default function AuthForm({ isLogin }: { isLogin: boolean }) {
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false); //  Remember Me state
+  const [termsChecked, setTermsChecked] = useState(false); //  Terms & Privacy state
   const router = useRouter();
 
   const {
@@ -51,16 +53,13 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
     clearErrors,
     formState: { errors },
   } = useForm<FormData>({
-    mode: "onSubmit", // فقط موقع submit اعتبارسنجی کن
+    mode: "onSubmit",
   });
 
-  // تابع ارسال فرم دستی
   const handleFormSubmit = async () => {
     clearErrors();
-
     const values = getValues();
 
-    // چک خالی بودن
     if (
       (!isLogin && !values.name?.trim()) ||
       !values.email?.trim() ||
@@ -75,11 +74,18 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
       return;
     }
 
-    // اعتبارسنجی کامل با Zod
-    const parseResult = schema.safeParse(values);
+    if (!isLogin && !termsChecked) {
+      showErrorToast({
+        title: "Terms & Privacy",
+        description: "You must agree to the Terms & Privacy to sign up.",
+        actionLabel: "OK",
+        onAction: () => {},
+      });
+      return;
+    }
 
+    const parseResult = schema.safeParse(values);
     if (!parseResult.success) {
-      // خطاهای zod رو به react-hook-form منتقل کن تا تو UI هم نمایش داده بشه
       parseResult.error.issues.forEach(({ path, message }) => {
         setError(path[0] as keyof FormData, { type: "manual", message });
       });
@@ -90,12 +96,14 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
       if (isLogin) {
         await axios.post(
           "/api/auth/signin",
-          { email: values.email, password: values.password },
-          { withCredentials: true } // مهم برای ارسال کوکی
+          { 
+            email: values.email, 
+            password: values.password, 
+            rememberMe //  ارسال rememberMe به سرور
+          },
+          { withCredentials: true }
         );
-        alert("Login not implemented yet");
       } else {
-        // ارسال اطلاعات برای ثبت‌نام
         await axios.post(
           "/api/auth/signup",
           {
@@ -103,77 +111,35 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
             email: values.email,
             password: values.password,
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+          { headers: { "Content-Type": "application/json" } }
         );
-
-        alert("User registered successfully!");
-
-        router.push("/dashboard");
       }
+
+      router.push("/dashboard");
     } catch (error: any) {
       const message = error.response?.data?.message || "Something went wrong";
-
       showErrorToast({
         title: isLogin ? "Login Failed" : "Registration Failed",
         description: message,
         actionLabel: "OK",
         onAction: () => {},
       });
-      router.push("/");
     }
-
-    // اگه همه چی درست بود، فرم رو ارسال کن
-    console.log("Form submitted:", values);
-
-    // مثلا ریدایرکت یا ارسال داده به سرور اینجا انجام میشه
-    router.push("/dashboard");
   };
 
   useEffect(() => {
-    if (errors.name) {
-      showErrorToast({
-        title: "Invalid Name",
-        description: errors.name.message || "",
-        actionLabel: "OK",
-        onAction: () => {},
-      });
-    }
-    if (errors.email) {
-      showErrorToast({
-        title: "Invalid Email",
-        description: errors.email.message || "",
-        actionLabel: "OK",
-        onAction: () => {},
-      });
-    }
-    if (errors.password) {
-      showErrorToast({
-        title: "Invalid Password",
-        description: errors.password.message || "",
-        actionLabel: "OK",
-        onAction: () => {},
-      });
-    }
+    if (errors.name) showErrorToast({ title: "Invalid Name", description: errors.name.message || "", actionLabel: "OK", onAction: () => {} });
+    if (errors.email) showErrorToast({ title: "Invalid Email", description: errors.email.message || "", actionLabel: "OK", onAction: () => {} });
+    if (errors.password) showErrorToast({ title: "Invalid Password", description: errors.password.message || "", actionLabel: "OK", onAction: () => {} });
   }, [errors]);
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleFormSubmit();
-      }}
+      onSubmit={(e) => { e.preventDefault(); handleFormSubmit(); }}
       className="w-full max-w-sm space-y-3 text-fontFamily-roboto"
     >
-      {!isLogin && (
-        <Input name="name" labelName="Name" type="text" register={register} />
-      )}
-
-      <Input name="email" labelName="Email" type="email" register={register} />
-
+      {!isLogin && <Input name="name" labelName="Name" type="text" register={register} error={errors.name?.message} />}
+      <Input name="email" labelName="Email" type="email" register={register} error={errors.email?.message} />
       <Input
         name="password"
         labelName="Password"
@@ -182,6 +148,7 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
         icon2={<LuEye className="w-4 h-4" />}
         icon1={<LuEyeClosed className="w-4 h-4" />}
         toggle={() => setShowPassword((prev) => !prev)}
+        error={errors.password?.message}
       />
 
       {isLogin ? (
@@ -189,6 +156,8 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
           <div className="flex items-center gap-2">
             <input
               type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
               aria-label="Remember Me"
               className="w-4 h-4 accent-secondary-500"
             />
@@ -204,9 +173,11 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
           </Link>
         </div>
       ) : (
-        <div className="flex items-center text-sm gap-2">
+        <div className="flex items-center gap-2">
           <input
             type="checkbox"
+            checked={termsChecked}
+            onChange={(e) => setTermsChecked(e.target.checked)}
             aria-label="Terms & Privacy"
             className="w-4 h-4 accent-secondary-500"
           />
@@ -216,7 +187,12 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
 
       <button
         type="submit"
-        className="w-full h-11 bg-primary-200 text-white font-semibold rounded-lg hover:bg-primary-200 transition"
+        disabled={!isLogin && !termsChecked} //  دکمه Sign Up غیرفعال تا زمانی که termsChecked false باشد
+        className={`w-full h-11 text-white font-semibold rounded-lg transition ${
+          !isLogin && !termsChecked
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-primary-200 hover:bg-primary-200"
+        }`}
       >
         {isLogin ? "Login" : "Sign up"}
       </button>

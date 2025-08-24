@@ -84,8 +84,8 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { User } from "@/models/User";
-import connectToDB from "@/configs/db";
+import User from "@/models/User";
+import { connectDB } from "@/configs/db";
 import { verifyPassword } from "@/utils/auth";
 import type { JWT } from "next-auth/jwt";
 import type { DefaultUser } from "next-auth";
@@ -117,7 +117,7 @@ export const authOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        await connectToDB();
+        await connectDB();
 
         const user = await User.findOne({ email: credentials.email });
         if (!user || !user.password) return null;
