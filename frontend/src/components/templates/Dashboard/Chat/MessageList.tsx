@@ -1,8 +1,6 @@
 "use client";
-
-import React, { useRef, useEffect } from "react";
-import clsx from "clsx";
-import { IMessageDTO } from "@/lib/types";
+import React, { useEffect, useRef } from "react";
+import type { IMessageDTO } from "@/lib/types";
 import MessageBubble from "./MessageBubble";
 
 interface MessageListProps {
@@ -11,32 +9,30 @@ interface MessageListProps {
 }
 
 export default function MessageList({ messages, selfId }: MessageListProps) {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const endRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   return (
-    <div ref={scrollRef} className="flex-1 p-4 space-y-3 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-secondary-700">
+    <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-gray-100">
       {messages.length === 0 && (
-        <div className="text-center text-gray-400 mt-10">No messages yet</div>
+        <div className="text-center text-gray-400 mt-10">
+          No messages yet
+        </div>
       )}
-      {messages.map((msg) => {
-        const mine = msg.senderId === selfId;
-        return (
-          <div key={msg.id} className={clsx("flex w-full", mine ? "justify-end" : "justify-start")}>
-            {!mine && (
-              <img
-                src={msg.senderAvatar || "/avatars/default.png"}
-                alt={msg.senderName || "Unknown"}
-                className="w-8 h-8 rounded-full object-cover mr-2"
-              />
-            )}
-            <MessageBubble msg={msg} selfId={selfId} />
-          </div>
-        );
-      })}
+
+      {messages.map((msg) => (
+        <MessageBubble
+          key={msg._id}
+          msg={msg}
+          selfId={selfId}
+          avatarUrl={msg.senderAvatar || "/images/avatardefault.png"}
+        />
+      ))}
+
+      <div ref={endRef} />
     </div>
   );
 }

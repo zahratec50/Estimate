@@ -128,7 +128,7 @@ export default function QuizNavigation({
     setLoading(true);
     try {
       const apiPath = isFirstQuiz ? "/api/saveFirstQuiz" : "/api/saveMainQuiz";
-      router.push('/subscription')
+      setShowModal(true)
       // const res = await axios.post(apiPath, payload);
 
       // if (res.data.success) {

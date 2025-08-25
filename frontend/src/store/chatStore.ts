@@ -1,6 +1,30 @@
 "use client";
+
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 import type { IMessageDTO, IConversationDTO, IUserDTO } from "@/lib/types";
+
+// Mock Socket فقط برای شبیه سازی
+class MockSocket {
+  listeners: Record<string, Function[]> = {};
+  on(event: string, cb: Function) {
+    this.listeners[event] = this.listeners[event] || [];
+    this.listeners[event].push(cb);
+    console.log(`[MockSocket] Listening ${event}`);
+  }
+  off(event: string, cb?: Function) {
+    if (!this.listeners[event]) return;
+    if (cb)
+      this.listeners[event] = this.listeners[event].filter((f) => f !== cb);
+    else delete this.listeners[event];
+  }
+  emit(event: string, data?: any) {
+    console.log(`[MockSocket] Emit ${event}`, data);
+    (this.listeners[event] || []).forEach((f) => f(data));
+  }
+}
+
+export const socket = new MockSocket();
 
 interface ChatState {
   self: IUserDTO | null;
@@ -9,33 +33,47 @@ interface ChatState {
   messages: IMessageDTO[];
   typingBy: Set<string>;
   onlineUserIds: Set<string>;
+
   setSelf: (u: IUserDTO) => void;
   setPeers: (p: IUserDTO[]) => void;
-  setActiveConversation: (c: IConversationDTO | null) => void;
-  setMessages: (m: IMessageDTO[]) => void;
-  addMessage: (m: IMessageDTO) => void;
+  setActiveConversation: (c: IConversationDTO) => void;
+  setMessages: (msgs: IMessageDTO[]) => void;
+  addMessage: (msg: IMessageDTO) => void;
   setTyping: (userId: string, isTyping: boolean) => void;
   setOnlineUsers: (ids: string[]) => void;
 }
 
-export const useChatStore = create<ChatState>((set) => ({
-  self: null,
-  peers: [],
-  activeConversation: null,
-  messages: [],
-  typingBy: new Set(),
-  onlineUserIds: new Set(),
-  setSelf: (u) => set({ self: u }),
-  setPeers: (p) => set({ peers: p }),
-  setActiveConversation: (c) => set({ activeConversation: c, messages: [] }),
-  setMessages: (m) => set({ messages: m }),
-  addMessage: (m) => set((s) => ({ messages: [...s.messages, m] })),
-  setTyping: (userId, isTyping) =>
-    set((s) => {
-      const next = new Set(s.typingBy);
-      if (isTyping) next.add(userId);
-      else next.delete(userId);
-      return { typingBy: next };
-    }),
-  setOnlineUsers: (ids) => set({ onlineUserIds: new Set(ids) }),
-}));
+export const useChatStore = create<ChatState>()(
+  devtools((set) => ({
+    self: null,
+    peers: [],
+    activeConversation: null,
+    messages: [],
+    typingBy: new Set(),
+    onlineUserIds: new Set(),
+
+    setSelf: (u) => set({ self: u }),
+    setPeers: (p) => set({ peers: p }),
+    setActiveConversation: (c) => set({ activeConversation: c, messages: [] }),
+    setMessages: (msgs) => set({ messages: msgs }),
+    addMessage: (msg: IMessageDTO) =>
+      set((s) => {
+        const existsIdx = s.messages.findIndex((m) => m._id === msg._id);
+        if (existsIdx !== -1) {
+          // اگر پیام با همین _id قبلا وجود داشت، جایگزین شود
+          const next = [...s.messages];
+          next[existsIdx] = msg;
+          return { messages: next };
+        }
+        return { messages: [...s.messages, msg] };
+      }),
+
+    setTyping: (userId, isTyping) =>
+      set((s) => {
+        const next = new Set(s.typingBy);
+        isTyping ? next.add(userId) : next.delete(userId);
+        return { typingBy: next };
+      }),
+    setOnlineUsers: (ids) => set({ onlineUserIds: new Set(ids) }),
+  }))
+);

@@ -1,108 +1,66 @@
 "use client";
-
-import React, { useState } from "react";
-import { getSocket } from "@/lib/socketClient";
-import { useChatStore } from "@/store/chatStore";
-import { IMessageDTO } from "@/lib/types";
+import React, { useState, useRef } from "react";
 import { IoMdSend } from "react-icons/io";
+import { useChatStore } from "@/store/chatStore";
+import type { IMessageDTO } from "@/lib/types";
 
 interface MessageInputProps {
   selfId: string;
   conversationId: string;
+  onSendMessage?: (text: string) => Promise<void>;
 }
 
 export default function MessageInput({
   selfId,
   conversationId,
+  onSendMessage,
 }: MessageInputProps) {
-  const [message, setMessage] = useState("");
-  const { self, activeConversation, addMessage } = useChatStore();
-
-  if (!self || !activeConversation) return null;
-
-  const receiverId = activeConversation.members.find((id) => id !== self._id);
+  const [text, setText] = useState("");
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { self, addMessage } = useChatStore();
 
   const handleSend = async () => {
-    if (!message.trim() || !receiverId) return;
+    const content = text.trim();
+    if (!content) return;
+    if (!self) return;
 
-    const msg: IMessageDTO = {
-      id: `msg-${Date.now()}`,
-      senderId: selfId,
-      receiverId,
+    const tmpMsg: IMessageDTO = {
+      _id: `tmp-${Date.now()}`,
       conversationId,
-      senderName: self.name || "Unknown",
+      senderId: self!._id,
+      receiverId: "mock-peer", // فقط برای mock
+      senderName: self!.name,
       senderAvatar: "",
-      content: message.trim(),
+      content: text,
       createdAt: new Date().toISOString(),
       status: "sent",
     };
 
+    addMessage(tmpMsg);
+
+    setText("");
     try {
-      addMessage(msg);
-
-      const res = await fetch("/api/chat/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          conversationId: msg.conversationId,
-          senderId: msg.senderId,
-          receiverId: msg.receiverId,
-          content: msg.content,
-        }),
-      });
-
-      if (!res.ok) throw new Error("Failed to send message to API");
-
-      const savedMsg = await res.json();
-
-      const socket = getSocket();
-      socket.emit("sendMessage", savedMsg);
-
-      setMessage("");
-    } catch (error) {
-      console.error("Failed to send message:", error);
+      if (onSendMessage) await onSendMessage(content);
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  const handleTyping = (isTyping: boolean) => {
-    const socket = getSocket();
-    socket.emit(isTyping ? "typing" : "stopTyping", {
-      userId: self._id,
-      conversationId: activeConversation._id,
-    });
-  };
-
   return (
-    <div
-      className="
-        flex items-center p-2 bg-white border border-gray-300 rounded-full gap-2
-        focus-within:border-gray-400 mb-2
-        w-full
-        max-w-3xl
-        mx-auto
-        sm:mx-4
-        md:mx-8
-      "
-    >
+    <div className="flex items-center gap-2 p-2 bg-white border border-gray-300 rounded-full w-full max-w-3xl mx-auto mb-3">
       <input
-        value={message}
-        onChange={(e) => {
-          setMessage(e.target.value);
-          handleTyping(!!e.target.value);
-        }}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSend()}
         placeholder="Type a message..."
-        className="
-          flex-1 px-4 py-2 outline-0 text-sm
-          sm:text-base
-        "
+        className="flex-1 px-3 py-2 text-sm md:text-lg outline-none rounded-full bg-gray-50"
       />
       <button
-        aria-label="Send message"
+        aria-label="send"
         onClick={handleSend}
-        className="rounded-2xl text-primary-500 font-medium hover:text-primary-400"
+        className="p-2 rounded-full text-blue-500 hover:text-blue-800 transition"
       >
-        <IoMdSend className="size-6 sm:size-7" />
+        <IoMdSend className="w-8 h-8" />
       </button>
     </div>
   );

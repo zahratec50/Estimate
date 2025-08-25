@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import connectToDB from "@/configs/db";
+import { connectDB } from "@/configs/db";
 import QuizModel from "@/models/Quiz1";
 
 export async function POST(request: Request) {
   try {
-    await connectToDB();
+    await connectDB();
 
     const body = await request.json();
     console.log("Received body:", body);
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
 
 export async function GET() {
   try {
-    await connectToDB();
+    await connectDB();
     const quizzes = await QuizModel.find({});
     return NextResponse.json(quizzes);
   } catch (error: unknown) {

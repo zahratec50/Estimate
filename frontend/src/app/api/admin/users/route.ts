@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectToDB from "@/configs/db";
+import { connectDB } from "@/configs/db";
 import { User } from "@/models/admin/User";
 
 export async function GET(req: NextRequest) {
   try {
-    await connectToDB();
+    await connectDB();
     const users = await User.find({ role: "user" }).sort({ lastSeen: -1 });
     return NextResponse.json(users.map(u => ({
       _id: u._id,

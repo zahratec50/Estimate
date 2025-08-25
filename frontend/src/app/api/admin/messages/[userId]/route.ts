@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectToDB from "@/configs/db";
+import { connectDB } from "@/configs/db";
 import Message from "@/models/Message";
 
 export async function GET(req: NextRequest, { params }: { params: { userId: string } }) {
   try {
-    await connectToDB();
+    await connectDB();
     const { userId } = params;
     const messages = await Message.find({
       $or: [{ senderId: userId }, { receiverId: userId }],
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest, { params }: { params: { userId: stri
 
 export async function POST(req: NextRequest, { params }: { params: { userId: string } }) {
   try {
-    await connectToDB();
+    await connectDB();
     const { userId } = params;
     const body = await req.json();
     const { content } = body;
