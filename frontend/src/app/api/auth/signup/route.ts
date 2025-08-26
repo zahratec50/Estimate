@@ -8,6 +8,8 @@ export async function POST(req: Request) {
   try {
     await connectDB();
     const { name, email, password } = await req.json();
+    console.log('heloo');
+    
 
     if (!name || !email || !password) {
       return NextResponse.json({ message: "All fields are required" }, { status: 400 });

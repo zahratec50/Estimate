@@ -34,6 +34,7 @@ export async function POST(req: Request) {
       user: { id: user._id, name: user.name, email: user.email },
     });
   } catch (error: any) {
+    console.error("Signin Error:", error);
     return NextResponse.json({ message: "Signin failed", error: error.message }, { status: 500 });
   }
 }

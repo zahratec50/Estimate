@@ -2,7 +2,7 @@
 
 import { Roboto } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-import { SessionProvider } from "next-auth/react";
+// import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           enableSystem
           disableTransitionOnChange
         >
-          <SessionProvider>
+          {/* <SessionProvider> */}
             <Toaster
               position="top-right"
               toastOptions={{
@@ -35,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               }}
             />
             {children}
-          </SessionProvider>
+          {/* </SessionProvider> */}
         </ThemeProvider>
       </body>
     </html>
