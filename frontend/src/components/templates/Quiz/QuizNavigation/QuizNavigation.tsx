@@ -129,8 +129,8 @@ export default function QuizNavigation({
     try {
       const apiPath = isFirstQuiz ? "/api/saveFirstQuiz" : "/api/saveMainQuiz";
       setShowModal(true)
+      if(!isFirstQuiz) return router.push('/dashboard')
       // const res = await axios.post(apiPath, payload);
-
       // if (res.data.success) {
       //   setShowModal(true);
       //   clearQuizData();
