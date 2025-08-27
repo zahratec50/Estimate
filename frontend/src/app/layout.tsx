@@ -1,8 +1,5 @@
-"use client";
-
 import { Roboto } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-// import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
@@ -13,7 +10,7 @@ const roboto = Roboto({
   display: "swap",
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={roboto.variable} suppressHydrationWarning>
       <body className="font-roboto overflow-x-hidden" suppressHydrationWarning>
@@ -23,7 +20,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           enableSystem
           disableTransitionOnChange
         >
-          {/* <SessionProvider> */}
             <Toaster
               position="top-right"
               toastOptions={{
@@ -34,8 +30,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 },
               }}
             />
+
             {children}
-          {/* </SessionProvider> */}
+          
         </ThemeProvider>
       </body>
     </html>

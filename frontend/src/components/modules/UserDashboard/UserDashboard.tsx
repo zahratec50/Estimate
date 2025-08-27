@@ -74,9 +74,8 @@ export default function UserDashboard({ children, isFirstQuiz }: { children: Rea
   // Sync with server if already registered
   // ! test you have to change it
   useEffect(() => {
-    // if (!isRegistered) return;
-    // for test
-    setRegistered(true)
+    if (!isRegistered) return;
+  
     const isLastQuestion = isFirstQuiz
       ? currentStepFirstQuiz === firstQuestion.length
       : currentStepMainQuiz === mainQuizData.length;

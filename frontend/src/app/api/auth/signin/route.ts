@@ -23,15 +23,23 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
     }
 
-    const accessToken = generateAccessToken(user._id.toString());
-    const refreshToken = generateRefreshToken(user._id.toString());
+    // ✅ پاس دادن یک payload به صورت آبجکت شامل نقش
+    const accessToken = generateAccessToken({
+      userId: user._id.toString(),
+      role: user.role,
+    });
+
+    const refreshToken = generateRefreshToken({
+      userId: user._id.toString(),
+      role: user.role,
+    });
 
     await setRefreshTokenCookie(refreshToken);
 
     return NextResponse.json({
       message: "Login successful",
       accessToken,
-      user: { id: user._id, name: user.name, email: user.email },
+      user: { id: user._id, name: user.name, email: user.email, role: user.role },
     });
   } catch (error: any) {
     console.error("Signin Error:", error);

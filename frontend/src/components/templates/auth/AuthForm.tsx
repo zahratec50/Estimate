@@ -8,7 +8,8 @@ import * as z from "zod";
 import Input from "@/components/templates/auth/Input/Input";
 import { showErrorToast } from "@/components/modules/toasts/ErrorToast";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import { useAppStore } from "@/store/useAppStore";
 
 // ✅ Regex برای ایمیل
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
@@ -39,11 +40,24 @@ const signupSchema = loginSchema.extend({
 type LoginFormData = z.infer<typeof loginSchema>;
 type SignupFormData = z.infer<typeof signupSchema>;
 
+interface UserResponse {
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  };
+  accessToken?: string;
+  message: string;
+}
+
 export default function AuthForm({ isLogin }: { isLogin: boolean }) {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [termsChecked, setTermsChecked] = useState(false);
   const router = useRouter();
+
+  const {setRegistered} = useAppStore()
 
   const {
     register,
@@ -95,8 +109,9 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
     }
 
     try {
+      let userRole: string;
       if (isLogin) {
-        await axios.post(
+        const axiosResponse: AxiosResponse<UserResponse> = await axios.post(
           "/api/auth/signin",
           {
             email: values.email,
@@ -105,9 +120,11 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
           },
           { withCredentials: true }
         );
+
+        userRole = axiosResponse.data.user.role;
       } else {
         const signupData = values as SignupFormData;
-        await axios.post(
+        const axiosResponse: AxiosResponse<UserResponse> = await axios.post(
           "/api/auth/signup",
           {
             name: signupData.name,
@@ -116,9 +133,16 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
           },
           { headers: { "Content-Type": "application/json" } }
         );
-      }
 
-      router.push("/dashboard");
+        userRole = axiosResponse.data.user.role;
+      }
+      setRegistered(true)
+
+      if (userRole === "admin") {
+        router.push("/admin"); // مسیر صفحه ادمین
+      } else {
+        router.push("/dashboard"); // مسیر کاربران معمولی
+      }
     } catch (error: any) {
       const message = error.response?.data?.message || "Something went wrong";
       showErrorToast({

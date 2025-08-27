@@ -1,13 +1,23 @@
 import { hash, compare } from "bcryptjs";
-import { sign, verify, JwtPayload } from "jsonwebtoken";
+import { sign, verify } from "jsonwebtoken";
 import { cookies } from "next/headers";
 
 type TokenData = Record<string, unknown>;
 
+export interface JwtPayloadExtended {
+  userId: string;
+  email?: string;
+  role?: string;
+  iat?: number;
+  exp?: number;
+}
+
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET!;
+const ACCESS_TOKEN_SECRET = process.env.AccessTokenSecretKey!;
+
 // Hash password
 export const hashPassword = async (password: string): Promise<string> => {
-  const hashedPassword = await hash(password, 12);
-  return hashedPassword;
+  return await hash(password, 12);
 };
 
 // Verify password
@@ -15,43 +25,40 @@ export const verifyPassword = async (
   password: string,
   hashedPassword: string
 ): Promise<boolean> => {
-  const isValid = await compare(password, hashedPassword);
-  return isValid;
+  return await compare(password, hashedPassword);
 };
 
-// Generate access token
-export const generateAccessToken = (data: TokenData): string => {
-  const secret = process.env.AccessTokenSecretKey;
-  if (!secret) {
-    throw new Error("AccessTokenSecretKey is not defined in environment variables");
-  }
-  return sign({ ...data }, secret, { expiresIn: "60s" });
+// Generate access token — payload must be an object
+export const generateAccessToken = (payload: { userId: string; role: string }) => {
+  if (!ACCESS_TOKEN_SECRET) throw new Error("AccessTokenSecretKey is not defined");
+  return sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
 };
 
 // Verify access token
-export const verifyAccessToken = (
-  token: string
-): JwtPayload | string | false => {
+export const verifyAccessToken = (token: string): JwtPayloadExtended | null => {
   try {
-    const secret = process.env.AccessTokenSecretKey;
-    if (!secret) {
-      throw new Error("AccessTokenSecretKey is not defined in environment variables");
-    }
-    return verify(token, secret);
+    if (!ACCESS_TOKEN_SECRET) throw new Error("AccessTokenSecretKey is not defined");
+    return verify(token, ACCESS_TOKEN_SECRET) as JwtPayloadExtended;
   } catch (err) {
     console.error("Verify Access Token Error ->", err);
-    return false;
+    return null;
   }
 };
 
-// Generate refresh token
-export const generateRefreshToken = (data: TokenData): string => {
-  const secret = process.env.RefreshTokenSecretKey;
-  if (!secret) {
-    throw new Error("RefreshTokenSecretKey is not defined in environment variables");
-  }
-  return sign({ ...data }, secret, { expiresIn: "15d" });
+// Generate refresh token — payload must be an object (include role!)
+export const generateRefreshToken = (payload: { userId: string; role: string }) => {
+  if (!REFRESH_TOKEN_SECRET) throw new Error("RefreshTokenSecretKey is not defined");
+  return sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: "15d" });
 };
+
+export function verifyRefreshToken(token: string): JwtPayloadExtended | null {
+  try {
+    return verify(token, REFRESH_TOKEN_SECRET) as JwtPayloadExtended;
+  } catch (err) {
+    console.error("verifyRefreshToken error ->", err);
+    return null;
+  }
+}
 
 export async function setRefreshTokenCookie(token: string) {
   const cookieStore = await cookies();
@@ -74,22 +81,3 @@ export async function clearRefreshTokenCookie() {
     maxAge: 0,
   });
 }
-
-// Validate email
-export const validateEmail = (email: string): boolean => {
-  const pattern = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/g;
-  return pattern.test(email);
-};
-
-// Validate phone
-export const validatePhone = (phone: string): boolean => {
-  const pattern = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/g;
-  return pattern.test(phone);
-};
-
-// Validate password
-export const validatePassword = (password: string): boolean => {
-  const pattern =
-    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/g;
-  return pattern.test(password);
-};
