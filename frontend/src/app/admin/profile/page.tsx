@@ -1,10 +1,10 @@
-import AdminProfile from '@/components/templates/Admin/Profile/AdminProfile'
+import ProfilePage from '@/components/templates/Admin/Profile/ProfilePage'
 import React from 'react'
 
 export default function AdminProfilePage() {
   return (
     <div>
-      <AdminProfile />
+      <ProfilePage />
     </div>
   )
 }
