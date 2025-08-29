@@ -9,6 +9,14 @@ html, body {
   overflow-x: hidden;
 }
 
+html, body, :root, #__next { height: 100%; }
+
+body { overflow: hidden; }
+
+@supports (scrollbar-gutter: stable) {
+
+}
+
 
 @layer base {
   :root {

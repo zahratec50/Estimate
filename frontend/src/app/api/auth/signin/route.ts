@@ -2,7 +2,11 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import User from "@/models/User";
 import { connectDB } from "@/configs/db";
-import { generateAccessToken, generateRefreshToken, setRefreshTokenCookie } from "@/utils/auth";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  setRefreshTokenCookie,
+} from "@/utils/auth";
 
 export async function POST(req: Request) {
   try {
@@ -14,6 +18,8 @@ export async function POST(req: Request) {
     }
 
     const user = await User.findOne({ email });
+    console.log("User found:", user);
+
     if (!user) {
       return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
     }

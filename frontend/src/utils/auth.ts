@@ -17,7 +17,7 @@ const ACCESS_TOKEN_SECRET = process.env.AccessTokenSecretKey!;
 
 // Hash password
 export const hashPassword = async (password: string): Promise<string> => {
-  return await hash(password, 12);
+  return await hash(password, 10);
 };
 
 // Verify password

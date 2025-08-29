@@ -1,18 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { verify } from "jsonwebtoken";
+import { jwtVerify } from "jose";
 
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET!;
 
-interface JwtPayload {
-  userId?: string;
-  email?: string;
-  role?: string;
-  iat?: number;
-  exp?: number;
-}
-
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   const protectedRoutes = ["/dashboard", "/admin"];
@@ -25,13 +17,14 @@ export function middleware(req: NextRequest) {
   }
 
   try {
-    const decoded = verify(refreshToken, REFRESH_TOKEN_SECRET) as JwtPayload;
-    console.log("Decoded refresh token in middleware:", decoded);
+    const secret = new TextEncoder().encode(REFRESH_TOKEN_SECRET);
+    const { payload } = await jwtVerify(refreshToken, secret);
 
-    if (pathname.startsWith("/admin")) {
-      if (!decoded.role || decoded.role !== "admin") {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
-      }
+    // @ts-ignore
+    const role = payload.role as string | undefined;
+
+    if (pathname.startsWith("/admin") && role !== "admin") {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
     }
 
     return NextResponse.next();

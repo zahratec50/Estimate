@@ -110,6 +110,7 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
 
     try {
       let userRole: string;
+      console.log("Sending Login Data:", values);
       if (isLogin) {
         const axiosResponse: AxiosResponse<UserResponse> = await axios.post(
           "/api/auth/signin",

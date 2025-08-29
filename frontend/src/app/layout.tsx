@@ -1,6 +1,8 @@
 import { Roboto } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "react-hot-toast";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "@/lib/query-client";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -10,16 +12,21 @@ const roboto = Roboto({
   display: "swap",
 });
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className={roboto.variable} suppressHydrationWarning>
       <body className="font-roboto overflow-x-hidden" suppressHydrationWarning>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
             <Toaster
               position="top-right"
               toastOptions={{
@@ -32,8 +39,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             />
 
             {children}
-          
-        </ThemeProvider>
+          </ThemeProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
