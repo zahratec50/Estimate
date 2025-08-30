@@ -6,12 +6,15 @@ import ProfileForm from "./ProfileForm";
 import SecuritySettings from "./SecuritySettings";
 import ActivityLog from "./ActivityLog";
 import clsx from "clsx";
+import { useRouter } from "next/navigation";
 
 const tabs = ["Profile", "Security", "Activity"];
 
 export default function ProfileTabs() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [forceOpenProfile, setForceOpenProfile] = useState(false);
+
+  const router = useRouter()
 
   useEffect(() => {
     const onOpen = () => {
@@ -23,6 +26,10 @@ export default function ProfileTabs() {
     window.addEventListener("open-profile-edit", onOpen as EventListener);
     return () => window.removeEventListener("open-profile-edit", onOpen as EventListener);
   }, []);
+
+  const btnCreateProject = () => {
+    router.push('/admin/questionCreationForm')
+  }
 
   return (
     <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
@@ -77,7 +84,7 @@ export default function ProfileTabs() {
                   <div className="text-sm font-medium">Quick Actions</div>
                 </div>
                 <div className="mt-3 flex gap-2">
-                  <button className="flex-1 px-3 py-2 rounded bg-indigo-600 text-white">New Project</button>
+                  <button onClick={btnCreateProject} className="flex-1 px-3 py-2 rounded bg-indigo-600 text-white">New Project</button>
                   <button className="px-3 py-2 rounded border">Users</button>
                 </div>
               </div>
