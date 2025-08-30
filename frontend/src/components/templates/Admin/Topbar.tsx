@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo, useState } from "react";
+import React, { memo, useState, useEffect } from "react";
 import { IoMenu, IoNotificationsOutline } from "react-icons/io5";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ThemeSwitcher from "@/components/modules/Theme/Theme";
@@ -13,16 +13,50 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { showErrorToast } from "@/components/modules/toasts/ErrorToast";
 
 interface TopbarProps {
   onMenuClick: () => void;
 }
 
+interface AdminProfile {
+  id?: string;
+  name: string;
+  email: string;
+  avatar?: string | null;
+}
+
 function Topbar({ onMenuClick }: TopbarProps) {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const notifications = ["New project request", "User registered", "System update"];
+  const notifications = [
+    "New project request",
+    "User registered",
+    "System update",
+  ];
+  const [profile, setProfile] = useState<AdminProfile | null>(null);
 
-  const router = useRouter()
+  const router = useRouter();
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await axios.get("/api/admin/me", { withCredentials: true });
+        if (!mounted) return;
+        setProfile(res.data);
+      } catch (err: any) {
+        console.error("fetch profile:", err?.response?.data || err);
+        showErrorToast({
+            title: 'Error',
+            description: err?.response?.data?.message || "Failed to load profile",
+            actionLabel: "OK",
+            onAction: () => {}
+        })
+      }
+    })();
+    return () => { mounted = false; };
+  }, []);
 
   return (
     <header className="flex items-center justify-between bg-white dark:bg-secondary-800 p-4 shadow-md border-b border-gray-300 sticky top-0 z-20">
@@ -36,7 +70,9 @@ function Topbar({ onMenuClick }: TopbarProps) {
       </button>
 
       {/* Title */}
-      <h1 className="text-sm md:text-xl font-semibold">Welcome back, Admin 👋</h1>
+      <h1 className="text-sm md:text-xl font-semibold">
+        Welcome back, Admin 👋
+      </h1>
 
       {/* Search */}
       <div className="hidden md:flex flex-1 items-center gap-4 ml-4">
@@ -53,7 +89,10 @@ function Topbar({ onMenuClick }: TopbarProps) {
         </div>
 
         {/* Notifications */}
-        <DropdownMenu open={notificationsOpen} onOpenChange={setNotificationsOpen}>
+        <DropdownMenu
+          open={notificationsOpen}
+          onOpenChange={setNotificationsOpen}
+        >
           <DropdownMenuTrigger asChild>
             <button className="relative p-2 rounded dark:hover:bg-secondary-700">
               <IoNotificationsOutline className="size-4 md:size-6" />
@@ -67,7 +106,9 @@ function Topbar({ onMenuClick }: TopbarProps) {
             className="w-64 max-h-60 overflow-auto data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95"
           >
             {notifications.length === 0 ? (
-              <p className="text-sm text-muted-foreground p-2">No notifications</p>
+              <p className="text-sm text-muted-foreground p-2">
+                No notifications
+              </p>
             ) : (
               notifications.map((note, i) => (
                 <DropdownMenuItem key={i}>{note}</DropdownMenuItem>
@@ -79,11 +120,11 @@ function Topbar({ onMenuClick }: TopbarProps) {
         {/* User Avatar */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Avatar className="cursor-pointer">
+            <Avatar className="cursor-pointer rounded-full">
               <AvatarImage
-                src="/images/avatardefault.png"
+                src={profile?.avatar || "/images/avatardefault.png"}
                 alt="Admin"
-                className="size-8"
+                className="object-cover"
               />
               <AvatarFallback>AD</AvatarFallback>
             </Avatar>
@@ -92,7 +133,9 @@ function Topbar({ onMenuClick }: TopbarProps) {
             align="end"
             className="w-48 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95"
           >
-            <DropdownMenuItem onClick={() => router.push('/admin/profile')}>Profile</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push("/admin/profile")}>
+              Profile
+            </DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuItem>Logout</DropdownMenuItem>
           </DropdownMenuContent>

@@ -1,5 +1,4 @@
-import Admin from "@/components/templates/Admin/Chats/AdminChats";
-import AdminDashboard from "@/components/templates/Admin/Dashboard/Dashboard";
+import AdminDashboard from "@/components/templates/Admin/Dashboard/AdminDashboard";
 import React from "react";
 
 export default function AdminPage() {
