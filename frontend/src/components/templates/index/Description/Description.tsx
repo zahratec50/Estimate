@@ -8,13 +8,13 @@ export default function Description() {
       <div className="w-full flex flex-col md:flex-row items-center gap-6 font-roboto">
         {/* Left Image or Placeholder */}
         <div className="w-full md:w-1/2 rounded-2xl bg-primary-200 aspect-[4/3] md:aspect-[16/9] relative overflow-hidden">
-          <span className="absolute inset-0 flex items-center justify-center text-black-50 text-xl">
+          <span className="absolute inset-0 flex items-center justify-center text-blackNew-50 text-xl">
             Image Placeholder
           </span>
         </div>
 
         {/* Text Section */}
-        <div className="w-full md:w-1/2 flex flex-col justify-center text-black-50">
+        <div className="w-full md:w-1/2 flex flex-col justify-center text-blackNew-50">
           <h2 className="text-xl md:text-4xl font-medium mb-4">Title</h2>
           <p className="text-base md:text-lg font-normal leading-relaxed mb-4">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

@@ -141,7 +141,7 @@
 //         <div className="absolute inset-0 flex justify-between px-2 mt-4">
 //           {Array.from({ length: segments }).map((_, idx) => (
 //             <div key={idx} className="w-[75px] h-3 flex flex-col items-center">
-//               <span className="text-xs dark:text-white text-black-50 font-medium mb-2">
+//               <span className="text-xs dark:text-white text-blackNew-50 font-medium mb-2">
 //                 Step {idx + 1}
 //               </span>
 //               <div
@@ -227,7 +227,7 @@
 //                 className={clsx(
 //                   "w-10 h-10 rounded-full flex items-center justify-center text-lg font-semibold transition-colors duration-300",
 //                   isDone
-//                     ? "bg-primary-500 text-white dark:bg-secondary-300 dark:text-black"
+//                     ? "bg-primary-500 text-white dark:bg-secondary-300 dark:text-blackNew"
 //                     : isCurrent
 //                     ? "bg-primary-200 text-white dark:bg-secondary-900 dark:border-secondary-300 dark:text-secondary-200"
 //                     : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
@@ -316,7 +316,7 @@ export default function ProgressSegment({
                 className={clsx(
                   "w-10 h-10 rounded-full flex items-center justify-center text-lg font-semibold transition-colors duration-300",
                   isDone
-                    ? "bg-primary-500 text-white dark:bg-secondary-300 dark:text-black"
+                    ? "bg-primary-500 text-white dark:bg-secondary-300 dark:text-blackNew"
                     : isCurrent
                     ? "bg-primary-200 text-white dark:bg-secondary-900 dark:border-secondary-300 dark:text-secondary-200"
                     : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"

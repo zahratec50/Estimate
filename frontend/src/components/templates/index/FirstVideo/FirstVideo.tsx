@@ -8,7 +8,7 @@ export default function FirstVideo() {
     <section className="w-full flex justify-center">
       <div className="w-full flex flex-col items-center gap-6 font-roboto">
         {/* Text Section */}
-        <div className="w-full text-center flex flex-col items-center justify-center text-black-50 dark:text-white">
+        <div className="w-full text-center flex flex-col items-center justify-center text-blackNew-50 dark:text-white">
           <h2 className="text-xl md:text-4xl font-medium mb-4">Title</h2>
           <p className="text-base md:text-lg font-normal leading-relaxed mb-4">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -23,7 +23,7 @@ export default function FirstVideo() {
         </div>
         {/* Left video or Placeholder */}
         <div className="w-full h-[500px] rounded-2xl bg-secondary-50 dark:bg-secondary-600 aspect-[4/3] md:aspect-[16/9] relative overflow-hidden">
-          <span className="absolute inset-0 flex items-center justify-center text-black-50 text-xl">
+          <span className="absolute inset-0 flex items-center justify-center text-blackNew-50 text-xl">
             video
           </span>
         </div>

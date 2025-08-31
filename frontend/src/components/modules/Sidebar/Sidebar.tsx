@@ -42,14 +42,14 @@ const Sidebar = ({
       console.error("Sign out failed:", error);
     }
   };
-  
+
   return (
     <>
       {/* Overlay for mobile */}
       <div
         onClick={handleClose}
         className={clsx(
-          "fixed inset-0 bg-black-50/40 z-40 transition-opacity duration-300 lg:hidden",
+          "fixed inset-0 bg-blackNew-50/50 z-40 transition-opacity duration-300 lg:hidden",
           {
             "opacity-100 pointer-events-auto": isOpen,
             "opacity-0 pointer-events-none": !isOpen && !isHelpOpen,

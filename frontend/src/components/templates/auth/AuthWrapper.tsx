@@ -32,7 +32,7 @@ export default function AuthWrapper({
             <>
               {/* فقط موبایل */}
               <img
-                src="/images/logo-Black.png" // تصویر مخصوص موبایل
+                src="/images/logo-black.png" // تصویر مخصوص موبایل
                 alt="Auth illustration"
                 className="object-cover rounded-2xl w-full h-48 md:hidden"
               />
@@ -53,7 +53,6 @@ export default function AuthWrapper({
               className="object-cover rounded-2xl w-full h-full max-h-48 md:max-h-full"
             />
           )}
-
         </div>
 
         {/* Form area */}
@@ -67,7 +66,7 @@ export default function AuthWrapper({
           {/* Logo and Title */}
           <div className="text-center mb-6">
             <img
-              src="/images/logo-Black.png"
+              src="/images/logo-black.png"
               alt="logo"
               className={forHome ? "hidden md:block" : "h-16 w-16 mx-auto mb-2"}
             />

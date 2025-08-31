@@ -19,10 +19,10 @@ export default function NotFound() {
             />
           </div>
           <div className="flex flex-col items-center justify-center gap-2 mt-3 mb-5 px-5 md:px-0">
-            <h2 className="text-lg md:text-2xl text-black-50 dark:text-white font-bold ">
+            <h2 className="text-lg md:text-2xl text-blackNew-50 dark:text-white font-bold ">
               Page cannot be found
             </h2>
-            <span className="text-lg md:text-2xl text-black-50 dark:text-white font-roboto text-center">
+            <span className="text-lg md:text-2xl text-blackNew-50 dark:text-white font-roboto text-center">
               The page you are trying to access doesn’t exist or has been moved.
               Try going back to our homepage.
             </span>

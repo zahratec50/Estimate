@@ -1,9 +1,4 @@
 import React from "react";
-
-// import { IoCheckmarkDone } from "react-icons/io5";
-// import { BsFillQuestionSquareFill } from "react-icons/bs";
-// import { BsArrowReturnRight } from "react-icons/bs";
-
 import Link from "next/link";
 import Image from "next/image";
 

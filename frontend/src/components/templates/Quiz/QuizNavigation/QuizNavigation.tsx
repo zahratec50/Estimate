@@ -103,14 +103,17 @@ export default function QuizNavigation({
   ]);
 
   const handleNext = useCallback(async () => {
-    if (!currentQuestion || !isContinueAllowed(currentQuestion, isFirstQuiz)) return;
+    if (!currentQuestion || !isContinueAllowed(currentQuestion, isFirstQuiz))
+      return;
 
     if (currentStep < totalSteps) {
       const nextStep = currentStep + 1;
       if (isFirstQuiz) setCurrentStepFirstQuiz(nextStep);
       else setCurrentStepMainQuiz(nextStep);
 
-      router.push(isFirstQuiz ? `/firstQuiz/${nextStep}` : `/mainQuiz/${nextStep}`);
+      router.push(
+        isFirstQuiz ? `/firstQuiz/${nextStep}` : `/mainQuiz/${nextStep}`
+      );
       return;
     }
 
@@ -128,8 +131,8 @@ export default function QuizNavigation({
     setLoading(true);
     try {
       const apiPath = isFirstQuiz ? "/api/saveFirstQuiz" : "/api/saveMainQuiz";
-      setShowModal(true)
-      if(!isFirstQuiz) return router.push('/dashboard')
+      setShowModal(true);
+      if (!isFirstQuiz) return router.push("/dashboard");
       // const res = await axios.post(apiPath, payload);
       // if (res.data.success) {
       //   setShowModal(true);
@@ -165,9 +168,17 @@ export default function QuizNavigation({
       if (isFirstQuiz) setCurrentStepFirstQuiz(prevStep);
       else setCurrentStepMainQuiz(prevStep);
 
-      router.push(isFirstQuiz ? `/firstQuiz/${prevStep}` : `/mainQuiz/${prevStep}`);
+      router.push(
+        isFirstQuiz ? `/firstQuiz/${prevStep}` : `/mainQuiz/${prevStep}`
+      );
     }
-  }, [currentStep, isFirstQuiz, setCurrentStepFirstQuiz, setCurrentStepMainQuiz, router]);
+  }, [
+    currentStep,
+    isFirstQuiz,
+    setCurrentStepFirstQuiz,
+    setCurrentStepMainQuiz,
+    router,
+  ]);
 
   const handleRegister = useCallback(() => {
     setRegistered(true);
@@ -177,12 +188,18 @@ export default function QuizNavigation({
 
   return (
     <>
-      <div className={`w-full ${isHelpOpen ? "max-w-[800px]" : "max-w-full"} font-roboto px-4 sm:px-0`}>
+      <div
+        className={`w-full ${
+          isHelpOpen ? "max-w-[800px]" : "max-w-full"
+        } font-roboto px-4 sm:px-0`}
+      >
         <hr className="border-t border-gray-300 dark:border-secondary-700 my-4" />
-        <div className={clsx(
-          "flex items-center gap-4",
-          currentStep > 1 ? "justify-between" : "justify-end"
-        )}>
+        <div
+          className={clsx(
+            "flex items-center gap-4",
+            currentStep > 1 ? "justify-between" : "justify-end"
+          )}
+        >
           {currentStep > 1 && (
             <button
               onClick={handleBack}
@@ -194,29 +211,54 @@ export default function QuizNavigation({
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-6 h-6 text-black-50"
+                className="w-6 h-6 text-blackNew-50"
                 fill="none"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                />
               </svg>
             </button>
           )}
           <div className="relative">
             <button
               onClick={handleNext}
-              disabled={!currentQuestion || !isContinueAllowed(currentQuestion, isFirstQuiz) || loading}
+              disabled={
+                !currentQuestion ||
+                !isContinueAllowed(currentQuestion, isFirstQuiz) ||
+                loading
+              }
               className={clsx(
                 "rounded-lg font-medium text-white transition flex items-center justify-center gap-2 w-full max-w-[169px] h-12 text-base sm:text-lg px-3",
-                !currentQuestion || !isContinueAllowed(currentQuestion, isFirstQuiz) || loading
+                !currentQuestion ||
+                  !isContinueAllowed(currentQuestion, isFirstQuiz) ||
+                  loading
                   ? "bg-gray-300 dark:bg-secondary-700 text-gray-500 cursor-not-allowed"
                   : "bg-primary-500 dark:bg-secondary-500 hover:bg-primary-200 dark:hover:bg-secondary-400"
               )}
               aria-label="Continue to next question"
             >
-              {loading ? "sending..." : currentStep === totalSteps ? "Finish" : "Continue"}
+              {loading
+                ? "sending..."
+                : currentStep === totalSteps
+                ? "Finish"
+                : "Continue"}
               {!loading && (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 sm:w-6 sm:h-6" fill="none">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-5 h-5 sm:w-6 sm:h-6"
+                  fill="none"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                  />
                 </svg>
               )}
             </button>

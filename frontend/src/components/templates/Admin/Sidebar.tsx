@@ -4,6 +4,7 @@ import React from "react";
 import clsx from "clsx";
 import { IoChatbubbleEllipses, IoHome } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
+import { FaClipboardQuestion } from "react-icons/fa6";
 import Link from "next/link";
 import Image from "next/image";
 import { CiSearch } from "react-icons/ci";
@@ -22,7 +23,7 @@ export default function Sidebar({
       {/* Overlay */}
       <div
         className={clsx(
-          "fixed inset-0 bg-black-50/40 z-40 transition-opacity md:hidden",
+          "fixed inset-0 bg-black/50 z-40 transition-opacity md:hidden",
           isOpen ? "opacity-100 visible" : "opacity-0 invisible"
         )}
         onClick={onClose}
@@ -39,7 +40,7 @@ export default function Sidebar({
           {/* Sidebar Header */}
           <div className="flex md:flex-col items-center justify-between md:justify-center mb-6">
             <Image
-              src="/images/logo-Black.png"
+              src="/images/logo-black.png"
               alt="Logo"
               width={60}
               height={60}
@@ -83,6 +84,13 @@ export default function Sidebar({
               >
                 <IoChatbubbleEllipses size={20} />
                 <span>Chats</span>
+              </Link>
+              <Link
+                href="/admin/questionCreationForm/questions"
+                className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
+              >
+                <FaClipboardQuestion size={20} />
+                <span>Questions</span>
               </Link>
             </div>
 

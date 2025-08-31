@@ -1,7 +1,7 @@
 "use client";
 
 // import { XCircle } from "lucide-react"; // یا هر آیکونی که دوست داری
-import { TriangleAlert } from 'lucide-react';
+import { TriangleAlert } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 interface Props {
@@ -11,7 +11,12 @@ interface Props {
   onAction?: () => void;
 }
 
-export function showErrorToast({ title, description, actionLabel, onAction }: Props) {
+export function showErrorToast({
+  title,
+  description,
+  actionLabel,
+  onAction,
+}: Props) {
   toast.custom((t) => (
     <div
       className={`flex items-center justify-between w-full max-w-sm bg-error-100 border border-error-200 rounded-lg px-4 py-4 shadow-lg ${
@@ -27,7 +32,7 @@ export function showErrorToast({ title, description, actionLabel, onAction }: Pr
       </div>
       {actionLabel && onAction && (
         <button
-          className="ml-4 bg-black-50 text-white text-xs font-medium px-3 py-2 rounded-md hover:bg-gray-800 transition"
+          className="ml-4 bg-blackNew-50 text-white text-xs font-medium px-3 py-2 rounded-md hover:bg-gray-800 transition"
           onClick={() => {
             onAction();
             toast.dismiss(t.id);

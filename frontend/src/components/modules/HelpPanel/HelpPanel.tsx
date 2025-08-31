@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useRef } from 'react';
-import { IoSearchOutline, IoClose } from 'react-icons/io5';
-import clsx from 'clsx';
-import { useAppStore } from '@/store/useAppStore';
+import { useEffect, useRef } from "react";
+import { IoSearchOutline, IoClose } from "react-icons/io5";
+import clsx from "clsx";
+import { useAppStore } from "@/store/useAppStore";
 
 interface HelpPanelProps {
   isHelpOpen: boolean;
@@ -25,13 +25,17 @@ export default function HelpPanel({ isHelpOpen }: HelpPanelProps) {
       ref={panelRef}
       tabIndex={-1}
       className={clsx(
-        'fixed top-0 right-0 h-full w-[320px] bg-white dark:bg-secondary-800 shadow-lg z-50 outline-0' ,
-        'transition-transform duration-300 ease-in-out border-l border-gray-200 dark:border-secondary-700',
-        isHelpOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0 pointer-events-none'
+        "fixed top-0 right-0 h-full w-[320px] bg-white dark:bg-secondary-800 shadow-lg z-50 outline-0",
+        "transition-transform duration-300 ease-in-out border-l border-gray-200 dark:border-secondary-700",
+        isHelpOpen
+          ? "translate-x-0 opacity-100"
+          : "translate-x-full opacity-0 pointer-events-none"
       )}
     >
       <div className="flex justify-between items-center px-4 py-[10px] border-b border-gray-200 dark:border-secondary-700">
-        <h2 className="text-lg font-semibold text-black-50 dark:text-white">Help</h2>
+        <h2 className="text-lg font-semibold text-blackNew-50 dark:text-white">
+          Help
+        </h2>
         <button
           onClick={toggleHelp}
           aria-label="Close Help"

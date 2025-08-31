@@ -66,7 +66,7 @@ const SingleChoiceQuestion = memo(function SingleChoiceQuestion({
               <IoCheckmarkOutline />
             </span>
           )}
-          <h3 className="text-lg sm:text-xl text-black-50 dark:text-white font-medium">
+          <h3 className="text-lg sm:text-xl text-blackNew-50 dark:text-white font-medium">
             {option}
           </h3>
         </button>
@@ -80,7 +80,9 @@ const SingleChoiceQuestion = memo(function SingleChoiceQuestion({
       {initialOptions.map((option, index) => renderOption(option, index))}
 
       {showAllOptions &&
-        remainingOptions.map((option, index) => renderOption(option, index + 4))}
+        remainingOptions.map((option, index) =>
+          renderOption(option, index + 4)
+        )}
 
       {!showAllOptions && remainingOptions.length > 0 && (
         <div className="col-span-full text-center">

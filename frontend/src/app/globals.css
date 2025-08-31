@@ -6,12 +6,13 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+  width: 100%;
   overflow-x: hidden;
 }
 
 html, body, :root, #__next { height: 100%; }
 
-body { overflow: hidden; }
+/* body { overflow: hidden; } */
 
 @supports (scrollbar-gutter: stable) {
 

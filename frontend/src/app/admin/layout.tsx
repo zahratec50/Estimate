@@ -10,12 +10,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const { isSidebarOpen, toggleSidebar } = useAppStore();
 
   return (
-    <div className="flex h-screen bg-gray-100 dark:bg-secondary-900 overflow-hidden">
+    <div className="flex h-screen overflow-hidden">
       {/* Sidebar ثابت */}
       <div
         className={clsx(
           "fixed top-0 left-0 h-full z-30 transition-transform duration-300",
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
         )}
       >
         <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
@@ -25,7 +25,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div
         className={clsx(
           "flex flex-col flex-1 min-w-0 h-full transition-all duration-300",
-          isSidebarOpen ? "md:ml-0" : "md:ml-64" // فضای سایدبار در دسکتاپ
+          isSidebarOpen ? "md:ml-64" : "md:ml-64" // فضای سایدبار در دسکتاپ
         )}
       >
         {/* Topbar ثابت */}

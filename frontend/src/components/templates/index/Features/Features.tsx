@@ -33,7 +33,7 @@ export default function Features() {
   return (
     <section className="w-full flex justify-center">
       <div className="w-full">
-        <h2 className="text-xl md:text-4xl text-black-50 dark:text-white font-medium mb-8">
+        <h2 className="text-xl md:text-4xl text-blackNew-50 dark:text-white font-medium mb-8">
           Key Features
         </h2>
 
@@ -44,7 +44,7 @@ export default function Features() {
               className="bg-secondary-50 dark:bg-secondary-600 rounded-xl flex flex-col items-center justify-center text-center p-6 hover:shadow-md transition"
             >
               {feature.icon}
-              <span className="mt-4 text-base md:text-lg text-black-100 dark:text-white font-medium">
+              <span className="mt-4 text-base md:text-lg text-blackNew-100 dark:text-white font-medium">
                 {feature.title}
               </span>
             </div>

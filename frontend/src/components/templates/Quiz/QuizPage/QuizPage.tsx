@@ -46,8 +46,9 @@ export default function QuizPage({ isHelpOpen, isFirstQuiz }: QuestionProps) {
         if (!isFirstQuiz && currentProjectId) {
           const project = state.projects.find((p) => p.id === currentProjectId);
           return (
-            project?.mainQuizAnswers.find((a) => a.question === questionData.title)
-              ?.answer ?? null
+            project?.mainQuizAnswers.find(
+              (a) => a.question === questionData.title
+            )?.answer ?? null
           );
         }
 
@@ -75,7 +76,11 @@ export default function QuizPage({ isHelpOpen, isFirstQuiz }: QuestionProps) {
   useEffect(() => {
     if (questionData?.type === "text-input") {
       if (selectedAnswer) {
-        setInputValue(Array.isArray(selectedAnswer) ? selectedAnswer.join("") : selectedAnswer);
+        setInputValue(
+          Array.isArray(selectedAnswer)
+            ? selectedAnswer.join("")
+            : selectedAnswer
+        );
       } else {
         setInputValue("");
       }
@@ -103,45 +108,63 @@ export default function QuizPage({ isHelpOpen, isFirstQuiz }: QuestionProps) {
   }
 
   return (
-    <div className={`w-full ${isHelpOpen ? "max-w-[800px]" : "max-w-full"} font-roboto px-4 sm:px-0`}>
-      <h1 className="text-xl md:text-2xl lg:text-3xl font-medium text-black-50 mb-10 dark:text-white">
+    <div
+      className={`w-full ${
+        isHelpOpen ? "max-w-[800px]" : "max-w-full"
+      } font-roboto px-4 sm:px-0`}
+    >
+      <h1 className="text-xl md:text-2xl lg:text-3xl font-medium text-blackNew-50 mb-10 dark:text-white">
         {questionData.title}
       </h1>
 
-      {questionData.type === "single-choice" && questionData.options.length > 0 ? (
+      {questionData.type === "single-choice" &&
+      questionData.options.length > 0 ? (
         <SingleChoiceQuestion
-          questionData={questionData as Extract<QuestionItem, { type: "single-choice" }>}
+          questionData={
+            questionData as Extract<QuestionItem, { type: "single-choice" }>
+          }
           selectedAnswer={selectedAnswer}
           setAnswer={saveAnswerHandler}
           error=""
         />
-      ) : questionData.type === "multi-choice" && questionData.options.length > 0 ? (
+      ) : questionData.type === "multi-choice" &&
+        questionData.options.length > 0 ? (
         <MultiChoiceQuestion
-          questionData={questionData as Extract<QuestionItem, { type: "multi-choice" }>}
+          questionData={
+            questionData as Extract<QuestionItem, { type: "multi-choice" }>
+          }
           selectedAnswer={selectedAnswer as string[]}
           setAnswer={saveAnswerHandler}
         />
       ) : questionData.type === "select" && questionData.options.length > 0 ? (
         <SelectQuestion
-          questionData={questionData as Extract<QuestionItem, { type: "select" }>}
+          questionData={
+            questionData as Extract<QuestionItem, { type: "select" }>
+          }
           selectedAnswer={selectedAnswer}
           setAnswer={saveAnswerHandler}
           isFirstQuiz={isFirstQuiz}
         />
       ) : questionData.type === "text-input" ? (
         <TextInputQuestion
-          questionData={questionData as Extract<QuestionItem, { type: "text-input" }>}
+          questionData={
+            questionData as Extract<QuestionItem, { type: "text-input" }>
+          }
           selectedAnswer={inputValue}
           setAnswer={handleInputChange}
         />
       ) : questionData.type === "image-choice" ? (
         <ImageQuestion
-          questionData={questionData as Extract<QuestionItem, { type: "image-choice" }>}
+          questionData={
+            questionData as Extract<QuestionItem, { type: "image-choice" }>
+          }
           isFirstQuiz={isFirstQuiz}
           setAnswer={saveAnswerHandler}
         />
       ) : (
-        <div className="text-red-500 dark:text-red-300">Invalid question format.</div>
+        <div className="text-red-500 dark:text-red-300">
+          Invalid question format.
+        </div>
       )}
     </div>
   );

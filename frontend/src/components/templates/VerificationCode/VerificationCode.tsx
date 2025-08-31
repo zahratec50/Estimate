@@ -59,12 +59,12 @@ export default function VerificationPage({
           <div className="w-[350px] md:w-95">
             <button
               onClick={() => router.back()}
-              className="flex items-center text-lg lg:text-sm text-black-50 dark:text-white mb-8 hover:text-black dark:hover:text-gray-200 transition-colors"
+              className="flex items-center text-lg lg:text-sm text-blackNew-50 dark:text-white mb-8 hover:text-blackNew dark:hover:text-gray-200 transition-colors"
             >
               <ArrowLeft className="w-6 h-6 lg:w-4 lg:h-4 mr-1" /> back
             </button>
 
-            <h2 className="text-xl sm:text-lg lg:text-2xl text-black-50 dark:text-white font-semibold">
+            <h2 className="text-xl sm:text-lg lg:text-2xl text-blackNew-50 dark:text-white font-semibold">
               Enter verification code from email
             </h2>
 
@@ -74,7 +74,7 @@ export default function VerificationPage({
               <span className="font-semibold">{"{User Email}"}</span>
             </p>
 
-            <label className="text-sm text-black-50 dark:text-white font-medium">
+            <label className="text-sm text-blackNew-50 dark:text-white font-medium">
               code
             </label>
             <CodeInput />
@@ -99,7 +99,7 @@ export default function VerificationPage({
                 </div>
               ) : (
                 <div>
-                  <p className="h-11 mt-4 text-center text-black-50 dark:text-white text-lg font-medium">
+                  <p className="h-11 mt-4 text-center text-blackNew-50 dark:text-white text-lg font-medium">
                     Resend code in {formatTime(timer)}
                   </p>
                   <button
@@ -127,7 +127,7 @@ export default function VerificationPage({
               </div>
             ) : (
               <>
-                <p className="h-11 mt-4 text-center text-black-50 dark:text-white text-lg font-medium">
+                <p className="h-11 mt-4 text-center text-blackNew-50 dark:text-white text-lg font-medium">
                   Resend code in {formatTime(timer)}
                 </p>
                 <button

@@ -16,11 +16,11 @@ module.exports = {
         145: "580px",
       },
       fontFamily: {
-        roboto: ['var(--font-roboto)', 'sans-serif'],
+        roboto: ["var(--font-roboto)", "sans-serif"],
       },
       colors: {
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         success: {
           50: "#F0FDF4",
           100: "#DCFCE7",
@@ -104,7 +104,7 @@ module.exports = {
           700: "#364145",
           800: "#242B2E",
           900: "#121617",
-          950: "#666"
+          950: "#666",
         },
         warning: {
           50: "#FEFCE8",
@@ -118,35 +118,35 @@ module.exports = {
           800: "#894B00",
           900: "#733E0A",
         },
-        black: {
+        blackNewNew: {
           50: "#09101D",
-          100: "#2C2C2C"
+          100: "#2C2C2C",
         },
         gray: {
           201: "#EBEEF2",
           601: "#6D7580",
         },
         muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
         },
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
         chart: {
-          1: 'hsl(var(--chart-1))',
-          2: 'hsl(var(--chart-2))',
-          3: 'hsl(var(--chart-3))',
-          4: 'hsl(var(--chart-4))',
-          5: 'hsl(var(--chart-5))',
+          1: "hsl(var(--chart-1))",
+          2: "hsl(var(--chart-2))",
+          3: "hsl(var(--chart-3))",
+          4: "hsl(var(--chart-4))",
+          5: "hsl(var(--chart-5))",
         },
       },
     },

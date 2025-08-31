@@ -57,7 +57,7 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
   const [termsChecked, setTermsChecked] = useState(false);
   const router = useRouter();
 
-  const {setRegistered} = useAppStore()
+  const { setRegistered } = useAppStore();
 
   const {
     register,
@@ -137,7 +137,7 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
 
         userRole = axiosResponse.data.user.role;
       }
-      setRegistered(true)
+      setRegistered(true);
 
       if (userRole === "admin") {
         router.push("/admin"); // مسیر صفحه ادمین
@@ -224,7 +224,7 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
               aria-label="Remember Me"
               className="w-4 h-4 accent-secondary-500"
             />
-            <span className="text-sm font-medium text-black-50">
+            <span className="text-sm font-medium text-blackNew-50">
               Remember Me
             </span>
           </div>
@@ -244,7 +244,9 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
             aria-label="Terms & Privacy"
             className="w-4 h-4 accent-secondary-500"
           />
-          <span className="text-black-50">I agree to the Terms & Privacy</span>
+          <span className="text-blackNew-50">
+            I agree to the Terms & Privacy
+          </span>
         </div>
       )}
 

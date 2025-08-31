@@ -1,7 +1,6 @@
-// components/LoadingScreen.tsx
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 
 export default function LoadingScreen() {
   return (
@@ -10,12 +9,12 @@ export default function LoadingScreen() {
         {/* logo in center */}
         <div className="w-20 h-20 rounded-full flex items-center justify-center animate-pulse shadow-md">
           <Image
-            src="/images/logo-Black.png"
+            src="/images/logo-black.png"
             alt="Logo"
             width={40}
             height={40}
             priority
-            className='size-20 block dark:hidden'
+            className="size-20 block dark:hidden"
           />
           <Image
             src="/images/Frame 20.png"
@@ -23,7 +22,7 @@ export default function LoadingScreen() {
             width={40}
             height={40}
             priority
-            className='size-20 hidden dark:block'
+            className="size-20 hidden dark:block"
           />
         </div>
 

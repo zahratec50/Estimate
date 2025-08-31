@@ -53,7 +53,7 @@ const OptionButton = React.memo(function OptionButton({
           className="w-full h-32 object-cover rounded mb-2"
         />
       )}
-      <h3 className="text-lg sm:text-xl text-black-50 dark:text-white font-medium">
+      <h3 className="text-lg sm:text-xl text-blackNew-50 dark:text-white font-medium">
         {text}
       </h3>
     </button>
@@ -73,19 +73,21 @@ const MultiChoiceQuestion = React.memo(function MultiChoiceQuestion({
 
   // اعتبارسنجی انتخاب‌ها
   useEffect(() => {
-    const { minSelected = 0, maxSelected = Infinity, required, errorMessage } =
-      questionData.validation;
+    const {
+      minSelected = 0,
+      maxSelected = Infinity,
+      required,
+      errorMessage,
+    } = questionData.validation;
     const length = selectedOptions.length;
 
     let error = "";
     if (required && length === 0) {
       error = errorMessage;
     } else if (length < minSelected) {
-      error =
-        errorMessage || `لطفاً حداقل ${minSelected} گزینه انتخاب کنید.`;
+      error = errorMessage || `لطفاً حداقل ${minSelected} گزینه انتخاب کنید.`;
     } else if (length > maxSelected) {
-      error =
-        errorMessage || `لطفاً حداکثر ${maxSelected} گزینه انتخاب کنید.`;
+      error = errorMessage || `لطفاً حداکثر ${maxSelected} گزینه انتخاب کنید.`;
     }
     setSelectionError(error);
   }, [selectedOptions, questionData.validation]);
@@ -105,7 +107,8 @@ const MultiChoiceQuestion = React.memo(function MultiChoiceQuestion({
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 sm:pb-[80px]">
       {initialOptions.map((option, index) => {
         const text = typeof option === "string" ? option : option.label;
-        const imageUrl = typeof option === "string" ? undefined : option.imageUrl;
+        const imageUrl =
+          typeof option === "string" ? undefined : option.imageUrl;
         return (
           <OptionButton
             key={index}
@@ -120,7 +123,8 @@ const MultiChoiceQuestion = React.memo(function MultiChoiceQuestion({
       {showAllOptions &&
         remainingOptions.map((option, index) => {
           const text = typeof option === "string" ? option : option.label;
-          const imageUrl = typeof option === "string" ? undefined : option.imageUrl;
+          const imageUrl =
+            typeof option === "string" ? undefined : option.imageUrl;
           return (
             <OptionButton
               key={index + 4}
@@ -144,7 +148,9 @@ const MultiChoiceQuestion = React.memo(function MultiChoiceQuestion({
       )}
 
       {selectionError && (
-        <p className="text-red-500 text-sm mt-1 col-span-full">{selectionError}</p>
+        <p className="text-red-500 text-sm mt-1 col-span-full">
+          {selectionError}
+        </p>
       )}
     </div>
   );

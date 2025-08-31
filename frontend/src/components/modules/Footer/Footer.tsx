@@ -7,14 +7,12 @@ import { RxLinkedinLogo } from "react-icons/rx";
 import { PiInstagramLogoFill } from "react-icons/pi";
 import { FaFacebookSquare } from "react-icons/fa";
 
-
 export default function Footer() {
-  
   return (
     <footer className="w-full flex justify-center bg-white dark:bg-secondary-900">
       <div className="w-full flex flex-col items-center font-roboto ">
         <Image
-          src="/images/logo-Black.png"
+          src="/images/logo-black.png"
           alt="Estiper logo"
           width={84}
           height={84}
@@ -28,13 +26,13 @@ export default function Footer() {
           className="mb-4 hidden dark:block"
         />
 
-        <p className="text-center text-sm text-black-50 dark:text-white sm:hidden px-4 mb-4">
+        <p className="text-center text-sm text-blackNew-50 dark:text-white sm:hidden px-4 mb-4">
           Lorem ipsum dolor sit amet consectetur. Mi nibh venenatis in suscipit
           turpis enim cursus vulputate amet. Lobortis mi platea aliquam senectus
           tempus mauris neque.
         </p>
 
-        <ul className="flex flex-wrap items-center justify-center gap-6 text-base text-black-50 dark:text-white font-medium my-4">
+        <ul className="flex flex-wrap items-center justify-center gap-6 text-base text-blackNew-50 dark:text-white font-medium my-4">
           <li>
             <Link href="/">Title</Link>
           </li>
@@ -51,13 +49,13 @@ export default function Footer() {
 
         <div className="flex gap-4 my-4 dark:text-white">
           <Link href="/" aria-label="Facebook">
-            <FaFacebookSquare className="w-6 h-6 text-black-50 dark:text-white hover:text-black-100 transition" />
+            <FaFacebookSquare className="w-6 h-6 text-blackNew-50 dark:text-white hover:text-blackNew-100 transition" />
           </Link>
           <Link href="/" aria-label="Instagram">
-            <PiInstagramLogoFill className="w-6 h-6 text-black-50 dark:text-white hover:text-black-100 transition" />
+            <PiInstagramLogoFill className="w-6 h-6 text-blackNew-50 dark:text-white hover:text-blackNew-100 transition" />
           </Link>
           <Link href="/" aria-label="LinkedIn">
-            <RxLinkedinLogo className="w-6 h-6 text-black-50 dark:text-white hover:text-black-100 transition" />
+            <RxLinkedinLogo className="w-6 h-6 text-blackNew-50 dark:text-white hover:text-blackNew-100 transition" />
           </Link>
         </div>
 
