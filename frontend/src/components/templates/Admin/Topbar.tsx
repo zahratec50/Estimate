@@ -62,7 +62,7 @@ function Topbar({ onMenuClick }: TopbarProps) {
     <header className="flex items-center justify-between bg-white dark:bg-secondary-800 p-4 shadow-md border-b border-gray-300 sticky top-0 z-20">
       {/* Mobile Menu Toggle */}
       <button
-        className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
+        className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
         onClick={onMenuClick}
         title="Toggle Menu"
       >
@@ -84,7 +84,7 @@ function Topbar({ onMenuClick }: TopbarProps) {
 
       {/* Right Controls */}
       <div className="flex items-center gap-4">
-        <div className="hidden md:flex">
+        <div className="hidden lg:flex">
           <ThemeSwitcher />
         </div>
 

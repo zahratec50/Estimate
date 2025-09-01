@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import {
   useForm,
   useFieldArray,
@@ -11,14 +12,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogOverlay,
-} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -149,8 +142,8 @@ export default function EditQuestionForm({
   useEffect(() => {
     const textarea = textareaRef.current;
     if (textarea) {
-      textarea.style.height = "auto"; // بازنشانی ارتفاع
-      textarea.style.height = `${textarea.scrollHeight}px`; // تنظیم ارتفاع بر اساس محتوا
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
     }
   }, [form.watch("questionText")]);
 
@@ -171,13 +164,19 @@ export default function EditQuestionForm({
   const isFormChanged = form.formState.isDirty;
   const isSubmitting = mutation.isPending;
 
-  return (
-    <Dialog open={true} onOpenChange={onClose}>
-      <DialogOverlay className="bg-black/50" />
-      <DialogContent className="sm:max-w-[650px] max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="font-roboto">Edit Question</DialogTitle>
-        </DialogHeader>
+  // ⚡ استفاده از Portal برای overlay و modal
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+      {/* Overlay */}
+      <div
+        className="absolute inset-0 bg-black/50"
+        onClick={onClose}
+      />
+
+      {/* Modal Content */}
+      <div className="relative z-[10000] bg-white dark:bg-secondary-800 p-6 rounded-lg shadow-lg w-full max-w-[650px] max-h-[90vh] overflow-y-auto">
+        <h2 className="text-xl font-roboto mb-4">Edit Question</h2>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -187,7 +186,6 @@ export default function EditQuestionForm({
                 <FormItem>
                   <FormLabel>Question Text</FormLabel>
                   <FormControl>
-                    {/* <Input {...field} disabled={isSubmitting} /> */}
                     <textarea
                       {...field}
                       ref={textareaRef}
@@ -202,6 +200,7 @@ export default function EditQuestionForm({
                 </FormItem>
               )}
             />
+
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -301,6 +300,7 @@ export default function EditQuestionForm({
                 />
               )}
             </div>
+
             {showOptions && (
               <FormItem>
                 <FormLabel>Options</FormLabel>
@@ -362,7 +362,8 @@ export default function EditQuestionForm({
                 </div>
               </FormItem>
             )}
-            <DialogFooter>
+
+            <div className="flex justify-end gap-2">
               <Button
                 type="button"
                 variant="outline"
@@ -386,10 +387,11 @@ export default function EditQuestionForm({
                   "Save Changes"
                 )}
               </Button>
-            </DialogFooter>
+            </div>
           </form>
         </Form>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>,
+    document.body
   );
 }

@@ -77,6 +77,7 @@ export interface AppState {
   subscribedPlan: PlanId | null; // پلان فعلی کاربر
   subscriptionLimits: { [key in PlanId]: number }; // محدودیت پروژه‌ها بر اساس پلان
   
+  closeSidebar: () => void;
   subscribePlan: (plan: PlanId) => void;
   cancelSubscription: () => void;
 
@@ -131,6 +132,8 @@ export const useAppStore = create<AppState>()(
       userAvatar: "",
       subscribedPlan: null,
       subscriptionLimits: { basic: 3, pro: 5, enterprise: Infinity },
+
+      closeSidebar: () => set({ isSidebarOpen: false }),
 
       subscribePlan: (plan: PlanId) => {
         set({ subscribedPlan: plan });

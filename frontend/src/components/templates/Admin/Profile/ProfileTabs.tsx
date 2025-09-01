@@ -31,6 +31,10 @@ export default function ProfileTabs() {
     router.push('/admin/questionCreationForm')
   }
 
+  const gotToUsersLink = () => {
+    router.push('/admin/users')
+  }
+
   return (
     <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
       <Tab.List className="flex gap-2 border-b border-gray-100 dark:border-secondary-700 mb-4">
@@ -84,8 +88,8 @@ export default function ProfileTabs() {
                   <div className="text-sm font-medium">Quick Actions</div>
                 </div>
                 <div className="mt-3 flex gap-2">
-                  <button onClick={btnCreateProject} className="flex-1 px-3 py-2 rounded bg-indigo-600 text-white">New Project</button>
-                  <button className="px-3 py-2 rounded border">Users</button>
+                  <button onClick={btnCreateProject} className="flex-1 px-3 py-2 rounded bg-indigo-600 text-white">New Question</button>
+                  <button className="px-3 py-2 rounded border" onClick={gotToUsersLink}>Users</button>
                 </div>
               </div>
             </div>

@@ -22,10 +22,16 @@ export default function CustomSelect({
 }: CustomSelectProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
+      if (
+        ref.current &&
+        !ref.current.contains(e.target as Node) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
         setOpen(false);
       }
     };
@@ -35,10 +41,10 @@ export default function CustomSelect({
 
   return (
     <div ref={ref} className="relative w-full font-roboto">
-      <label className="font-roboto font-medium">{name}</label>
+      {name && <label className="block mb-1 font-medium">{name}</label>}
       <button
         type="button"
-        className={`w-full h-12 px-4 py-2 border rounded-md md:rounded-lg flex justify-between items-center bg-white dark:bg-secondary-800 
+        className={`w-full h-12 px-4 py-2 border border-gray-300 rounded-md md:rounded-lg flex justify-between items-center bg-white dark:bg-secondary-800 
           ${disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
         onClick={() => !disabled && setOpen((prev) => !prev)}
       >
@@ -51,7 +57,7 @@ export default function CustomSelect({
           viewBox="0 0 24 24"
           strokeWidth="1.5"
           stroke="currentColor"
-          className="size-4"
+          className={`size-4 transition-transform ${open ? "rotate-180" : ""}`}
         >
           <path
             strokeLinecap="round"
@@ -62,7 +68,10 @@ export default function CustomSelect({
       </button>
 
       {open && (
-        <div className="absolute z-20 mt-1 w-full border rounded-md shadow-lg bg-white dark:bg-secondary-800 max-h-60 overflow-y-auto">
+        <div
+          ref={dropdownRef}
+          className="absolute z-50 mt-1 w-full border rounded-md shadow-lg bg-white dark:bg-secondary-800 max-h-60 overflow-y-auto"
+        >
           {options.map((option) => {
             const isSelected = option === value;
             return (
