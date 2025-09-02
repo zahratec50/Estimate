@@ -1,35 +1,3 @@
-// "use client";
-
-// import React from "react";
-// import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-
-// const data = [
-//   { name: "Jan", projects: 30 },
-//   { name: "Feb", projects: 50 },
-//   { name: "Mar", projects: 40 },
-//   { name: "Apr", projects: 70 },
-//   { name: "May", projects: 90 },
-//   { name: "Jun", projects: 60 },
-// ];
-
-// const ProjectsChart = () => {
-//   return (
-//     <div className="bg-white dark:bg-secondary-800 p-4 rounded-lg shadow h-[300px]">
-//       <ResponsiveContainer width="100%" height="100%">
-//         <BarChart data={data}>
-//           <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-//           <XAxis dataKey="name" stroke="#6B7280" />
-//           <YAxis stroke="#6B7280" />
-//           <Tooltip />
-//           <Bar dataKey="projects" fill="#3b82f6" radius={[4,4,0,0]} />
-//         </BarChart>
-//       </ResponsiveContainer>
-//     </div>
-//   );
-// };
-
-// export default ProjectsChart;
-
 "use client";
 
 import React from "react";
@@ -40,10 +8,10 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  Legend,
   ResponsiveContainer,
 } from "recharts";
 
-// داده ۱۲ ماهه
 const data = [
   { name: "Jan", projects: 30, cost: 1200 },
   { name: "Feb", projects: 50, cost: 2300 },
@@ -59,7 +27,6 @@ const data = [
   { name: "Dec", projects: 95, cost: 5000 },
 ];
 
-// تولتیپ سفارشی
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     const { projects, cost } = payload[0].payload;
@@ -76,14 +43,26 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 const ProjectsChart = () => {
   return (
-    <div className="bg-white dark:bg-secondary-800 p-4 rounded-lg shadow h-[300px]">
+    <div className="bg-white dark:bg-secondary-800 p-4 rounded-lg shadow h-[350px]">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ top: 20, right: 20, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
           <XAxis dataKey="name" stroke="#6B7280" />
-          <YAxis stroke="#6B7280" />
+          {/* محور اول برای Projects */}
+          <YAxis yAxisId="left" stroke="#3b82f6" />
+          {/* محور دوم برای Cost */}
+          <YAxis yAxisId="right" orientation="right" stroke="#f59e0b" />
           <Tooltip content={<CustomTooltip />} />
-          <Bar dataKey="projects" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+          <Legend
+            wrapperStyle={{
+              fontSize: "14px",
+              fontWeight: 500,
+            }}
+          />
+          {/* Projects Bar */}
+          <Bar yAxisId="left" dataKey="projects" fill="#3b82f6" radius={[4, 4, 0, 0]} name="Projects" />
+          {/* Cost Bar */}
+          <Bar yAxisId="right" dataKey="cost" fill="#f59e0b" radius={[4, 4, 0, 0]} name="Cost ($)" />
         </BarChart>
       </ResponsiveContainer>
     </div>
