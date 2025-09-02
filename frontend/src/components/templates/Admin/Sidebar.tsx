@@ -10,6 +10,7 @@ import Image from "next/image";
 import { CiSearch } from "react-icons/ci";
 import { Input } from "@/components/ui/input";
 import ThemeSwitcher from "@/components/modules/Theme/Theme";
+import { IoBarChart } from "react-icons/io5";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -76,6 +77,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             >
               <IoHome size={20} />
               <span>Home</span>
+            </Link>
+            <Link
+              href="/admin"
+              className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
+            >
+              <IoBarChart size={20} />
+              <span>Data</span>
             </Link>
             <Link
               href="/admin/chats"
