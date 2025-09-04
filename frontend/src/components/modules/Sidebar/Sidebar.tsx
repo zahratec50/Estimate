@@ -38,6 +38,7 @@ const Sidebar = ({
     try {
       await fetch("/api/auth/signout", { method: "POST" });
       router.push("/"); // ریدایرکت به صفحه اصلی
+      handleClose
     } catch (error) {
       console.error("Sign out failed:", error);
     }

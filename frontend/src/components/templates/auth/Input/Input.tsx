@@ -29,7 +29,7 @@ export default function Input({
           {...register(name)}
           type={type}
           className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-1 ${
-            error ? "border-px border-rose-500 focus:ring-1 focus:ring-rose-500" : "border-gray-300 focus:ring-primary-500"
+            error ? "border-px border-rose-500 focus:ring-1 focus:ring-rose-500" : "border-gray-300 focus:ring-primary-500 dark:border-secondary-600 dark:bg-secondary-700"
           }`}
           placeholder={`Enter Your ${name}`}
           disabled={disabled}

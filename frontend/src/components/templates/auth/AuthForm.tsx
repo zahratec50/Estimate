@@ -185,7 +185,7 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
         e.preventDefault();
         handleFormSubmit();
       }}
-      className="w-full max-w-sm space-y-3 text-fontFamily-roboto"
+      className="w-full max-w-sm space-y-3 text-fontFamily-roboto dark:bg-background"
     >
       {!isLogin && (
         <Input
@@ -194,6 +194,7 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
           type="text"
           register={register}
           error={"name" in errors ? errors.name?.message : undefined}
+          
         />
       )}
       <Input
@@ -224,13 +225,13 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
               aria-label="Remember Me"
               className="w-4 h-4 accent-secondary-500"
             />
-            <span className="text-sm font-medium text-blackNew-50">
+            <span className="text-sm font-medium text-blackNew-50 dark:text-secondary-100">
               Remember Me
             </span>
           </div>
           <Link
             href="/forgot-password"
-            className="text-sm text-primary-600 font-medium hover:underline"
+            className="text-sm text-secondary-600 dark:text-secondary-300 font-medium hover:underline"
           >
             Forgot Password?
           </Link>
@@ -242,9 +243,9 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
             checked={termsChecked}
             onChange={(e) => setTermsChecked(e.target.checked)}
             aria-label="Terms & Privacy"
-            className="w-4 h-4 accent-secondary-500"
+            className="w-4 h-4 accent-secondary-500 dark:accent-secondary-700"
           />
-          <span className="text-blackNew-50">
+          <span className="text-blackNew-50 dark:text-secondary-300">
             I agree to the Terms & Privacy
           </span>
         </div>
@@ -255,8 +256,8 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
         disabled={!isLogin && !termsChecked}
         className={`w-full h-11 text-white font-semibold rounded-lg transition ${
           !isLogin && !termsChecked
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-primary-200 hover:bg-primary-200"
+            ? "bg-gray-400 dark:bg-indigo-400 cursor-not-allowed"
+            : "bg-primary-500 hover:bg-primary-300 dark:bg-indigo-500 dark:hover:bg-indigo-600"
         }`}
       >
         {isLogin ? "Login" : "Sign up"}

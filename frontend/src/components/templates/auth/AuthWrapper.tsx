@@ -18,7 +18,7 @@ export default function AuthWrapper({
 }) {
   return (
     <div className="flex md:items-center justify-center md:h-full lg:h-full gap-8 pb-6 md:pt-4 md:pb-0">
-      <div className="max-w-7xl w-full md:h-[660px] lg:h-[660px] bg-white rounded-lg flex flex-col md:flex-row overflow-hidden">
+      <div className="max-w-7xl w-full md:h-[660px] lg:h-[660px] bg-white dark:bg-background rounded-lg flex flex-col md:flex-row overflow-hidden">
         {/* Left Image */}
         <div
           className={
@@ -68,7 +68,12 @@ export default function AuthWrapper({
             <img
               src="/images/logo-black.png"
               alt="logo"
-              className={forHome ? "hidden md:block" : "h-16 w-16 mx-auto mb-2"}
+              className={forHome ? "hidden md:block" : "h-16 w-16 mx-auto mb-2 flex dark:hidden"}
+            />
+            <img
+              src="/images/Frame 20.png"
+              alt="logo"
+              className={forHome ? "hidden md:block" : "h-16 w-16 mx-auto mb-2 hidden dark:flex"}
             />
             <h2 className="text-xl font-bold">{title}</h2>
             {slogan && <p className="text-gray-500">{slogan}</p>}
@@ -85,10 +90,10 @@ export default function AuthWrapper({
 
           {/* Social login */}
           <div className="flex gap-4 w-full max-w-sm">
-            <button className="flex-1 h-11 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100">
+            <button className="flex-1 h-11 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100 dark:hover:bg-secondary-700 dark:border-secondary-700">
               <FcGoogle className="text-xl" /> Google
             </button>
-            <button className="flex-1 h-11 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100">
+            <button className="flex-1 h-11 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100 dark:hover:bg-secondary-700 dark:border-secondary-700">
               <FaApple className="text-xl" /> Apple ID
             </button>
           </div>
@@ -98,7 +103,7 @@ export default function AuthWrapper({
             {isLogin ? "Don't have an account?" : "Have an account?"}{" "}
             <Link
               href={isLogin ? "/signup" : "/signin"}
-              className="text-primary-600 hover:underline"
+              className="text-secondary-600 dark:text-secondary-300 hover:underline"
             >
               {isLogin ? "Sign up now" : "Login now"}
             </Link>
