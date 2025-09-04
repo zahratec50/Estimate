@@ -36,7 +36,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
 
         {/* محتوا با اسکرول */}
-        <main className="flex-1 overflow-auto min-h-0 p-4 md:p-6 lg:p-10">
+        <main className="flex-1 overflow-auto min-h-0 p-4 md:p-6 lg:p-10 bg-gray-200 dark:bg-muted">
           {children}
         </main>
       </div>

@@ -31,14 +31,14 @@ export default function PlanCard({
     >
       <div>
         <h3 className="text-xl font-semibold mb-2">{name}</h3>
-        <p className="text-4xl text-primary-500 font-roboto font-medium mb-4">
+        <p className="text-4xl text-primary-500 dark:text-white font-roboto font-medium mb-4">
           ${price}
-          <span className="text-lg text-gray-700">/month</span>
+          <span className="text-lg text-gray-700 dark:text-secondary-100">/month</span>
           
           </p>
-        <ul className="mb-4 space-y-1">
+        <ul className="mb-4 space-y-1 text-left ml-16">
           {features.map((f) => (
-            <li key={f} className="text-gray-600 text-sm">
+            <li key={f} className="text-gray-600 dark:text-secondary-50 text-sm">
               • {f}
             </li>
           ))}
@@ -48,7 +48,7 @@ export default function PlanCard({
       <button
         className={clsx(
           "w-full py-2 rounded-md text-white font-medium",
-          selected ? "bg-blue-600" : "bg-primary-500 hover:bg-gray-900"
+          selected ? "bg-blue-600" : "bg-primary-500 hover:bg-gray-900 dark:bg-indigo-600 dark:hover:bg-indigo-700"
         )}
       >
         {selected ? "Selected" : "Select"}

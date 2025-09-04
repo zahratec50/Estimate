@@ -118,7 +118,7 @@ module.exports = {
           800: "#894B00",
           900: "#733E0A",
         },
-        blackNewNew: {
+        blackNew: {
           50: "#09101D",
           100: "#2C2C2C",
         },

@@ -53,7 +53,7 @@ export default function ActivityLog() {
   }, []); // فقط برای بارگذاری اولیه
 
   return (
-    <div className="bg-white dark:bg-secondary-800 p-4 rounded-lg shadow">
+    <div className="bg-white dark:bg-secondary-700 p-4 rounded-lg shadow">
       <h3 className="text-lg font-medium mb-3">Recent Activity</h3>
       {error && (
         <div className="text-red-500 text-sm mb-3">Error: {error}</div>
@@ -85,7 +85,7 @@ export default function ActivityLog() {
       <div className="mt-4 flex justify-center">
         {hasMore && !error ? (
           <button
-            className="px-3 py-2 rounded border disabled:opacity-50"
+            className="px-3 py-2 rounded bg-secondary-50 hover:bg-secondary-100 dark:bg-secondary-800 dark:hover:bg-secondary-900 disabled:opacity-50"
             onClick={() => {
               const nextPage = page + 1;
               fetchPage(nextPage);

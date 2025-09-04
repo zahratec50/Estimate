@@ -60,7 +60,7 @@ const Sidebar = ({
       {/* Sidebar */}
       <aside
         className={clsx(
-          "fixed top-0 left-0 h-full flex flex-col justify-between p-4 dark:bg-secondary-500 bg-primary-500 shadow-lg z-50 transition-transform duration-300",
+          "fixed top-0 left-0 h-full flex flex-col justify-between p-4 dark:bg-secondary-800 bg-primary-500 shadow-lg z-50 transition-transform duration-300",
           {
             "w-2/3 md:w-64": true, // موبایل full، دسکتاپ ثابت
             "translate-x-0": isOpen, // باز در موبایل
@@ -93,33 +93,33 @@ const Sidebar = ({
 
         {/* Registered user links */}
         {isRegistered && (
-          <div className="flex flex-col space-y-4 dark:text-secondary-200 text-white font-medium pl-1">
-            <Link href="/dashboard/profile" className="hover:text-primary-100">
+          <div className="flex flex-col space-y-4 dark:text-secondary-200 font-medium pl-1">
+            <Link href="/dashboard/profile" className="text-white hover:text-primary-100">
               Profile
             </Link>
-            <Link href="/dashboard" className="hover:text-primary-100">
+            <Link href="/dashboard" className="text-white hover:text-primary-100">
               Dashboard
             </Link>
             <Link
               href="/dashboard/projectStart"
-              className="hover:text-primary-100"
+              className="text-white hover:text-primary-100"
             >
               Start
             </Link>
-            <Link href="/dashboard/history" className="hover:text-primary-100">
+            <Link href="/dashboard/history" className="text-white hover:text-primary-100">
               History
             </Link>
-            <Link href="/subscription" className="hover:text-primary-100">
+            <Link href="/subscription" className="text-white hover:text-primary-100">
               Subscription
             </Link>
           </div>
         )}
 
         {/* Nav Links */}
-        <nav className="space-y-4 dark:text-secondary-200 text-white font-medium pl-1 mt-6">
+        <nav className="space-y-4 dark:text-secondary-200 font-medium pl-1 mt-6">
           <Link
             href="/chat"
-            className="flex items-center gap-2 hover:text-primary-100"
+            className="flex items-center gap-2 text-white hover:text-primary-100"
             onClick={handleClose}
           >
             <IoChatbubblesOutline className="w-5 h-5" />
@@ -127,7 +127,7 @@ const Sidebar = ({
           </Link>
           <Link
             href="/notifications"
-            className="flex items-center gap-2 hover:text-primary-100"
+            className="flex items-center gap-2 text-white hover:text-primary-100"
             onClick={handleClose}
           >
             <IoNotificationsOutline className="w-5 h-5" />
@@ -135,7 +135,7 @@ const Sidebar = ({
           </Link>
           <Link
             href="/"
-            className="flex items-center gap-2 hover:text-primary-100"
+            className="flex items-center gap-2 text-white hover:text-primary-100"
             onClick={handleClose}
           >
             <IoSearchOutline className="w-5 h-5" />
@@ -143,7 +143,7 @@ const Sidebar = ({
           </Link>
           <button
             type="button"
-            className="flex items-center gap-2 hover:text-primary-100"
+            className="flex items-center gap-2 text-white hover:text-primary-100"
             onClick={handleSignOut}
           >
             <IoExitOutline className="w-5 h-5" />

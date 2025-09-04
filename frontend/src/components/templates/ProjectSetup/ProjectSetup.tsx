@@ -25,12 +25,10 @@ const ProjectSetup: React.FC = () => {
   const router = useRouter();
 
   const projectLimit = subscribedPlan ? PLAN_LIMITS[subscribedPlan] : 3;
-
   const isLimitReached = projects.length >= projectLimit;
 
   const handleStartProject = () => {
     const nameTrimmed = projectName.trim();
-
     if (nameTrimmed.length < 3) {
       setError("Project name must be at least 3 characters long");
       return;
@@ -54,7 +52,6 @@ const ProjectSetup: React.FC = () => {
       setProjectName("");
       router.push("/mainQuiz/1");
     }
-
     setError("");
   };
 
@@ -66,7 +63,6 @@ const ProjectSetup: React.FC = () => {
   const handleDelete = (id: string) => {
     const filtered = projects.filter((p) => p.id !== id);
     setProjects(filtered);
-
     if (currentProjectId === id) setCurrentProjectId(null);
   };
 
@@ -78,10 +74,10 @@ const ProjectSetup: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-fit px-4 py-8">
       <div className="rounded-2xl p-6 w-full max-w-lg">
-        <h2 className="text-3xl font-semibold text-gray-800 text-center mb-2">
+        <h2 className="text-3xl font-semibold text-gray-800 dark:text-gray-100 text-center mb-2">
           Let’s set up your project
         </h2>
-        <p className="text-gray-500 text-center mb-6">
+        <p className="text-gray-500 dark:text-gray-400 text-center mb-6">
           Create and manage your projects to get started.
         </p>
 
@@ -91,20 +87,24 @@ const ProjectSetup: React.FC = () => {
             placeholder="Enter project name"
             value={projectName}
             onChange={(e) => setProjectName(e.target.value)}
-            className="flex-1 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg p-3 
+              bg-white dark:bg-secondary-800 
+              text-gray-800 dark:text-gray-100 
+              focus:outline-none focus:ring-1 focus:ring-primary-500"
           />
           <button
             onClick={handleStartProject}
             disabled={isLimitReached && !editingId}
             className={`px-4 py-3 rounded-lg font-medium transition ${
               isLimitReached && !editingId
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-primary-500 text-white hover:bg-primary-300"
+                ? "bg-gray-300 text-gray-500 dark:bg-gray-700 dark:text-gray-400 cursor-not-allowed"
+                : "bg-primary-500 text-white hover:bg-primary-300 dark:bg-indigo-600 dark:hover:bg-indigo-700"
             }`}
           >
             {editingId ? "Update" : "Start"}
           </button>
         </div>
+
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         {isLimitReached && !editingId && (
           <p className="text-red-500 text-sm mb-4">
@@ -117,20 +117,23 @@ const ProjectSetup: React.FC = () => {
             <div
               key={project.id}
               onClick={() => handleSelect(project.id)}
-              className={`flex justify-between items-center p-3 rounded-lg border cursor-pointer ${
-                currentProjectId === project.id
-                  ? "border-gray-400 bg-neutral-100"
-                  : "border-gray-200"
-              }`}
+              className={`flex justify-between items-center p-3 rounded-lg border cursor-pointer 
+                ${
+                  currentProjectId === project.id
+                    ? "border-gray-400 bg-neutral-100 dark:border-gray-500 dark:bg-secondary-800"
+                    : "border-gray-200 dark:border-gray-700"
+                }`}
             >
-              <span className="font-medium text-gray-700">{project.name}</span>
+              <span className="font-medium text-gray-700 dark:text-gray-200">
+                {project.name}
+              </span>
               <div className="flex gap-3">
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     handleEdit(project);
                   }}
-                  className="text-neutral-300 hover:text-neutral-400"
+                  className="text-neutral-300 dark:text-neutral-400 hover:text-neutral-400 hover:dark:text-neutral-300"
                   title="Edit"
                 >
                   <Edit2 size={20} />
@@ -140,7 +143,7 @@ const ProjectSetup: React.FC = () => {
                     e.stopPropagation();
                     handleDelete(project.id);
                   }}
-                  className="text-neutral-300 hover:text-neutral-400"
+                  className="text-neutral-300 dark:text-neutral-400 hover:text-neutral-400 hover:dark:text-neutral-300"
                   title="Delete"
                 >
                   <Trash2 size={20} />
@@ -150,7 +153,7 @@ const ProjectSetup: React.FC = () => {
           ))}
 
           {projects.length === 0 && (
-            <p className="text-gray-400 text-sm text-center">
+            <p className="text-gray-400 dark:text-gray-500 text-sm text-center">
               No projects yet. Start by adding one above.
             </p>
           )}

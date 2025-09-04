@@ -73,7 +73,7 @@ export default function ProfileHeader() {
           {profile.name}
         </h1>
         <p className="text-sm text-muted-foreground">{profile.email}</p>
-        <p className="mt-1 text-xs text-muted-foreground">Admin</p>
+        <p className="mt-1 text-xs text-muted-foreground font-roboto font-semibold">Admin</p>
       </div>
 
       <div className="flex items-center gap-3">

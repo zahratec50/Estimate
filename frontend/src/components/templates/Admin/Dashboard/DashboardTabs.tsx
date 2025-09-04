@@ -15,10 +15,10 @@ const DashboardTabs = ({ chart, requestsTable, activityTable }: Props) => {
 
   return (
     <Tab.Group>
-      <Tab.List className="flex space-x-4 border-b border-gray-200 dark:border-secondary-700 mb-4">
+      <Tab.List className="flex space-x-4 border-gray-200 dark:border-secondary-700 ">
         {tabs.map((tab) => (
           <Tab key={tab} className={({ selected }) =>
-            `px-4 py-2 rounded-lg ${selected ? "bg-indigo-600 text-white" : "text-gray-500 dark:text-gray-400 hover:text-gray-700"}`
+            `px-4 py-2 rounded-t-lg ${selected ? "bg-gray-100 text-gray-800 dark:bg-secondary-800 dark:text-white" : "text-gray-500 dark:text-gray-400 hover:text-gray-700"}`
           }>
             {tab}
           </Tab>

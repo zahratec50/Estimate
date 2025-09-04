@@ -37,14 +37,14 @@ export default function SearchFilterBar({
 
   return (
     <div className="flex flex-col md:flex-row items-end gap-4 mb-6">
-      <div className="w-full md:1/3 h-12 flex items-center gap-2 border border-gray-300 focus-within:border-2 focus-within:border-black dark:bg-primary-300 rounded-md px-2">
+      <div className="w-full md:1/3 h-12 flex items-center gap-2 border bg-gray-100 border-gray-300 focus-within:border-2 focus-within:border-black dark:bg-secondary-800 rounded-md px-2">
         <CiSearch className="size-5" />
         <input
         type="text"
         placeholder="Search by name or email"
         value={searchTerm}
         onChange={handleSearchChange}
-        className="w-full h-full outline-0 dark:bg-primary-300"
+        className="w-full h-full outline-0 bg-gray-100 dark:bg-secondary-800"
       />
       </div>
       {/* Search Input */}

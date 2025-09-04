@@ -30,10 +30,11 @@ interface AdminProfile {
 function Topbar({ onMenuClick }: TopbarProps) {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const notifications = [
-    "New project request",
-    "User registered",
-    "System update",
+    { label: "New question request", path: "/admin/questionCreationForm" },
+    { label: "User registered", path: "/admin/users" },
+    { label: "System update", path: "/admin/settings" },
   ];
+
   const [profile, setProfile] = useState<AdminProfile | null>(null);
 
   const router = useRouter();
@@ -48,14 +49,16 @@ function Topbar({ onMenuClick }: TopbarProps) {
       } catch (err: any) {
         console.error("fetch profile:", err?.response?.data || err);
         showErrorToast({
-            title: 'Error',
-            description: err?.response?.data?.message || "Failed to load profile",
-            actionLabel: "OK",
-            onAction: () => {}
-        })
+          title: "Error",
+          description: err?.response?.data?.message || "Failed to load profile",
+          actionLabel: "OK",
+          onAction: () => {},
+        });
       }
     })();
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   return (
@@ -105,15 +108,11 @@ function Topbar({ onMenuClick }: TopbarProps) {
             align="end"
             className="w-64 max-h-60 overflow-auto data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95"
           >
-            {notifications.length === 0 ? (
-              <p className="text-sm text-muted-foreground p-2">
-                No notifications
-              </p>
-            ) : (
-              notifications.map((note, i) => (
-                <DropdownMenuItem key={i}>{note}</DropdownMenuItem>
-              ))
-            )}
+            {notifications.map((note, i) => (
+              <DropdownMenuItem key={i} onClick={() => router.push(note.path)}>
+                {note.label}
+              </DropdownMenuItem>
+            ))}
           </DropdownMenuContent>
         </DropdownMenu>
 

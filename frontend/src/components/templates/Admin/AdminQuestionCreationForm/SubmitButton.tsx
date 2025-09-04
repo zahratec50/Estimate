@@ -10,7 +10,7 @@ export default function SubmitButton({ isSubmitting }: SubmitButtonProps) {
   return (
     <Button
       type="submit"
-      className="bg-blue-600 text-white"
+      className="bg-indigo-600 text-white"
       disabled={isSubmitting}
     >
       {isSubmitting ? (

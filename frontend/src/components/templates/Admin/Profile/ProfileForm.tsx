@@ -9,6 +9,8 @@ import { showErrorToast } from "@/components/modules/toasts/ErrorToast";
 import { showSuccessToast } from "@/components/modules/toasts/SuccessToast";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { IoCloseOutline } from "react-icons/io5";
+import { CiEdit } from "react-icons/ci";
 
 const schema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -129,7 +131,7 @@ export default function ProfileForm({
   }
 
   return (
-    <div className="bg-white dark:bg-secondary-800 p-6 rounded-lg shadow">
+    <div className="bg-white dark:bg-secondary-700 p-6 rounded-lg rounded-tl-none shadow">
       <div className="flex items-center gap-4 mb-4">
         <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100 dark:bg-secondary-700">
           <img
@@ -154,9 +156,9 @@ export default function ProfileForm({
         <div>
           <button
             onClick={() => setEditing((v) => !v)}
-            className="px-3 py-2 rounded border"
+            className="px-3 py-2 rounded "
           >
-            {editing ? "Close" : "Edit"}
+            {editing ? <IoCloseOutline className="size-5" /> : <CiEdit className="size-5" />}
           </button>
         </div>
       </div>
@@ -190,7 +192,7 @@ export default function ProfileForm({
               Avatar
             </label>
             <div className="flex items-center gap-3">
-              <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-2 rounded border">
+              <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-2 rounded dark:bg-secondary-800">
                 <input
                   type="file"
                   accept="image/*"
@@ -209,6 +211,7 @@ export default function ProfileForm({
 
           <div className="flex justify-end gap-2">
             <Button
+              className="dark:border-none dark:bg-secondary-600"
               variant="outline"
               type="button"
               onClick={() => {
@@ -218,11 +221,12 @@ export default function ProfileForm({
                 });
                 setAvatarPreview(null);
                 setAvatarFile(null);
+                setEditing((v) => !v)
               }}
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting} className="dark:hover:bg-secondary-600">
               {isSubmitting ? "Saving..." : "Save changes"}
             </Button>
           </div>

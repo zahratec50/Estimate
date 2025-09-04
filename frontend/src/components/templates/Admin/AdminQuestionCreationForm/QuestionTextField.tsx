@@ -19,7 +19,7 @@ export default function QuestionTextField({ control }: QuestionTextFieldProps) {
           <FormControl>
             <Textarea
               placeholder="Enter the question here (e.g., What is the size of the room?)"
-              className="resize-none bg-white"
+              className="resize-none bg-white border border-gray-300 dark:bg-secondary-800"
               {...field}
             />
           </FormControl>

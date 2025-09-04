@@ -17,8 +17,8 @@ export default function TargetUserList() {
             key={user}
             className={`cursor-pointer transition-all duration-300 text-center ${
               selectedTargetUser === user
-                ? "border-primary-500 shadow-lg"
-                : "hover:border-primary-500 hover:shadow-md text-gray-500"
+                ? "border-primary-500 dark:border-2 dark:border-gray-500 dark:text-gray-500 dark:shadow-gray-900 shadow-lg"
+                : "hover:border-primary-500 hover:shadow-md text-gray-500 dark:border-white dark:text-white"
             }`}
             onClick={() => setSelectedTargetUser(user === selectedTargetUser ? null : user)}
           >

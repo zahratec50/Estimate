@@ -41,7 +41,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
       <aside
         className={clsx(
-          "fixed md:static top-0 left-0 h-full bg-white shadow-xl z-50 transition-transform duration-300 w-64",
+          "fixed md:static top-0 left-0 h-full bg-white dark:bg-black shadow-xl z-50 transition-transform duration-300 w-64",
           isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         )}
       >
@@ -58,7 +58,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               <img
                 src="/images/logo-black.png"
                 alt="logo"
-                className="w-16 h-16"
+                className="w-16 h-16 flex dark:hidden"
+              />
+              <img
+                src="/images/Frame 20.png"
+                alt="logo"
+                className="w-16 h-16 hidden dark:flex"
               />
             </div>
             {peers.map((peer) => (
@@ -84,7 +89,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </div>
           <Link
             href="/dashboard"
-            className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-200"
+            className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-800"
           >
             <MdAssessment className="size-7" /> Dashboard
           </Link>

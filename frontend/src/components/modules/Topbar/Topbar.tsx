@@ -7,6 +7,7 @@ import { TbHelpOctagon } from "react-icons/tb";
 import clsx from "clsx";
 import React from "react";
 import TopbarUserInfo from "@/components/templates/Profile/TopbarUserInfo";
+import ThemeSwitcher from "@/components/modules/Theme/Theme"
 
 interface TopbarProps {
   onMenuClick: () => void;
@@ -29,7 +30,7 @@ const TopbarBase = ({
         "w-full relative z-30 font-roboto",
         isHome
           ? "px-2 py-2 flex justify-between items-center"
-          : "px-2 py-3 sm:py-0 sm:px-0 flex justify-between items-center dark:bg-secondary-900 bg-blackNew-50 md:bg-white"
+          : "px-2 py-3 sm:py-0 sm:px-0 flex justify-between items-center dark:bg-secondary-800 bg-blackNew-50 md:bg-white"
       )}
     >
       {/* Left: Menu + Logo */}
@@ -116,6 +117,9 @@ const TopbarBase = ({
         ) : (
           <div className="w-full">
             <div className="w-full flex items-center justify-end space-x-3 md:space-x-6 dark:text-white text-white md:text-secondary-700 text-sm md:text-base font-medium md:border-b-2 md:border-neutral-300 p-2">
+              <span className="hidden md:flex items-center cursor-pointer">
+                <ThemeSwitcher />
+              </span>
               <span className="hidden md:flex items-center cursor-pointer">
                 <IoNotificationsOutline className="w-5 h-5 mr-1" />
                 Notifications

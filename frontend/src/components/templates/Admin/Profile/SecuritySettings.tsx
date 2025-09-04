@@ -59,14 +59,14 @@ export default function SecuritySettings() {
   };
 
   return (
-    <div className="bg-white dark:bg-secondary-800 p-6 rounded-lg shadow">
+    <div className="bg-white dark:bg-secondary-700 p-6 rounded-lg">
       <h3 className="text-lg font-medium mb-4">Security</h3>
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label className="block text-sm mb-1 text-gray-700 dark:text-gray-300">
             Current password
           </label>
-          <Input type="password" {...register("currentPassword")} />
+          <Input type="password" {...register("currentPassword")} className="dark:bg-secondary-800 dark:border-px dark:border-secondary-400" />
           {errors.currentPassword && (
             <p className="text-xs text-red-500 mt-1">
               {errors.currentPassword.message}
@@ -77,7 +77,7 @@ export default function SecuritySettings() {
           <label className="block text-sm mb-1 text-gray-700 dark:text-gray-300">
             New password
           </label>
-          <Input type="password" {...register("newPassword")} />
+          <Input type="password" {...register("newPassword")} className="dark:bg-secondary-800 dark:border-px dark:border-secondary-400" />
           {errors.newPassword && (
             <p className="text-xs text-red-500 mt-1">
               {errors.newPassword.message}
@@ -88,7 +88,7 @@ export default function SecuritySettings() {
           <label className="block text-sm mb-1 text-gray-700 dark:text-gray-300">
             Confirm password
           </label>
-          <Input type="password" {...register("confirmPassword")} />
+          <Input type="password" {...register("confirmPassword")} className="dark:bg-secondary-800 dark:border-px dark:border-secondary-400" />
           {errors.confirmPassword && (
             <p className="text-xs text-red-500 mt-1">
               {errors.confirmPassword.message}
@@ -96,7 +96,7 @@ export default function SecuritySettings() {
           )}
         </div>
         <div className="flex justify-end">
-          <Button type="submit" disabled={isSubmitting}>
+          <Button type="submit" disabled={isSubmitting} className="dark:hover:bg-secondary-700">
             {isSubmitting ? "Saving..." : "Change password"}
           </Button>
         </div>

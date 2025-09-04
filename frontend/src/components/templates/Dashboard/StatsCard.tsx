@@ -9,15 +9,15 @@ interface StatsCardProps {
   bgColor?: string;
 }
 
-export const StatsCard = ({ label, value, icon, bgColor = "bg-gray-100" }: StatsCardProps) => (
+export const StatsCard = ({ label, value, icon, bgColor }: StatsCardProps) => (
   <motion.div
     whileHover={{ scale: 1.03 }}
     transition={{ type: "spring", stiffness: 300, damping: 20 }}
   >
-    <Card className="cursor-pointer">
+    <Card className={`cursor-pointer dark:bg-secondary-700 border-none ${bgColor}`}>
       <CardHeader className="flex flex-row sm:items-center sm:justify-center gap-3">
         {icon && (
-          <div className={`p-3 rounded-full ${bgColor} flex items-center justify-center`}>
+          <div className={`p-3 rounded-full flex items-center justify-center`}>
             {icon}
           </div>
         )}

@@ -4,7 +4,7 @@ import React, { memo, useState } from "react";
 import StatsCard from "./StatsCard";
 import ProjectsChart from "./ProjectsChart";
 import RequestsTable from "./RequestsTable";
-import ActivityTable from "../Profile/ActivityTable";
+import ActivityTable from "./ActivityTable";
 import DashboardTabs from "./DashboardTabs";
 import { FileText, Users, DollarSign, ClipboardList } from "lucide-react";
 
@@ -17,7 +17,7 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <main className="p-6 flex-1 space-y-8 dark:bg-secondary-900">
+    <main className="p-6 flex-1 space-y-8">
       {/* KPI Cards */}
       <div className="grid gap-6 grid-cols-2 lg:grid-cols-4">
         {statsData.map((stat, idx) => (

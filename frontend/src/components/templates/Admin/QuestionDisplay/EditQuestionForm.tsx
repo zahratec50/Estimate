@@ -164,7 +164,6 @@ export default function EditQuestionForm({
   const isFormChanged = form.formState.isDirty;
   const isSubmitting = mutation.isPending;
 
-  // ⚡ استفاده از Portal برای overlay و modal
   return createPortal(
     <div className="fixed inset-0 z-[9999] flex items-center justify-center">
       {/* Overlay */}
@@ -174,11 +173,12 @@ export default function EditQuestionForm({
       />
 
       {/* Modal Content */}
-      <div className="relative z-[10000] bg-white dark:bg-secondary-800 p-6 rounded-lg shadow-lg w-full max-w-[650px] max-h-[90vh] overflow-y-auto">
+      <div className="relative z-[10000] bg-white dark:bg-secondary-800 p-6 rounded-lg shadow-lg w-full max-w-[650px] max-h-[90vh] overflow-y-auto text-gray-900 dark:text-gray-100">
         <h2 className="text-xl font-roboto mb-4">Edit Question</h2>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            {/* Question Text */}
             <FormField
               control={form.control}
               name="questionText"
@@ -190,7 +190,11 @@ export default function EditQuestionForm({
                       {...field}
                       ref={textareaRef}
                       disabled={isSubmitting}
-                      className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                      className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none
+                                 bg-white dark:bg-secondary-900
+                                 text-gray-900 dark:text-gray-100
+                                 border-gray-300 dark:border-gray-700
+                                 placeholder-gray-400 dark:placeholder-gray-500"
                       style={{ minHeight: "40px" }}
                       onInput={handleTextareaInput}
                       placeholder="Enter question text"
@@ -201,7 +205,9 @@ export default function EditQuestionForm({
               )}
             />
 
+            {/* Selects */}
             <div className="grid grid-cols-2 gap-4">
+              {/* Target User */}
               <FormField
                 control={form.control}
                 name="targetUser"
@@ -226,6 +232,8 @@ export default function EditQuestionForm({
                   </FormItem>
                 )}
               />
+
+              {/* Category */}
               <FormField
                 control={form.control}
                 name="category"
@@ -251,6 +259,8 @@ export default function EditQuestionForm({
                   </FormItem>
                 )}
               />
+
+              {/* Question Type */}
               <FormField
                 control={form.control}
                 name="questionType"
@@ -278,6 +288,7 @@ export default function EditQuestionForm({
                 )}
               />
 
+              {/* Selection Mode */}
               {showSelectionMode && (
                 <FormField
                   control={form.control}
@@ -301,6 +312,7 @@ export default function EditQuestionForm({
               )}
             </div>
 
+            {/* Options */}
             {showOptions && (
               <FormItem>
                 <FormLabel>Options</FormLabel>
@@ -326,7 +338,11 @@ export default function EditQuestionForm({
                                     placeholder={`option ${index + 1}`}
                                     {...field}
                                     disabled={isSubmitting}
-                                    className="h-10 bg-white"
+                                    className="h-10
+                                               bg-white dark:bg-secondary-700
+                                               text-gray-900 dark:text-gray-100
+                                               border-gray-300 dark:border-gray-700
+                                               placeholder-gray-400 dark:placeholder-secondary-500"
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -354,7 +370,10 @@ export default function EditQuestionForm({
                     size="sm"
                     onClick={() => append("")}
                     disabled={isSubmitting}
-                    className="mt-2"
+                    className="mt-2
+                               bg-white dark:bg-secondary-800
+                               text-gray-800 dark:text-gray-100
+                               border-gray-300 dark:border-secondary-700"
                   >
                     <Plus className="h-4 w-4 mr-2" />
                     Add Option
@@ -363,12 +382,16 @@ export default function EditQuestionForm({
               </FormItem>
             )}
 
+            {/* Actions */}
             <div className="flex justify-end gap-2">
               <Button
                 type="button"
                 variant="outline"
                 onClick={onClose}
                 disabled={isSubmitting}
+                className="bg-white dark:bg-secondary-700
+                           text-gray-800 dark:text-gray-100
+                           border-gray-300 dark:border-gray-700"
               >
                 Cancel
               </Button>

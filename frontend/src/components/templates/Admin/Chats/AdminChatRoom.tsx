@@ -94,7 +94,7 @@ export default function AdminChatRoom({
           flex items-center p-2 border border-gray-200 rounded-2xl
           dark:border-secondary-700 gap-2 focus-within:border-primary-500
           w-full
-          mx-auto
+          mx-auto dark:bg-secondary-700
         "
       >
         <input
@@ -103,13 +103,13 @@ export default function AdminChatRoom({
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
           placeholder="Type a message..."
           className="
-            flex-1 px-3 py-2 outline-0 text-sm sm:text-base
+            flex-1 px-3 py-2 outline-0 text-sm sm:text-base dark:bg-secondary-700
           "
         />
         <button
           onClick={handleSend}
           aria-label="send message"
-          className="rounded-2xl font-medium hover:text-primary-300"
+          className="rounded-2xl font-medium hover:text-primary-300 dark:hover:text-gray-400"
         >
           <IoMdSend className="size-6 sm:size-7" />
         </button>

@@ -63,7 +63,7 @@ export default function Subscription() {
         open={paymentSuccess}
         onClose={() => setPaymentSuccess(false)}
       />
-      <button className="bg-primary-500 text-lg text-white font-roboto rounded-lg px-6 py-2">
+      <button className="bg-primary-500 hover:bg-primary-300 text-lg dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-roboto rounded-lg px-6 py-2">
         <Link href='/dashboard'>Cancel</Link>
       </button>
     </div>

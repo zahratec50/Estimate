@@ -113,7 +113,7 @@ export const EditableFirstQuiz = () => {
                     [f.label]: e.target.value,
                   })
                 }
-                className="w-full border p-2 rounded-md mb-2"
+                className="w-full p-2 rounded-md mb-2 dark:bg-secondary-800"
               />
             ))
           ) : null}
@@ -122,7 +122,7 @@ export const EditableFirstQuiz = () => {
 
       <button
         onClick={handleSave}
-        className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-400 transition"
+        className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-400 transition"
       >
         Save Changes
       </button>

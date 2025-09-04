@@ -24,7 +24,7 @@ export default function CategoryList({ targetUser }: CategoryListProps) {
             key={category}
             className={`cursor-pointer transition-all duration-300 text-center ${
               selectedCategory === category
-                ? "border-blue-500 text-blue-500 shadow-lg"
+                ? "border-blue-500 text-blue-500 dark:border-2 shadow-lg"
                 : "hover:border-primary-500 hover:shadow-md"
             }`}
             onClick={() => setSelectedCategory(category === selectedCategory ? null : category)}

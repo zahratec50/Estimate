@@ -72,11 +72,11 @@ export default function UserEditModal({ user, onClose }: UserEditModalProps) {
         </div>
 
         {/* دکمه‌ها */}
-        <div className="flex justify-end gap-2">
-          <Button variant="secondary" onClick={onClose}>
+        <div className="flex justify-end gap-2 ">
+          <Button variant="secondary" onClick={onClose} className="dark:bg-secondary-700 dark:hover:bg-secondary-600">
             Cancel
           </Button>
-          <Button variant="default" onClick={handleSave}>
+          <Button variant="default" onClick={handleSave} className="dark:hover:bg-secondary-600">
             Save Changes
           </Button>
         </div>

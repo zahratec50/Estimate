@@ -143,7 +143,7 @@ export default function QuestionList({
                     size="icon"
                     onClick={() => btnEditQuestion(question)}
                     disabled={deleteMutation.isPending}
-                    className="hover:bg-primary-50"
+                    className="hover:bg-primary-50 dark:hover:bg-primary-200 dark:border-none"
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>

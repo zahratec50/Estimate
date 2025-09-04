@@ -81,7 +81,7 @@ export default function DashboardPage() {
           <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 w-full sm:w-auto">
             <Link href="/dashboard/projectStart">+ Start New Estimate</Link>
           </button>
-          <button className="border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 w-full sm:w-auto">
+          <button className="border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700 dark:border-none w-full sm:w-auto">
             <Link href="/dashboard/history">View History</Link>
           </button>
         </div>

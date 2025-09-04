@@ -15,11 +15,13 @@ export default function UserTable({ users }: { users: any[] }) {
     const matchesSearch =
       user.name.toLowerCase().includes(search.toLowerCase()) ||
       user.email.toLowerCase().includes(search.toLowerCase());
-    const matchesRole = roleFilter ? user.role === roleFilter : true;
-    const matchesStatus = statusFilter
-      ? (statusFilter === "banned" && user.isBanned) ||
-        (statusFilter === "active" && !user.isBanned)
-      : true;
+    const matchesRole =
+      roleFilter === "all" || roleFilter === "" || user.role === roleFilter;
+    const matchesStatus =
+      statusFilter === "all" ||
+      statusFilter === "" ||
+      (statusFilter === "banned" && user.isBanned) ||
+      (statusFilter === "active" && !user.isBanned);
     return matchesSearch && matchesRole && matchesStatus;
   });
 
@@ -46,15 +48,20 @@ export default function UserTable({ users }: { users: any[] }) {
           </thead>
           <tbody>
             {filteredUsers.map((user) => (
-              <tr key={user._id} className="hover:bg-gray-50">
+              <tr
+                key={user._id}
+                className="hover:bg-gray-50 dark:hover:bg-secondary-400"
+              >
                 <td className="p-3">{user.name}</td>
                 <td className="p-3">{user.email}</td>
                 <td className="p-3">{user.role}</td>
                 <td className="p-3">{user.isBanned ? "Banned" : "Active"}</td>
-                <td className="p-3">{new Date(user.lastSeen).toLocaleDateString()}</td>
+                <td className="p-3">
+                  {new Date(user.lastSeen).toLocaleDateString()}
+                </td>
                 <td className="p-3">
                   <button
-                    className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-500"
+                    className="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-800"
                     onClick={() => setSelectedUser(user)}
                   >
                     Edit
@@ -67,7 +74,10 @@ export default function UserTable({ users }: { users: any[] }) {
       </div>
 
       {selectedUser && (
-        <UserEditModal user={selectedUser} onClose={() => setSelectedUser(null)} />
+        <UserEditModal
+          user={selectedUser}
+          onClose={() => setSelectedUser(null)}
+        />
       )}
     </div>
   );

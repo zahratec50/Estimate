@@ -47,18 +47,18 @@ export default function MessageInput({
   };
 
   return (
-    <div className="flex items-center gap-2 p-2 bg-white border border-gray-300 rounded-full w-full max-w-3xl mx-auto mb-3">
+    <div className="flex items-center gap-2 p-2 bg-white dark:bg-secondary-600 border border-gray-300 rounded-full w-full max-w-3xl mx-auto mb-3">
       <input
         value={text}
         onChange={(e) => setText(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSend()}
         placeholder="Type a message..."
-        className="flex-1 px-3 py-2 text-sm md:text-lg outline-none rounded-full bg-gray-50"
+        className="flex-1 px-3 py-2 text-sm md:text-lg outline-none rounded-full bg-gray-50 dark:bg-secondary-600 dark:placeholder:text-white"
       />
       <button
         aria-label="send"
         onClick={handleSend}
-        className="p-2 rounded-full text-blue-500 hover:text-blue-800 transition"
+        className="p-2 rounded-full text-blue-500 dark:text-secondary-200 hover:text-blue-800 dark:hover:text-secondary-100 transition"
       >
         <IoMdSend className="w-8 h-8" />
       </button>
