@@ -44,7 +44,7 @@ export default function ProfileTabs() {
               "px-4 py-2 rounded-t-lg text-sm font-medium",
               selected
                 ? "bg-white dark:bg-secondary-700 text-gray-900 dark:text-white"
-                : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-secondary-700"
+                : "text-gray-600 dark:text-gray-300"
             )
           }>
             {t}

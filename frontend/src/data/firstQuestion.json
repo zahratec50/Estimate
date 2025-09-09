@@ -1,77 +1,123 @@
 [
   {
-    "id": 1,
-    "type": "single-choice",
+    "id": "1",
+    "type": "button",
     "title": "Which of these best describes you?",
-    "options": ["Homeowner", "Investor", "Installer/Handyman", "Contractor"],
+    "options": [
+      { "label": "Homeowner" },
+      { "label": "Investor" },
+      { "label": "Installer/Handyman" },
+      { "label": "Contractor" }
+    ],
     "multiple": false,
+    "hint": "",
+    "imageUrl": "",
     "validation": {
       "required": true,
       "errorMessage": "Please select one option."
-    }
+    },
+    "completed": false
   },
   {
-    "id": 2,
+    "id": "2",
     "type": "select",
     "title": "Which city and state do you live or work in?",
-    "options": ["City and state dropdown"],
+    "options": [
+      { "label": "City and state dropdown" }
+    ],
     "multiple": false,
+    "hint": "",
+    "imageUrl": "",
     "validation": {
       "required": true,
       "errorMessage": "Please select your city and state."
-    }
+    },
+    "completed": false
   },
   {
-    "id": 3,
-    "type": "single-choice",
+    "id": "3",
+    "type": "button",
     "title": "What type of property do you typically deal with?",
-    "options": ["Apartment", "Detached house", "Commercial / Shop", "Industrial", "Other"],
+    "options": [
+      { "label": "Apartment" },
+      { "label": "Detached house" },
+      { "label": "Commercial / Shop" },
+      { "label": "Industrial" },
+      { "label": "Other" }
+    ],
     "multiple": false,
+    "hint": "",
+    "imageUrl": "",
     "validation": {
       "required": true,
       "minSelected": 1,
       "maxSelected": 5,
       "errorMessage": "Please select at least one property type."
-    }
+    },
+    "completed": false
   },
   {
-    "id": 4,
-    "type": "single-choice",
+    "id": "4",
+    "type": "button",
     "title": "Have you done any renovations or repairs before?",
-    "options": ["Yes, several times", "Yes, once", "No, this is my first time"],
+    "options": [
+      { "label": "Yes, several times" },
+      { "label": "Yes, once" },
+      { "label": "No, this is my first time" }
+    ],
     "multiple": false,
+    "hint": "",
+    "imageUrl": "",
     "validation": {
       "required": true,
       "errorMessage": "Please select one option."
-    }
+    },
+    "completed": false
   },
   {
-    "id": 5,
-    "type": "single-choice",
+    "id": "5",
+    "type": "radio",
     "title": "When would you prefer we reach out if needed?",
-    "options": ["Morning", "Afternoon", "Evening", "Anytime is fine"],
+    "options": [
+      { "label": "Morning" },
+      { "label": "Afternoon" },
+      { "label": "Evening" },
+      { "label": "Anytime is fine" }
+    ],
     "multiple": false,
+    "hint": "",
+    "imageUrl": "",
     "validation": {
       "required": true,
       "errorMessage": "Please select one option."
-    }
+    },
+    "completed": false
   },
   {
-    "id": 6,
-    "type": "multi-choice",
+    "id": "6",
+    "type": "checkbox",
     "title": "How did you hear about us?",
-    "options": ["Online search", "Friends & family", "Social media", "Advertisement", "Other"],
+    "options": [
+      { "label": "Online search" },
+      { "label": "Friends & family" },
+      { "label": "Social media" },
+      { "label": "Advertisement" },
+      { "label": "Other" }
+    ],
     "multiple": true,
+    "hint": "",
+    "imageUrl": "",
     "validation": {
       "required": true,
       "minSelected": 1,
       "maxSelected": 5,
       "errorMessage": "Please select at least one source."
-    }
+    },
+    "completed": false
   },
   {
-    "id": 7,
-    "type": "text-input",
+    "id": "7",
+    "type": "text",
     "title": "What’s the best way to contact you? (email or phone)",
     "fields": [
       {
@@ -92,6 +138,9 @@
           "errorMessage": "Please enter a valid US phone number."
         }
       }
-    ]
+    ],
+    "hint": "",
+    "imageUrl": "",
+    "completed": false
   }
 ]

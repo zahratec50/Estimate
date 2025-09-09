@@ -17,14 +17,14 @@ export const StatsCard = ({ label, value, icon, bgColor }: StatsCardProps) => (
     <Card className={`cursor-pointer dark:bg-secondary-700 border-none ${bgColor}`}>
       <CardHeader className="flex flex-row sm:items-center sm:justify-center gap-3">
         {icon && (
-          <div className={`p-3 rounded-full flex items-center justify-center`}>
+          <div className={`p-2 rounded-full flex items-center justify-center`}>
             {icon}
           </div>
         )}
-        <CardTitle className="text-sm sm:text-base">{label}</CardTitle>
+        <CardTitle className="text-sm sm:text-base tracking-wider font-roboto font-semibold">{label}</CardTitle>
       </CardHeader>
       <CardContent className="flex items-center justify-center">
-        <p className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100">
+        <p className="text-xl sm:text-2xl font-bold font-roboto text-gray-800 dark:text-gray-100">
           {value}
         </p>
       </CardContent>

@@ -65,7 +65,7 @@ export default function CodeInput() {
             onChange={(e) => handleChange(e.target.value, index)}
             onKeyDown={(e) => handleKeyDown(e, index)}
             className={clsx(
-              "w-[81.5px] md:w-[89px] h-12 text-center text-xl dark:bg-white dark:text-blackNew-50 border rounded-md font-semibold focus:outline-none",
+              "w-[81.5px] md:w-[89px] h-12 text-center text-2xl dark:bg-white dark:text-blackNew-50 border rounded-md font-semibold focus:outline-none",
               error
                 ? "border-red-500"
                 : "border-neutral-300 focus:border-primary-500"

@@ -4,7 +4,7 @@ import { useAppStore } from "@/store/useAppStore";
 import firstQuestion from "@/data/firstQuestion.json";
 import states from "@/data/states.json";
 import { useState, useEffect, useCallback } from "react";
-import CustomSelect from "../CustomSelect/CustomSelect";
+import CustomSelect from "../../CustomSelect/CustomSelect";
 
 interface CityStateAnswer {
   state: string;
@@ -43,18 +43,18 @@ export const EditableFirstQuiz = () => {
   const handleStateChange = (state: string) => {
     setSelectedState(state);
     setSelectedCity(""); // reset city
-    handleChange(
-      "Which city and state do you live or work in?",
-      { state, city: "" } as CityStateAnswer
-    );
+    handleChange("Which city and state do you live or work in?", {
+      state,
+      city: "",
+    } as CityStateAnswer);
   };
 
   const handleCityChange = (city: string) => {
     setSelectedCity(city);
-    handleChange(
-      "Which city and state do you live or work in?",
-      { state: selectedState, city } as CityStateAnswer
-    );
+    handleChange("Which city and state do you live or work in?", {
+      state: selectedState,
+      city,
+    } as CityStateAnswer);
   };
 
   const handleSave = useCallback(() => {

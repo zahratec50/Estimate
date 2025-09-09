@@ -11,6 +11,7 @@ import { CiSearch } from "react-icons/ci";
 import { Input } from "@/components/ui/input";
 import ThemeSwitcher from "@/components/modules/Theme/Theme";
 import { IoBarChart } from "react-icons/io5";
+import { IoExit } from "react-icons/io5";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -102,11 +103,16 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </div>
 
           {/* ThemeSwitcher در موبایل */}
-          <div className="flex items-center gap-3 mt-0 mb-44 pt-4 border-t border-gray-200 dark:border-secondary-700 lg:hidden">
-            <ThemeSwitcher />
-            Theme
+          <div className="flex flex-col  gap-3 mt-0 mb-44 pt-4 border-t border-gray-200 dark:border-secondary-700 ">
+            <div className="flex items-center gap-3 lg:hidden">
+              <ThemeSwitcher />
+              Theme
+            </div>
+            <Link href="/" className="flex items-center gap-3 font-roboto">
+              <IoExit className="size-5 font-bold text-black dark:text-white" />
+              Sign Out
+            </Link>
           </div>
-          
         </nav>
       </aside>
     </>

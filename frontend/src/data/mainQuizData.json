@@ -1,141 +1,207 @@
 [
   {
-    "id": 1,
-    "type": "single-choice",
-    "title": "Which programming language do you prefer?",
-    "options": ["JavaScript", "Python", "C#", "Go", "Rust"],
-    "multiple": false,
+    "id": "1",
+    "type": "text",
+    "title": "Please describe your renovation goals:",
+    "placeholder": "e.g., modern look, more storage, eco-friendly",
+    "hint": "Describe the main purpose of your renovation in a few words.",
+    "multiple":false,
+    "imageUrl": "/images/questions/goals.jpg",
     "validation": {
       "required": true,
-      "errorMessage": "Please select one programming language."
-    }
+      "minLength": 5,
+      "errorMessage": "Please enter at least 5 characters."
+    },
+    "completed": false
   },
   {
-    "id": 2,
-    "type": "multi-choice",
-    "title": "Which skills do you have? (You can select multiple)",
+    "id": "2",
+    "type": "number",
+    "title": "What is the size of your bathroom (in square meters)?",
+    "placeholder": "Enter a number",
+    "hint": "Provide the approximate size to help estimate costs.",
+    "multiple":false,
+    "imageUrl": "/images/questions/size.jpg",
+    "validation": {
+      "required": true,
+      "min": 2,
+      "max": 100,
+      "errorMessage": "Please enter a value between 2 and 100."
+    },
+    "completed": false
+  },
+  {
+    "id": "3",
+    "type": "select",
+    "title": "What is your preferred flooring material?",
     "options": [
-      "UI/UX Design",
-      "Web Development",
-      "Artificial Intelligence",
-      "Project Management",
-      "Data Analysis",
-      "Software Testing"
+      { "label": "Ceramic Tile", "imageUrl": "/images/flooring/ceramic.jpg" },
+      { "label": "Porcelain Tile", "imageUrl": "/images/flooring/porcelain.jpg" },
+      { "label": "Vinyl", "imageUrl": "/images/flooring/vinyl.jpg" },
+      { "label": "Natural Stone", "imageUrl": "/images/flooring/stone.jpg" },
+      { "label": "Laminate", "imageUrl": "/images/flooring/laminate.jpg" }
     ],
     "multiple": true,
+    "hint": "You can choose one or more flooring materials you like.",
+    "validation": {
+      "required": true,
+      "errorMessage": "Please select at least one material."
+    },
+    "completed": false
+  },
+  {
+    "id": "4",
+    "type": "checkbox",
+    "title": "Which features do you want to include?",
+    "options": [
+      { "label": "Bathtub", "imageUrl": "/images/features/bathtub.jpg" },
+      { "label": "Walk-in Shower", "imageUrl": "/images/features/shower.jpg" },
+      { "label": "Double Sink", "imageUrl": "/images/features/doublesink.jpg" },
+      { "label": "Heated Floor", "imageUrl": "/images/features/heatedfloor.jpg" },
+      { "label": "Smart Mirror", "imageUrl": "/images/features/mirror.jpg" }
+    ],
+    "multiple": true,
+    "hint": "Tick all features that you would like to add.",
     "validation": {
       "required": true,
       "minSelected": 1,
-      "maxSelected": 5,
-      "errorMessage": "Please select at least one skill."
-    }
+      "errorMessage": "Please select at least one feature."
+    },
+    "completed": false
   },
   {
-    "id": 3,
-    "type": "single-choice",
-    "title": "Do you have experience working in a team?",
-    "options": ["Yes", "No"],
+    "id": "5",
+    "type": "radio",
+    "title": "Do you want to include underfloor heating?",
+    "options": [
+      { "label": "Yes", "imageUrl": "/images/options/yes.jpg" },
+      { "label": "No", "imageUrl": "/images/options/no.jpg" }
+    ],
     "multiple": false,
+    "hint": "This option can increase comfort but also cost.",
     "validation": {
       "required": true,
       "errorMessage": "Please select Yes or No."
-    }
+    },
+    "completed": false
   },
   {
-    "id": 4,
-    "type": "text-input",
-    "title": "Please enter your contact information:",
-    "fields": [
-      {
-        "label": "Email",
-        "placeholder": "example@email.com",
-        "validation": {
-          "required": true,
-          "pattern": "^[\\w.-]+@[\\w.-]+\\.\\w{2,}$",
-          "errorMessage": "Please enter a valid email address."
-        }
-      },
-      {
-        "label": "Phone Number",
-        "placeholder": "+1 555-555-5555",
-        "validation": {
-          "required": true,
-          "pattern": "^\\+1\\s?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$",
-          "errorMessage": "Please enter a valid US phone number."
-        }
-      }
-    ]
-  },
-  {
-    "id": 5,
-    "type": "select",
-    "title": "What is your programming experience level?",
-    "options": ["Beginner", "Intermediate", "Expert"],
-    "multiple": false,
-    "validation": {
-      "required": true,
-      "errorMessage": "Please select your experience level."
-    }
-  },
-  {
-    "id": 6,
-    "type": "image-choice",
-    "title": "Which design style for bathroom do you prefer?",
+    "id": "6",
+    "type": "button",
+    "title": "What is your renovation budget?",
+    "options": [
+      { "label": "<$5,000" },
+      { "label": "$5,000 - $15,000" },
+      { "label": "$15,000 - $30,000" },
+      { "label": "$30,000+" }
+    ],
     "multiple": true,
-    "options": [
-      {
-        "label": "Modern",
-        "imageUrl": "/images/b1.jpg"
-      },
-      {
-        "label": "Minimal",
-        "imageUrl": "/images/b2.webp"
-      },
-      {
-        "label": "Classic",
-        "imageUrl": "/images/b3.jpg"
-      },
-      {
-        "label": "Fantasy",
-        "imageUrl": "/images/b4.jpg"
-      }
-    ],
+    "hint": "Choose one or more ranges if you are flexible with budget.",
     "validation": {
       "required": true,
-      "minSelected": 1,
-      "errorMessage": "Please select at least one design style."
-    }
+      "errorMessage": "Please select your budget range."
+    },
+    "completed": false
   },
   {
-    "id": 7,
-    "type": "image-choice",
-    "title": "Which design style for bedroom do you prefer?",
-    "multiple": false,
+    "id": "7",
+    "type": "text",
+    "title": "What colors do you prefer for your bathroom?",
+    "placeholder": "e.g., White, Gray, Beige",
+    "hint": "List your favorite color scheme for tiles, walls, or cabinets.",
+    "multiple":false,
+    "imageUrl": "/images/questions/colors.jpg",
+    "validation": {
+      "required": false
+    },
+    "completed": false
+  },
+  {
+    "id": "8",
+    "type": "radio",
+    "title": "How many sinks do you need?",
+    "placeholder": "Enter a number",
+    "hint": "Single sink is standard, but double sinks are common in master bathrooms.",
     "options": [
-      {
-        "label": "Logo 1",
-        "imageUrl": "/images/r1.webp"
-      },
-      {
-        "label": "Logo 2",
-        "imageUrl": "/images/r6.jpeg"
-      },
-      {
-        "label": "Logo 3",
-        "imageUrl": "/images/r3.webp"
-      },
-      {
-        "label": "Logo 4",
-        "imageUrl": "/images/r4.jpg"
-      },
-      {
-        "label": "Logo 5",
-        "imageUrl": "/images/r5.jpg"
-      }
+      { "label": "1", "imageUrl": "/images/options/yes.jpg" },
+      { "label": "2", "imageUrl": "/images/options/no.jpg" },
+      { "label": "3", "imageUrl": "/images/options/no.jpg" }
     ],
+    "multiple":false,
+    "imageUrl": "/images/questions/sinks.jpg",
     "validation": {
       "required": true,
-      "errorMessage": "Please select a logo."
-    }
-  }
+      "min": 1,
+      "max": 3,
+      "errorMessage": "Please enter between 1 and 3 sinks."
+    },
+    "completed": false
+  },
+  {
+    "id": "9",
+    "type": "select",
+    "title": "Which lighting options do you prefer?",
+    "options": [
+      { "label": "Ceiling Lights", "imageUrl": "/images/lighting/ceiling.jpg" },
+      { "label": "Wall Sconces", "imageUrl": "/images/lighting/wall.jpg" },
+      { "label": "LED Mirror Lights", "imageUrl": "/images/lighting/mirror.jpg" },
+      { "label": "Natural Skylight", "imageUrl": "/images/lighting/skylight.jpg" }
+    ],
+    "multiple": true,
+    "hint": "You can select multiple lighting options for different moods.",
+    "validation": {
+      "required": true,
+      "errorMessage": "Please select at least one lighting option."
+    },
+    "completed": false
+  },
+  {
+    "id": "10",
+    "type": "radio",
+    "title": "Do you need accessibility features (e.g., grab bars, walk-in shower)?",
+    "options": [
+      { "label": "Yes", "imageUrl": "/images/options/yes.jpg" },
+      { "label": "No", "imageUrl": "/images/options/no.jpg" }
+    ],
+    "multiple": false,
+    "hint": "Choose 'Yes' if the bathroom should be elderly or disability friendly.",
+    "validation": {
+      "required": true,
+      "errorMessage": "Please select Yes or No."
+    },
+    "completed": false
+  },
+  {
+  "id": "11",
+  "type": "select",
+  "title": "Which type of shower do you prefer?",
+  "options": [
+    { "label": "Standard Shower" },
+    { "label": "Rain Shower" },
+    { "label": "Steam Shower" },
+    { "label": "Massage Shower" },
+    { "label": "Corner Shower" },
+    { "label": "Walk-in Shower" }
+  ],
+  "multiple": false,
+  "hint": "Select one shower type that you prefer.",
+  "validation": {
+    "required": true,
+    "errorMessage": "Please select one shower type."
+  },
+  "completed": false
+},
+{
+  "id": "12",
+  "type": "file",
+  "title": "Upload a photo of your current bathroom (optional)",
+  "hint": "You can upload an image to help us understand your style or current setup.",
+  "multiple":false,
+  "validation": {
+    "required": false
+  },
+  "completed": false
+}
+
+
 ]

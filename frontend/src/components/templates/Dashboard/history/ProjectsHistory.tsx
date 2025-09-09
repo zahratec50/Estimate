@@ -34,7 +34,7 @@ export default function History({
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
       <Card
-        className="cursor-pointer hover:shadow-xl transition-all duration-200 bg-secondary-50 dark:bg-secondary-700 dark:border-none"
+        className="cursor-pointer hover:shadow-xl transition-all duration-200 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-secondary-400 dark:to-secondary-600 dark:border-none"
         onClick={() => router.push(`/dashboard/project/${id}`)}
       >
         <CardHeader className="flex flex-row justify-around items-start sm:items-center gap-2">

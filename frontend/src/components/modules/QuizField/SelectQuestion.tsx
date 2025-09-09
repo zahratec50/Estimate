@@ -1,20 +1,12 @@
 import { useState, useEffect } from "react";
 import states from "@/data/states.json";
 import CustomSelect from "@/components/templates/CustomSelect/CustomSelect";
+import { QuestionItem } from "@/store/useAppStore";
 
-interface QuestionItem {
-  id: number;
-  type: "single-choice" | "multi-choice" | "select" | "text-input";
-  title: string;
-  options: string[];
-  multiple?: boolean;
-  validation: {
-    required: boolean;
-    errorMessage: string;
-    minSelected?: number;
-    maxSelected?: number;
-    pattern?: string;
-  };
+interface ImageOption {
+  label: string;
+  value?: string;
+  imageUrl?: string;
 }
 
 interface SelectQuestionProps {
@@ -32,6 +24,32 @@ export default function SelectQuestion({
 }: SelectQuestionProps) {
   const [selectedState, setSelectedState] = useState<string>("");
   const [selectedCity, setSelectedCity] = useState<string>("");
+
+  const stateOptions: ImageOption[] = Object.keys(states.countries.USA).map(
+    (state) => ({
+      label: state,
+      value: state,
+    })
+  );
+
+  const cityOptions: ImageOption[] = selectedState
+    ? (
+        states.countries.USA[
+          selectedState as keyof typeof states.countries.USA
+        ] || []
+      ).map((city) => ({
+        label: city,
+        value: city,
+      }))
+    : [];
+
+  const options: ImageOption[] = questionData.options
+  ? questionData.options.map(opt => ({
+      label: typeof opt === 'string' ? opt : opt.label,
+      value: typeof opt === 'string' ? opt : opt.imageUrl,
+    }))
+  : [];
+
 
   useEffect(() => {
     if (questionData.type === "select" && selectedAnswer) {
@@ -74,7 +92,7 @@ export default function SelectQuestion({
         <>
           <div className="w-full md:w-1/2">
             <CustomSelect
-              options={Object.keys(states.countries.USA)}
+              options={stateOptions}
               value={selectedState}
               onChange={handleStateChange}
               placeholder="Select a state"
@@ -83,13 +101,7 @@ export default function SelectQuestion({
           </div>
           <div className="w-full md:w-1/2">
             <CustomSelect
-              options={
-                selectedState
-                  ? states.countries.USA[
-                      selectedState as keyof typeof states.countries.USA
-                    ]
-                  : []
-              }
+              options={cityOptions}
               value={selectedCity}
               onChange={handleCityChange}
               placeholder="Select a city"
@@ -101,7 +113,7 @@ export default function SelectQuestion({
       ) : (
         <div className="w-full md:w-1/2">
           <CustomSelect
-            options={questionData.options}
+            options={options}
             value={selectedState}
             onChange={handleStateChange}
             placeholder="Select"

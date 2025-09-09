@@ -6,8 +6,8 @@ import { IoNotificationsOutline, IoSearchOutline } from "react-icons/io5";
 import { TbHelpOctagon } from "react-icons/tb";
 import clsx from "clsx";
 import React from "react";
-import TopbarUserInfo from "@/components/templates/Profile/TopbarUserInfo";
-import ThemeSwitcher from "@/components/modules/Theme/Theme"
+import TopbarUserInfo from "@/components/templates/Dashboard/Profile/TopbarUserInfo";
+import ThemeSwitcher from "@/components/modules/Theme/Theme";
 
 interface TopbarProps {
   onMenuClick: () => void;

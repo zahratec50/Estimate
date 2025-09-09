@@ -51,8 +51,8 @@ export default function ProjectDetails({ projectId }: ProjectDetailsProps) {
         {project.mainQuizAnswers.map((a, idx) => (
           <AnswerItem
             key={idx}
-            question={a.question}
-            answer={a.answer}
+            question={a.questionTitle}
+            answer={a.answer as string | string[]}
             onImageClick={handleImageClick}
           />
         ))}

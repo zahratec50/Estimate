@@ -55,7 +55,7 @@ export default function VerificationPage({
           </div>
         )}
 
-        <div className="w-[390px] h-[660px] lg:w-1/2 lg:h-[660px] flex flex-col items-center justify-between lg:justify-center bg-white dark:bg-secondary-900 rounded-lg pt-32 lg:pt-0">
+        <div className="w-[390px] h-[660px] lg:w-1/2 lg:h-[660px] flex flex-col items-center justify-between lg:justify-center bg-white dark:bg-background rounded-lg pt-32 lg:pt-0">
           <div className="w-[350px] md:w-95">
             <button
               onClick={() => router.back()}

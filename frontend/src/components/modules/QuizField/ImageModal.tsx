@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { ImageOption } from "@/store/useAppStore";
+import {ImageOption}  from "@/store/useAppStore";
 import { showErrorToast } from "../toasts/ErrorToast";
 
 type ImageModalProps = {
@@ -108,7 +108,7 @@ function ImageModal({
                 }`}
               >
                 <Image
-                  src={option.imageUrl}
+                  src={option.imageUrl as string}
                   alt={option.label}
                   width={100}
                   height={149}
