@@ -47,13 +47,13 @@ export default function MessageInput({
   };
 
   return (
-    <div className="flex items-center gap-2 p-2 bg-white dark:bg-secondary-600 border border-gray-300 rounded-full w-full max-w-3xl mx-auto mb-3">
+    <div className="flex items-center gap-2 p-2 bg-white dark:bg-secondary-700 border border-gray-300 dark:border-secondary-600 rounded-full w-full max-w-3xl mx-auto mb-3">
       <input
         value={text}
         onChange={(e) => setText(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSend()}
         placeholder="Type a message..."
-        className="flex-1 px-3 py-2 text-sm md:text-lg outline-none rounded-full bg-gray-50 dark:bg-secondary-600 dark:placeholder:text-white"
+        className="flex-1 px-3 py-2 text-sm md:text-lg outline-none rounded-full bg-gray-50 dark:bg-secondary-700 dark:placeholder:text-white"
       />
       <button
         aria-label="send"

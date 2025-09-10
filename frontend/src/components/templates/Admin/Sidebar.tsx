@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import ThemeSwitcher from "@/components/modules/Theme/Theme";
 import { IoBarChart } from "react-icons/io5";
 import { IoExit } from "react-icons/io5";
+import { MdOutlineQuiz } from "react-icons/md";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -99,6 +100,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             >
               <FaClipboardQuestion size={20} />
               <span>Questions</span>
+            </Link>
+            <Link
+              href="/admin/firstQuizManager"
+              className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
+            >
+              <MdOutlineQuiz size={20} />
+              <span>Base Quiz</span>
             </Link>
           </div>
 

@@ -34,7 +34,7 @@ export default function MessageBubble({
         className={`relative px-4 py-2 rounded-full max-w-[75%] shadow-md break-words 
         text-sm leading-relaxed transition-all duration-200
         ${mine
-          ? "bg-gray-900 text-white rounded-br-none"
+          ? "bg-gray-500 text-white rounded-br-none"
           : "bg-gray-300 text-gray-900 rounded-bl-none"
         }`}
       >

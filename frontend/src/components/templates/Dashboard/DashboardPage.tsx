@@ -100,7 +100,7 @@ export default function DashboardPage() {
       <section>
         <h2 className="text-2xl font-semibold mb-4">Active Projects</h2>
         {sortedProjects.length === 0 ? (
-          <div className="text-center text-gray-500 py-10 bg-gray-50 dark:bg-gray-800 rounded-lg shadow">
+          <div className="text-center text-gray-500 py-10 bg-gray-50 dark:bg-background rounded-lg shadow">
             <p>No projects yet. Start your first estimate!</p>
           </div>
         ) : (
@@ -119,7 +119,7 @@ export default function DashboardPage() {
       <section>
         <h2 className="text-2xl font-semibold mb-4">Recent Activity</h2>
         {recentActivities.length === 0 ? (
-          <div className="text-center text-gray-500 py-10 bg-gray-50 dark:bg-gray-800 rounded-lg shadow">
+          <div className="text-center text-gray-500 py-10 bg-gray-50 dark:bg-background rounded-lg shadow">
             <p className="text-gray-500">No recent activity.</p>
           </div>
         ) : (

@@ -141,7 +141,7 @@ export default function ViewHistory() {
 
       {/* Projects Grid */}
       {visibleProjects.length === 0 ? (
-        <div className="text-center text-gray-500 py-10 pl-2 bg-gray-50 dark:bg-gray-800 rounded-lg shadow">
+        <div className="text-center text-gray-500 py-10 pl-2 dark:bg-background">
           <p>No projects found.</p>
         </div>
       ) : (

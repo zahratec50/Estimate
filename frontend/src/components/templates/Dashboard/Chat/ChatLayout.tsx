@@ -68,7 +68,7 @@ export default function ChatLayout() {
   }, [self, activeConversation, addMessage, peer]);
 
   return (
-    <div className="flex h-screen bg-gray-100 dark:bg-secondary-700 rounded-2xl overflow-hidden">
+    <div className="flex h-screen bg-gray-100 dark:bg-secondary-900 rounded-2xl overflow-hidden">
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <div className="flex-1 flex flex-col">
         <ChatHeader peer={peer} online={online} onMenuClick={() => setIsSidebarOpen(true)} />
