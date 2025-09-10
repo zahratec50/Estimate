@@ -36,7 +36,7 @@ export default function PlanCard({
           <span className="text-lg text-gray-700 dark:text-secondary-100">/month</span>
           
           </p>
-        <ul className="mb-4 space-y-1 text-left ml-16">
+        <ul className="mb-4 space-y-1 text-left md:ml-12 lg:ml-16">
           {features.map((f) => (
             <li key={f} className="text-gray-600 dark:text-secondary-50 text-sm">
               • {f}

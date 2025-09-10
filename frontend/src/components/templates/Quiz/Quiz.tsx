@@ -47,6 +47,7 @@ import ProgressSegment from "./../../modules/ProgressBar/ProgressBar";
 
 interface QuizProps {
   isFirstQuiz: boolean;
+  
 }
 
 export default function Quiz({ isFirstQuiz }: QuizProps) {

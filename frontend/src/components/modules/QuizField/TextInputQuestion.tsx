@@ -636,152 +636,840 @@
 // };
 
 
+// "use client";
+
+// import React, { useState, useCallback, useEffect } from "react";
+// import { useAppStore } from "@/store/useAppStore";
+
+// type Field = {
+//   label: string;
+//   placeholder?: string;
+//   validation?: {
+//     required?: boolean;
+//     minLength?: number;
+//     pattern?: string;
+//     format?: "email" | "usPhone";
+//     errorMessage?: string;
+//   };
+// };
+
+// type QuestionData = {
+//   id: string;
+//   title?: string;
+//   type: "text";
+//   fields?: Field[]; // اگر وجود داشته باشه => multi-field
+//   validation?: {
+//     required?: boolean;
+//     minLength?: number;
+//     pattern?: string;
+//     errorMessage?: string;
+//   };
+// };
+
+// type Props = {
+//   questionData: QuestionData;
+//   selectedAnswer: string | string[];
+//   setAnswer: (answer: string | string[]) => void;
+//   isFirstQuiz?: boolean;
+// };
+
+// const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// const usPhoneRegex = /^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$/;
+
+// export const TextInputQuestion: React.FC<Props> = ({
+//   questionData,
+//   selectedAnswer,
+//   setAnswer,
+//   isFirstQuiz,
+// }) => {
+//   const getAnswerForQuestion = useAppStore((s) => s.getAnswerForQuestion);
+
+//   const [inputValues, setInputValues] = useState<Record<string, string>>({});
+//   const [errorMessages, setErrorMessages] = useState<Record<string, string>>({});
+
+//   // initialize from selectedAnswer or store
+//   useEffect(() => {
+//     if (questionData.fields) {
+//       // multi-field
+//       const init: Record<string, string> = {};
+//       questionData.fields.forEach((f, idx) => {
+//         if (Array.isArray(selectedAnswer)) init[f.label] = selectedAnswer[idx] || "";
+//         else init[f.label] = "";
+//       });
+//       setInputValues(init);
+//     } else {
+//       // single-field
+//       if (typeof selectedAnswer === "string") setInputValues({ single: selectedAnswer });
+//       else if (Array.isArray(selectedAnswer)) setInputValues({ single: selectedAnswer[0] || "" });
+//       else setInputValues({ single: "" });
+//     }
+//   }, [questionData, selectedAnswer]);
+
+//   // validate single field
+//   const validateField = useCallback((value: string, v?: Field["validation"]) => {
+//     const trimmed = value.trim();
+//     if (v?.required && !trimmed) return v.errorMessage || "This field is required";
+//     if (v?.minLength && trimmed.length < v.minLength)
+//       return v.errorMessage || `Minimum ${v.minLength} characters required`;
+//     if (v?.pattern && !new RegExp(v.pattern).test(trimmed)) return v.errorMessage || "Invalid format";
+//     if (v?.format === "email" && !emailRegex.test(trimmed)) return v.errorMessage || "Invalid email";
+//     if (v?.format === "usPhone" && !usPhoneRegex.test(trimmed))
+//       return v.errorMessage || "Invalid US phone number";
+//     return null;
+//   }, []);
+
+//   const validateAll = useCallback(
+//     (values: Record<string, string>) => {
+//       const errors: Record<string, string> = {};
+//       if (questionData.fields) {
+//         questionData.fields.forEach((field) => {
+//           const err = validateField(values[field.label] || "", field.validation);
+//           if (err) errors[field.label] = err;
+//         });
+//       } else {
+//         const err = validateField(values["single"] || "", questionData.validation);
+//         if (err) errors["single"] = err;
+//       }
+//       setErrorMessages(errors);
+//       return errors;
+//     },
+//     [questionData, validateField]
+//   );
+
+//   const handleChange = useCallback(
+//   (label: string, value: string) => {
+//     setInputValues((prev) => {
+//       const updated = { ...prev, [label]: value };
+//       validateAll(updated); // فقط خطاها رو آپدیت کن
+
+//       // جواب همیشه ذخیره بشه (حتی اگر خطا باشه)
+//       if (questionData.fields) {
+//         const arr = Object.values(updated);
+//         setAnswer(arr);
+//       } else {
+//         setAnswer(updated["single"] || "");
+//       }
+
+//       return updated;
+//     });
+//   },
+//   [questionData, validateAll, setAnswer]
+// );
+
+
+//   const fieldsToRender = questionData.fields ?? [{ label: "single", placeholder: questionData?.validation?.errorMessage || "" }];
+
+//   return (
+//     <div className="flex flex-col gap-4">
+//       {fieldsToRender.map((field) => {
+//         const value = inputValues[field.label] ?? "";
+//         return (
+//           <div key={field.label} className="flex flex-col gap-1">
+//             <input
+//               type="text"
+//               placeholder={field.placeholder || ""}
+//               value={value}
+//               onChange={(e) => handleChange(field.label, e.target.value)}
+//               className={`border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+//                 errorMessages[field.label] ? "border-red-500" : "border-gray-300"
+//               }`}
+//             />
+//             {errorMessages[field.label] && (
+//               <span className="text-red-500 text-sm">{errorMessages[field.label]}</span>
+//             )}
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// };
+
+
+// "use client";
+
+// import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+// import { QuestionItem, AnswerValue } from "@/store/useAppStore";
+
+// interface Props {
+//   question: QuestionItem;
+//   selectedAnswer: string | string[] | null;
+//   setAnswer: (
+//     question: QuestionItem,
+//     answer: AnswerValue,
+//     isFirstQuiz: boolean
+//   ) => void;
+//   isFirstQuiz: boolean;
+//   onValidationChange?: (isValid: boolean) => void; // اضافه: اعلام اعتبار به والد
+// }
+
+// const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// const usPhoneRegex = /^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$/;
+
+// export const TextInputQuestion = ({
+//   question,
+//   selectedAnswer,
+//   setAnswer,
+//   isFirstQuiz,
+//   onValidationChange,
+// }: Props) => {
+//   const [inputValues, setInputValues] = useState<Record<string, string>>({});
+//   const [errorMessages, setErrorMessages] = useState<Record<string, string>>({});
+//   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+
+//   // مقدار اولیه
+//   useEffect(() => {
+//     if (question.fields && question.fields.length > 0) {
+//       const init: Record<string, string> = {};
+//       question.fields.forEach((f, idx) => {
+//         if (Array.isArray(selectedAnswer)) init[f.label] = selectedAnswer[idx] || "";
+//         else init[f.label] = "";
+//       });
+//       setInputValues(init);
+//     } else {
+//       if (typeof selectedAnswer === "string") setInputValues({ single: selectedAnswer });
+//       else if (Array.isArray(selectedAnswer)) setInputValues({ single: selectedAnswer[0] || "" });
+//       else setInputValues({ single: "" });
+//     }
+//   }, [question, selectedAnswer]);
+
+//   const validateField = useCallback((value: string, validation?: any) => {
+//     const trimmed = value.trim();
+//     if (validation?.required && !trimmed) return validation.errorMessage || "This field is required";
+//     if (validation?.minLength && trimmed.length < validation.minLength)
+//       return validation.errorMessage || `Minimum ${validation.minLength} characters required`;
+//     if (validation?.pattern && !new RegExp(validation.pattern).test(trimmed))
+//       return validation.errorMessage || "Invalid format";
+//     if (validation?.format === "email" && !emailRegex.test(trimmed))
+//       return validation.errorMessage || "Invalid email";
+//     if (validation?.format === "usPhone" && !usPhoneRegex.test(trimmed))
+//       return validation.errorMessage || "Invalid US phone number";
+//     return null;
+//   }, []);
+
+//   const validateAll = useCallback(
+//     (values: Record<string, string>) => {
+//       const errors: Record<string, string> = {};
+//       if (question.fields && question.fields.length > 0) {
+//         question.fields.forEach((field) => {
+//           const err = validateField(values[field.label] || "", field.validation);
+//           if (err) errors[field.label] = err;
+//         });
+//       } else {
+//         const err = validateField(values["single"] || "", question.validation);
+//         if (err) errors["single"] = err;
+//       }
+//       setErrorMessages(errors);
+//       return errors;
+//     },
+//     [question, validateField]
+//   );
+
+//   // چک کن آیا همه فیلدها معتبرند
+//   const isValid = useMemo(() => Object.keys(errorMessages).length === 0 && Object.values(inputValues).every(v => v.trim() !== ""), [errorMessages, inputValues]);
+
+//   // اعلام اعتبار به والد
+//   useEffect(() => {
+//     if (onValidationChange) onValidationChange(isValid);
+//   }, [isValid, onValidationChange]);
+
+//   const handleChange = useCallback(
+//     (label: string, value: string) => {
+//       setInputValues((prev) => {
+//         const updated = { ...prev, [label]: value };
+//         validateAll(updated);
+
+//         if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+//         debounceTimeout.current = setTimeout(() => {
+//           if (question.fields && question.fields.length > 0) {
+//             const arr = Object.values(updated);
+//             setAnswer(question, arr, isFirstQuiz);
+//           } else {
+//             setAnswer(question, updated["single"] || "", isFirstQuiz);
+//           }
+//         }, 300);
+
+//         return updated;
+//       });
+//     },
+//     [question, isFirstQuiz, setAnswer, validateAll]
+//   );
+
+//   const fieldsToRender =
+//     question.fields && question.fields.length > 0
+//       ? question.fields
+//       : [{ label: "single", placeholder: question.placeholder || "" }];
+
+//   return (
+//     <div className="flex flex-col gap-4">
+//       {fieldsToRender.map((field) => {
+//         const value = inputValues[field.label] ?? "";
+//         return (
+//           <div key={field.label} className="flex flex-col gap-1">
+//             <input
+//               type="text"
+//               placeholder={field.placeholder || ""}
+//               value={value}
+//               onChange={(e) => handleChange(field.label, e.target.value)}
+//               className={`border rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+//                 errorMessages[field.label] ? "border-red-500" : "border-gray-300"
+//               }`}
+//             />
+//             {errorMessages[field.label] && (
+//               <span className="text-red-500 text-sm">{errorMessages[field.label]}</span>
+//             )}
+//             {field.hint && !errorMessages[field.label] && (
+//               <p className="text-sm text-gray-500">{field.hint}</p>
+//             )}
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// };
+
+
+// "use client";
+
+// import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+// import { QuestionItem, AnswerValue } from "@/store/useAppStore";
+
+// interface Props {
+//   question: QuestionItem;
+//   selectedAnswer: AnswerValue | null;
+//   setAnswer: (
+//     question: QuestionItem,
+//     answer: AnswerValue,
+//     isFirstQuiz: boolean
+//   ) => void;
+//   isFirstQuiz: boolean;
+//   onValidationChange?: (isValid: boolean) => void; // اضافه: اعلام اعتبار به والد
+// }
+
+// const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+// const usPhoneRegex = /^(?:\+1\s?)?(?:\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}$/;
+
+// export const TextInputQuestion = ({
+//   question,
+//   selectedAnswer,
+//   setAnswer,
+//   isFirstQuiz,
+//   onValidationChange,
+// }: Props) => {
+//   const [inputValues, setInputValues] = useState<Record<string, string>>({});
+//   const [errorMessages, setErrorMessages] = useState<Record<string, string>>({});
+//   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+
+//   // مقدار اولیه
+//   useEffect(() => {
+//     if (question.fields && question.fields.length > 0) {
+//       const init: Record<string, string> = {};
+//       if (typeof selectedAnswer === "object" && !Array.isArray(selectedAnswer) && selectedAnswer !== null) {
+//         // اگر Record<string, string> است
+//         question.fields.forEach((f) => {
+//           init[f.label] = (selectedAnswer as Record<string, string>)[f.label] || "";
+//         });
+//       } else if (Array.isArray(selectedAnswer)) {
+//         // fallback: اگر array است، بر اساس index
+//         question.fields.forEach((f, idx) => {
+//           init[f.label] = selectedAnswer[idx] || "";
+//         });
+//       } else {
+//         // خالی
+//         question.fields.forEach((f) => {
+//           init[f.label] = "";
+//         });
+//       }
+//       setInputValues(init);
+//     } else {
+//       // single field
+//       const singleValue = typeof selectedAnswer === "string" 
+//         ? selectedAnswer 
+//         : Array.isArray(selectedAnswer) 
+//         ? selectedAnswer.join(", ") 
+//         : "";
+//       setInputValues({ single: singleValue });
+//     }
+//   }, [question, selectedAnswer]);
+
+//   const validateField = useCallback((value: string, validation?: any) => {
+//     const trimmed = value.trim();
+//     if (validation?.required && !trimmed) return validation.errorMessage || "This field is required";
+//     if (validation?.minLength && trimmed.length < validation.minLength)
+//       return validation.errorMessage || `Minimum ${validation.minLength} characters required`;
+//     if (validation?.pattern && !new RegExp(validation.pattern).test(trimmed))
+//       return validation.errorMessage || "Invalid format";
+//     if (validation?.format === "email" && !emailRegex.test(trimmed))
+//       return validation.errorMessage || "Invalid email";
+//     if (validation?.format === "usPhone" && !usPhoneRegex.test(trimmed))
+//       return validation.errorMessage || "Invalid US phone number";
+//     if (validation?.min !== undefined && Number(trimmed) < validation.min)
+//       return validation.errorMessage || `Minimum ${validation.min} required`;
+//     if (validation?.max !== undefined && Number(trimmed) > validation.max)
+//       return validation.errorMessage || `Maximum ${validation.max} required`;
+//     return null;
+//   }, []);
+
+//   const validateAll = useCallback(
+//     (values: Record<string, string>) => {
+//       const errors: Record<string, string> = {};
+//       if (question.fields && question.fields.length > 0) {
+//         question.fields.forEach((field) => {
+//           const err = validateField(values[field.label] || "", field.validation);
+//           if (err) errors[field.label] = err;
+//         });
+//       } else {
+//         const err = validateField(values["single"] || "", question.validation);
+//         if (err) errors["single"] = err;
+//       }
+//       setErrorMessages(errors);
+//       return errors;
+//     },
+//     [question, validateField]
+//   );
+
+//   // چک کن آیا همه فیلدها معتبرند
+//   const isValid = useMemo(() => {
+//     const hasErrors = Object.keys(errorMessages).length > 0;
+//     const hasEmptyRequired = question.fields 
+//       ? question.fields.some(f => f.validation?.required && !inputValues[f.label]?.trim())
+//       : question.validation?.required && !inputValues["single"]?.trim();
+//     return !hasErrors && !hasEmptyRequired;
+//   }, [errorMessages, inputValues, question]);
+
+//   // اعلام اعتبار به والد
+//   useEffect(() => {
+//     if (onValidationChange) onValidationChange(isValid);
+//   }, [isValid, onValidationChange]);
+
+//   const handleChange = useCallback(
+//     (label: string, value: string) => {
+//       setInputValues((prev) => {
+//         const updated = { ...prev, [label]: value };
+//         validateAll(updated);
+
+//         if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+//         debounceTimeout.current = setTimeout(() => {
+//           if (question.fields && question.fields.length > 0) {
+//             // برای multi-field، Record را پاس کن (نه array)
+//             const answerRecord = { ...updated };
+//             // حذف single اگر وجود دارد
+//             delete answerRecord["single"];
+//             setAnswer(question, answerRecord, isFirstQuiz);
+//           } else {
+//             setAnswer(question, updated["single"] || "", isFirstQuiz);
+//           }
+//         }, 300);
+
+//         return updated;
+//       });
+//     },
+//     [question, isFirstQuiz, setAnswer, validateAll]
+//   );
+
+//   const fieldsToRender =
+//     question.fields && question.fields.length > 0
+//       ? question.fields
+//       : [{ label: "single", placeholder: question.placeholder || "" }];
+
+//   return (
+//     <div className="flex flex-col gap-4">
+//       {fieldsToRender.map((field) => {
+//         const value = inputValues[field.label] ?? "";
+//         return (
+//           <div key={field.label} className="flex flex-col gap-1">
+//             <input
+//               type="text"
+//               placeholder={field.placeholder || ""}
+//               value={value}
+//               onChange={(e) => handleChange(field.label, e.target.value)}
+//               className={`border rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+//                 errorMessages[field.label] ? "border-red-500" : "border-gray-300"
+//               }`}
+//             />
+//             {errorMessages[field.label] && (
+//               <span className="text-red-500 text-sm">{errorMessages[field.label]}</span>
+//             )}
+//             {field.hint && !errorMessages[field.label] && (
+//               <p className="text-sm text-gray-500">{field.hint}</p>
+//             )}
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// };
+
+
+// "use client";
+
+// import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+// import { QuestionItem, AnswerValue } from "@/store/useAppStore";
+
+// interface Props {
+//   question: QuestionItem;
+//   selectedAnswer: AnswerValue | null;
+//   setAnswer: (
+//     question: QuestionItem,
+//     answer: AnswerValue,
+//     isFirstQuiz: boolean
+//   ) => void;
+//   isFirstQuiz: boolean;
+//   onValidationChange?: (isValid: boolean) => void; // اضافه: اعلام اعتبار به والد
+// }
+
+// const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+// const usPhoneRegex = /^(?:\+1\s?)?(?:\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}$/;
+
+// export const TextInputQuestion = ({
+//   question,
+//   selectedAnswer,
+//   setAnswer,
+//   isFirstQuiz,
+//   onValidationChange,
+// }: Props) => {
+//   const [inputValues, setInputValues] = useState<Record<string, string>>({});
+//   const [errorMessages, setErrorMessages] = useState<Record<string, string>>({});
+//   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+
+//   // مقدار اولیه
+//   useEffect(() => {
+//     if (question.fields && question.fields.length > 0) {
+//       const init: Record<string, string> = {};
+//       if (typeof selectedAnswer === "object" && !Array.isArray(selectedAnswer) && selectedAnswer !== null) {
+//         // اگر Record<string, string> است
+//         question.fields.forEach((f) => {
+//           init[f.label] = (selectedAnswer as Record<string, string>)[f.label] || "";
+//         });
+//       } else if (Array.isArray(selectedAnswer)) {
+//         // fallback: اگر array است، بر اساس index
+//         question.fields.forEach((f, idx) => {
+//           init[f.label] = selectedAnswer[idx] || "";
+//         });
+//       } else {
+//         // خالی
+//         question.fields.forEach((f) => {
+//           init[f.label] = "";
+//         });
+//       }
+//       setInputValues(init);
+//     } else {
+//       // single field
+//       const singleValue = typeof selectedAnswer === "string" 
+//         ? selectedAnswer 
+//         : Array.isArray(selectedAnswer) 
+//         ? selectedAnswer.join(", ") 
+//         : "";
+//       setInputValues({ single: singleValue });
+//     }
+//   }, [question, selectedAnswer]);
+
+//   const validateField = useCallback((value: string, validation?: any) => {
+//     const trimmed = value.trim();
+//     if (validation?.required && !trimmed) return validation.errorMessage || "This field is required";
+//     if (validation?.minLength && trimmed.length < validation.minLength)
+//       return validation.errorMessage || `Minimum ${validation.minLength} characters required`;
+//     if (validation?.pattern && !new RegExp(validation.pattern).test(trimmed))
+//       return validation.errorMessage || "Invalid format";
+//     if (validation?.format === "email" && !emailRegex.test(trimmed))
+//       return validation.errorMessage || "Invalid email";
+//     if (validation?.format === "usPhone" && !usPhoneRegex.test(trimmed))
+//       return validation.errorMessage || "Invalid US phone number";
+//     if (validation?.min !== undefined && Number(trimmed) < validation.min)
+//       return validation.errorMessage || `Minimum ${validation.min} required`;
+//     if (validation?.max !== undefined && Number(trimmed) > validation.max)
+//       return validation.errorMessage || `Maximum ${validation.max} required`;
+//     return null;
+//   }, []);
+
+//   const validateAll = useCallback(
+//     (values: Record<string, string>) => {
+//       const errors: Record<string, string> = {};
+//       if (question.fields && question.fields.length > 0) {
+//         question.fields.forEach((field) => {
+//           const err = validateField(values[field.label] || "", field.validation);
+//           if (err) errors[field.label] = err;
+//         });
+//       } else {
+//         const err = validateField(values["single"] || "", question.validation);
+//         if (err) errors["single"] = err;
+//       }
+//       setErrorMessages(errors);
+//       return errors;
+//     },
+//     [question, validateField]
+//   );
+
+//   // چک کن آیا همه فیلدها معتبرند
+//   const isValid = useMemo(() => {
+//     const hasErrors = Object.keys(errorMessages).length > 0;
+//     const hasEmptyRequired = question.fields 
+//       ? question.fields.some(f => f.validation?.required && !inputValues[f.label]?.trim())
+//       : question.validation?.required && !inputValues["single"]?.trim();
+//     return !hasErrors && !hasEmptyRequired;
+//   }, [errorMessages, inputValues, question]);
+
+//   // اعلام اعتبار به والد
+//   useEffect(() => {
+//     if (onValidationChange) onValidationChange(isValid);
+//   }, [isValid, onValidationChange]);
+
+//   const handleChange = useCallback(
+//     (label: string, value: string) => {
+//       setInputValues((prev) => {
+//         const updated = { ...prev, [label]: value };
+//         validateAll(updated);
+
+//         if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+//         debounceTimeout.current = setTimeout(() => {
+//           if (question.fields && question.fields.length > 0) {
+//             // برای multi-field، Record را پاس کن (نه array)
+//             const answerRecord = { ...updated };
+//             // حذف single اگر وجود دارد
+//             delete answerRecord["single"];
+//             setAnswer(question, answerRecord, isFirstQuiz);
+//           } else {
+//             setAnswer(question, updated["single"] || "", isFirstQuiz);
+//           }
+//         }, 300);
+
+//         return updated;
+//       });
+//     },
+//     [question, isFirstQuiz, setAnswer, validateAll]
+//   );
+
+//   const fieldsToRender =
+//     question.fields && question.fields.length > 0
+//       ? question.fields
+//       : [{ label: "single", placeholder: question.placeholder || "" }];
+
+//   return (
+//     <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+//       {fieldsToRender.map((field) => {
+//         const value = inputValues[field.label] ?? "";
+//         return (
+//           <div key={field.label} className="min-w-1/2 flex flex-col gap-1">
+//             <input
+//               type="text"
+//               placeholder={field.placeholder || ""}
+//               value={value}
+//               onChange={(e) => handleChange(field.label, e.target.value)}
+//               className={`border rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-black ${
+//                 errorMessages[field.label] ? "border-red-500" : "border-gray-300"
+//               }`}
+//             />
+//             {errorMessages[field.label] && (
+//               <span className="text-red-500 text-sm">{errorMessages[field.label]}</span>
+//             )}
+//             {field.hint && !errorMessages[field.label] && (
+//               <p className="text-sm text-gray-500">{field.hint}</p>
+//             )}
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// };
+
 "use client";
 
-import React, { useState, useCallback, useEffect } from "react";
-import { useAppStore } from "@/store/useAppStore";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { QuestionItem, AnswerValue } from "@/store/useAppStore";
 
-type Field = {
-  label: string;
-  placeholder?: string;
-  validation?: {
-    required?: boolean;
-    minLength?: number;
-    pattern?: string;
-    format?: "email" | "usPhone";
-    errorMessage?: string;
-  };
-};
+interface Props {
+  question: QuestionItem;
+  selectedAnswer: AnswerValue | null;
+  setAnswer: (
+    question: QuestionItem,
+    answer: AnswerValue,
+    isFirstQuiz: boolean
+  ) => void;
+  isFirstQuiz: boolean;
+  onValidationChange?: (isValid: boolean) => void;
+}
 
-type QuestionData = {
-  id: string;
-  title?: string;
-  type: "text";
-  fields?: Field[]; // اگر وجود داشته باشه => multi-field
-  validation?: {
-    required?: boolean;
-    minLength?: number;
-    pattern?: string;
-    errorMessage?: string;
-  };
-};
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+const usPhoneRegex =
+  /^(?:\+1\s?)?(?:\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}$/;
 
-type Props = {
-  questionData: QuestionData;
-  selectedAnswer: string | string[];
-  setAnswer: (answer: string | string[]) => void;
-  isFirstQuiz?: boolean;
-};
-
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const usPhoneRegex = /^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$/;
-
-export const TextInputQuestion: React.FC<Props> = ({
-  questionData,
+export const TextInputQuestion = ({
+  question,
   selectedAnswer,
   setAnswer,
   isFirstQuiz,
-}) => {
-  const getAnswerForQuestion = useAppStore((s) => s.getAnswerForQuestion);
-
+  onValidationChange,
+}: Props) => {
   const [inputValues, setInputValues] = useState<Record<string, string>>({});
   const [errorMessages, setErrorMessages] = useState<Record<string, string>>({});
+  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  // initialize from selectedAnswer or store
+  // مقدار اولیه
   useEffect(() => {
-    if (questionData.fields) {
-      // multi-field
+    if (question.fields && question.fields.length > 0) {
       const init: Record<string, string> = {};
-      questionData.fields.forEach((f, idx) => {
-        if (Array.isArray(selectedAnswer)) init[f.label] = selectedAnswer[idx] || "";
-        else init[f.label] = "";
-      });
+      if (
+        typeof selectedAnswer === "object" &&
+        !Array.isArray(selectedAnswer) &&
+        selectedAnswer !== null
+      ) {
+        question.fields.forEach((f) => {
+          init[f.label] =
+            (selectedAnswer as Record<string, string>)[f.label] || "";
+        });
+      } else {
+        question.fields.forEach((f) => {
+          init[f.label] = "";
+        });
+      }
       setInputValues(init);
     } else {
-      // single-field
-      if (typeof selectedAnswer === "string") setInputValues({ single: selectedAnswer });
-      else if (Array.isArray(selectedAnswer)) setInputValues({ single: selectedAnswer[0] || "" });
-      else setInputValues({ single: "" });
+      const singleValue =
+        typeof selectedAnswer === "string" ? selectedAnswer : "";
+      setInputValues({ single: singleValue });
     }
-  }, [questionData, selectedAnswer]);
+  }, [question, selectedAnswer]);
 
-  // validate single field
-  const validateField = useCallback((value: string, v?: Field["validation"]) => {
+  // اعتبارسنجی هر فیلد
+  const validateField = useCallback((value: string, validation?: any) => {
     const trimmed = value.trim();
-    if (v?.required && !trimmed) return v.errorMessage || "This field is required";
-    if (v?.minLength && trimmed.length < v.minLength)
-      return v.errorMessage || `Minimum ${v.minLength} characters required`;
-    if (v?.pattern && !new RegExp(v.pattern).test(trimmed)) return v.errorMessage || "Invalid format";
-    if (v?.format === "email" && !emailRegex.test(trimmed)) return v.errorMessage || "Invalid email";
-    if (v?.format === "usPhone" && !usPhoneRegex.test(trimmed))
-      return v.errorMessage || "Invalid US phone number";
+
+    // خالی بودن
+    if (!trimmed) {
+      if (validation?.required) {
+        return validation.errorMessage || "This field is required";
+      }
+      return null;
+    }
+
+    if (validation?.minLength && trimmed.length < validation.minLength) {
+      return (
+        validation.errorMessage ||
+        `Minimum ${validation.minLength} characters required`
+      );
+    }
+
+    if (validation?.pattern && !new RegExp(validation.pattern).test(trimmed)) {
+      return validation.errorMessage || "Invalid format";
+    }
+
+    if (validation?.format === "email" && !emailRegex.test(trimmed)) {
+      return validation.errorMessage || "Invalid email";
+    }
+
+    if (validation?.format === "usPhone" && !usPhoneRegex.test(trimmed)) {
+      return validation.errorMessage || "Invalid US phone number";
+    }
+
+    if (validation?.min !== undefined && Number(trimmed) < validation.min) {
+      return (
+        validation.errorMessage || `Minimum ${validation.min} required`
+      );
+    }
+
+    if (validation?.max !== undefined && Number(trimmed) > validation.max) {
+      return (
+        validation.errorMessage || `Maximum ${validation.max} required`
+      );
+    }
+
     return null;
   }, []);
 
+  // اعتبارسنجی همه‌ی فیلدها
   const validateAll = useCallback(
     (values: Record<string, string>) => {
       const errors: Record<string, string> = {};
-      if (questionData.fields) {
-        questionData.fields.forEach((field) => {
-          const err = validateField(values[field.label] || "", field.validation);
+      if (question.fields && question.fields.length > 0) {
+        question.fields.forEach((field) => {
+          const err = validateField(
+            values[field.label] || "",
+            field.validation
+          );
           if (err) errors[field.label] = err;
         });
       } else {
-        const err = validateField(values["single"] || "", questionData.validation);
+        const err = validateField(
+          values["single"] || "",
+          question.validation
+        );
         if (err) errors["single"] = err;
       }
       setErrorMessages(errors);
       return errors;
     },
-    [questionData, validateField]
+    [question, validateField]
   );
 
-  // handle change
+  // معتبر بودن همه فیلدها
+  const isValid = useMemo(() => {
+    const hasErrors = Object.keys(errorMessages).length > 0;
+    const hasEmptyRequired = question.fields
+      ? question.fields.some(
+          (f) =>
+            f.validation?.required && !inputValues[f.label]?.trim()
+        )
+      : question.validation?.required && !inputValues["single"]?.trim();
+    return !hasErrors && !hasEmptyRequired;
+  }, [errorMessages, inputValues, question]);
+
+  // ارسال اعتبار به والد
+  useEffect(() => {
+    if (onValidationChange) onValidationChange(isValid);
+  }, [isValid, onValidationChange]);
+
+  // تغییر مقدار اینپوت
   const handleChange = useCallback(
     (label: string, value: string) => {
       setInputValues((prev) => {
         const updated = { ...prev, [label]: value };
-        const errors = validateAll(updated);
+        validateAll(updated);
 
-        const hasErrors = Object.keys(errors).length > 0;
-        if (!hasErrors) {
-          if (questionData.fields) {
-            // multi-field -> array
-            const arr = Object.values(updated);
-            setAnswer(arr);
+        if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+        debounceTimeout.current = setTimeout(() => {
+          if (question.fields && question.fields.length > 0) {
+            const answerRecord = { ...updated };
+            delete answerRecord["single"];
+            setAnswer(question, answerRecord, isFirstQuiz);
           } else {
-            setAnswer(updated["single"] || "");
+            setAnswer(question, updated["single"] || "", isFirstQuiz);
           }
-        } else {
-          if (questionData.fields) setAnswer([]);
-          else setAnswer("");
-        }
+        }, 300);
 
         return updated;
       });
     },
-    [questionData, validateAll, setAnswer]
+    [question, isFirstQuiz, setAnswer, validateAll]
   );
 
-  const fieldsToRender = questionData.fields ?? [{ label: "single", placeholder: questionData?.validation?.errorMessage || "" }];
+  const fieldsToRender =
+    question.fields && question.fields.length > 0
+      ? question.fields
+      : [{ label: "single", placeholder: question.placeholder || "" }];
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
       {fieldsToRender.map((field) => {
         const value = inputValues[field.label] ?? "";
         return (
-          <div key={field.label} className="flex flex-col gap-1">
+          <div key={field.label} className="min-w-1/2 flex flex-col gap-1">
             <input
               type="text"
               placeholder={field.placeholder || ""}
               value={value}
               onChange={(e) => handleChange(field.label, e.target.value)}
-              className={`border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-                errorMessages[field.label] ? "border-red-500" : "border-gray-300"
+              className={`border rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-black ${
+                errorMessages[field.label]
+                  ? "border-red-500"
+                  : "border-gray-300"
               }`}
             />
             {errorMessages[field.label] && (
-              <span className="text-red-500 text-sm">{errorMessages[field.label]}</span>
+              <span className="text-red-500 text-sm">
+                {errorMessages[field.label]}
+              </span>
+            )}
+            {field.hint && !errorMessages[field.label] && (
+              <p className="text-sm text-gray-500">{field.hint}</p>
             )}
           </div>
         );
