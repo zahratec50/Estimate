@@ -2080,6 +2080,7 @@ export interface AppState {
   userName: string;
   userEmail: string;
   userAvatar: string;
+  userPassword: string;
   subscribedPlan: "basic" | "pro" | "enterprise" | null;
   subscriptionLimits: { [key: string]: number };
 
@@ -2091,6 +2092,7 @@ export interface AppState {
   setUserAvatar: (avatar: string) => void;
   setUserName: (name: string) => void;
   setUserEmail: (email: string) => void;
+  setUserPassword: (password: string) => void;
   setLoginMethod: (m: AppState["loginMethod"]) => void;
 
   setCurrentStepFirstQuiz: (step: number) => void;
@@ -2160,6 +2162,7 @@ export const useAppStore = create<AppState>()(
       userName: "",
       userEmail: "",
       userAvatar: "",
+      userPassword: "",
       subscribedPlan: null,
       subscriptionLimits: { basic: 3, pro: 5, enterprise: Number.POSITIVE_INFINITY },
 
@@ -2180,6 +2183,14 @@ export const useAppStore = create<AppState>()(
 
       setFirstQuizQuestions: (questions) => set({ firstQuizQuestions: questions }),
       setMainQuizQuestions: (questions) => set({ mainQuizQuestions: questions }),
+
+      setUserPassword: (password: string) => {
+        if (password.length < 8 || password.length > 64) {
+          console.warn("Password must be between 8 and 64 characters");
+          return;
+        }
+        set({ userPassword: password });
+      },
 
       // core: setAnswer
       setAnswer: (question, answer, isFirstQuiz) => {

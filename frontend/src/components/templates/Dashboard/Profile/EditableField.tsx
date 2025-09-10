@@ -8,9 +8,10 @@ interface EditableFieldProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  type?: string;
 }
 
-export const EditableField = memo(({ label, value, onChange }: EditableFieldProps) => (
+export const EditableField = memo(({ label, value, onChange, type= "text" }: EditableFieldProps) => (
   <motion.div
     initial={{ opacity: 0, y: 5 }}
     animate={{ opacity: 1, y: 0 }}
@@ -20,6 +21,7 @@ export const EditableField = memo(({ label, value, onChange }: EditableFieldProp
     <label className="text-gray-700 dark:text-gray-300 font-medium">{label}</label>
     <Input
       value={value}
+      type={type}
       onChange={(e) => onChange(e.target.value)}
       placeholder={`Enter your ${label.toLowerCase()}`}
     />
