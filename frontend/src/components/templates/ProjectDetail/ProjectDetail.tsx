@@ -35,7 +35,7 @@ export default function ProjectDetails({ projectId }: ProjectDetailsProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className={`p-6 dark:bg-secondary-800 rounded-2xl ${lightboxOpen ? '' : 'space-y-8'}`}
+      className={`p-6 rounded-2xl ${lightboxOpen ? '' : 'space-y-8'}`}
     >
       {/* Stats Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -51,7 +51,7 @@ export default function ProjectDetails({ projectId }: ProjectDetailsProps) {
         {project.mainQuizAnswers.map((a, idx) => (
           <AnswerItem
             key={idx}
-            question={a.questionTitle}
+            question={a.question}
             answer={a.answer as string | string[]}
             onImageClick={handleImageClick}
           />

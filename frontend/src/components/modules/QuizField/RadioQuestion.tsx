@@ -32,7 +32,7 @@ export const RadioQuestion = ({
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col">
       {question.options?.map((opt, idx) => {
         const value = typeof opt === "string" ? opt : opt.label;
         return (
@@ -46,7 +46,7 @@ export const RadioQuestion = ({
               value={value}
               checked={selected === value}
               onChange={() => handleSelect(value)}
-              className="accent-primary-500 w-5 h-5"
+              className="accent-primary-500 dark:accent-indigo-500 w-5 h-5"
             />
             <span className="text-base">{value}</span>
           </label>
