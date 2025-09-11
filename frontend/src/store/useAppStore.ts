@@ -145,10 +145,16 @@ export interface AppState {
     question: string,
     isFirstQuiz: boolean
   ) => AnswerValue | null;
-  getCurrentAnswer: (questions: QuestionItem[], isFirstQuiz: boolean) => AnswerValue | null;
+  getCurrentAnswer: (
+    questions: QuestionItem[],
+    isFirstQuiz: boolean
+  ) => AnswerValue | null;
 
   // flow control
-  isContinueAllowed: (question: QuestionItem | null, isFirstQuiz: boolean) => boolean;
+  isContinueAllowed: (
+    question: QuestionItem | null,
+    isFirstQuiz: boolean
+  ) => boolean;
   setRegistered: (v: boolean) => void;
   setUserType: (v: string) => void;
   setUserId: (id: string) => void;
@@ -198,7 +204,11 @@ export const useAppStore = create<AppState>()(
       userAvatar: "",
       userPassword: "",
       subscribedPlan: null,
-      subscriptionLimits: { basic: 3, pro: 5, enterprise: Number.POSITIVE_INFINITY },
+      subscriptionLimits: {
+        basic: 3,
+        pro: 5,
+        enterprise: Number.POSITIVE_INFINITY,
+      },
 
       // UI actions
       closeSidebar: () => set({ isSidebarOpen: false }),
@@ -208,6 +218,7 @@ export const useAppStore = create<AppState>()(
       setUserAvatar: (avatar) => set({ userAvatar: avatar }),
       setUserName: (name) => set({ userName: name }),
       setUserEmail: (email) => set({ userEmail: email }),
+
       setLoginMethod: (m) => set({ loginMethod: m }),
 
       setUserId: (id) => set({ userId: id }),
@@ -215,8 +226,10 @@ export const useAppStore = create<AppState>()(
       setCurrentStepFirstQuiz: (step) => set({ currentStepFirstQuiz: step }),
       setCurrentStepMainQuiz: (step) => set({ currentStepMainQuiz: step }),
 
-      setFirstQuizQuestions: (questions) => set({ firstQuizQuestions: questions }),
-      setMainQuizQuestions: (questions) => set({ mainQuizQuestions: questions }),
+      setFirstQuizQuestions: (questions) =>
+        set({ firstQuizQuestions: questions }),
+      setMainQuizQuestions: (questions) =>
+        set({ mainQuizQuestions: questions }),
 
       setUserPassword: (password: string) => {
         if (password.length < 8 || password.length > 64) {
@@ -309,7 +322,9 @@ export const useAppStore = create<AppState>()(
                   : [...project!.mainQuizAnswers, stored];
 
                 const updatedProjects = state.projects.map((p) =>
-                  p.id === projectId ? { ...p, mainQuizAnswers: updatedAnswers } : p
+                  p.id === projectId
+                    ? { ...p, mainQuizAnswers: updatedAnswers }
+                    : p
                 );
                 return { projects: updatedProjects };
               });
@@ -317,21 +332,28 @@ export const useAppStore = create<AppState>()(
           }
         } catch (err) {
           console.error("setAnswer error:", err);
-          showErrorToast?.({ title: "Error", description: "Failed to save answer." });
+          showErrorToast?.({
+            title: "Error",
+            description: "Failed to save answer.",
+          });
         }
       },
 
       getAnswerForQuestion: (question, isFirstQuiz) => {
         const state = get();
         if (isFirstQuiz) {
-          const found = state.preQuizAnswers.find((a) => a.question === question);
+          const found = state.preQuizAnswers.find(
+            (a) => a.question === question
+          );
           return found ? found.answer : null;
         } else {
           const proj = state.currentProjectId
             ? state.projects.find((p) => p.id === state.currentProjectId)
             : null;
           if (proj) {
-            const found = proj.mainQuizAnswers.find((a) => a.question === question);
+            const found = proj.mainQuizAnswers.find(
+              (a) => a.question === question
+            );
             return found ? found.answer : null;
           }
           const foundTemp = state.mainQuizAnswersTemp.find(
@@ -342,7 +364,9 @@ export const useAppStore = create<AppState>()(
       },
 
       getCurrentAnswer: (questions, isFirstQuiz) => {
-        const step = isFirstQuiz ? get().currentStepFirstQuiz : get().currentStepMainQuiz;
+        const step = isFirstQuiz
+          ? get().currentStepFirstQuiz
+          : get().currentStepMainQuiz;
         const currentQuestion = questions[step - 1];
         if (!currentQuestion) return null;
         return get().getAnswerForQuestion(currentQuestion.title, isFirstQuiz);
@@ -351,7 +375,10 @@ export const useAppStore = create<AppState>()(
       isContinueAllowed: (question, isFirstQuiz) => {
         if (!question) return false;
         // گرفتن پاسخ ذخیره‌شده
-        const answerVal = get().getAnswerForQuestion(question.title, isFirstQuiz);
+        const answerVal = get().getAnswerForQuestion(
+          question.title,
+          isFirstQuiz
+        );
         if (isEmptyAnswer(answerVal)) return false;
 
         // helper
@@ -360,31 +387,51 @@ export const useAppStore = create<AppState>()(
         // TEXT
         if (question.type === "text") {
           // multi-field
-          if (question.fields && typeof answerVal === "object" && !Array.isArray(answerVal)) {
+          if (
+            question.fields &&
+            typeof answerVal === "object" &&
+            !Array.isArray(answerVal)
+          ) {
             return question.fields.every((f) => {
-              const v = trimmed((answerVal as Record<string, string>)[f.label] || "");
+              const v = trimmed(
+                (answerVal as Record<string, string>)[f.label] || ""
+              );
               if (f.validation?.required && !v) return false;
-              if (f.validation?.pattern && !new RegExp(f.validation.pattern).test(v))
+              if (
+                f.validation?.pattern &&
+                !new RegExp(f.validation.pattern).test(v)
+              )
                 return false;
-              if (f.validation?.format === "email" && !emailRegex.test(v)) return false;
+              if (f.validation?.format === "email" && !emailRegex.test(v))
+                return false;
               if (f.validation?.format === "usPhone" && !usPhoneRegex.test(v))
                 return false;
               return true;
             });
           } else {
-            const v = typeof answerVal === "string"
-              ? trimmed(answerVal)
-              : Array.isArray(answerVal)
-              ? answerVal.join("")
-              : String(answerVal);
+            const v =
+              typeof answerVal === "string"
+                ? trimmed(answerVal)
+                : Array.isArray(answerVal)
+                ? answerVal.join("")
+                : String(answerVal);
             if (question.validation?.required && !v) return false;
-            if (question.validation?.pattern && !new RegExp(question.validation.pattern).test(v))
+            if (
+              question.validation?.pattern &&
+              !new RegExp(question.validation.pattern).test(v)
+            )
               return false;
             if (question.validation?.format === "email" && !emailRegex.test(v))
               return false;
-            if (question.validation?.format === "usPhone" && !usPhoneRegex.test(v))
+            if (
+              question.validation?.format === "usPhone" &&
+              !usPhoneRegex.test(v)
+            )
               return false;
-            if (question.validation?.minLength !== undefined && v.length < question.validation.minLength)
+            if (
+              question.validation?.minLength !== undefined &&
+              v.length < question.validation.minLength
+            )
               return false;
             return true;
           }
@@ -394,9 +441,15 @@ export const useAppStore = create<AppState>()(
         if (question.type === "number") {
           const value = Number(String(answerVal).split(" ")[0]);
           if (isNaN(value)) return false;
-          if (question.validation?.min !== undefined && value < question.validation.min)
+          if (
+            question.validation?.min !== undefined &&
+            value < question.validation.min
+          )
             return false;
-          if (question.validation?.max !== undefined && value > question.validation.max)
+          if (
+            question.validation?.max !== undefined &&
+            value > question.validation.max
+          )
             return false;
           return true;
         }
@@ -411,9 +464,13 @@ export const useAppStore = create<AppState>()(
         if (["checkbox", "image-choice"].includes(question.type)) {
           const arr = Array.isArray(answerVal)
             ? answerVal
-            : String(answerVal).split(",").map((s) => s.trim()).filter(Boolean);
+            : String(answerVal)
+                .split(",")
+                .map((s) => s.trim())
+                .filter(Boolean);
           const minSelected = question.validation?.minSelected ?? 1;
-          const maxSelected = question.validation?.maxSelected ?? Number.POSITIVE_INFINITY;
+          const maxSelected =
+            question.validation?.maxSelected ?? Number.POSITIVE_INFINITY;
           return arr.length >= minSelected && arr.length <= maxSelected;
         }
 
@@ -467,8 +524,10 @@ export const useAppStore = create<AppState>()(
       removeProject: (id) => {
         set((state) => ({
           projects: state.projects.filter((p) => p.id !== id),
-          currentProjectId: state.currentProjectId === id ? null : state.currentProjectId,
-          mainQuizAnswersTemp: state.currentProjectId === id ? [] : state.mainQuizAnswersTemp,
+          currentProjectId:
+            state.currentProjectId === id ? null : state.currentProjectId,
+          mainQuizAnswersTemp:
+            state.currentProjectId === id ? [] : state.mainQuizAnswersTemp,
         }));
       },
 
@@ -476,7 +535,10 @@ export const useAppStore = create<AppState>()(
         set((state) => {
           const project = state.projects.find((p) => p.id === projectId);
           if (!project) return {};
-          const merged = [...project.mainQuizAnswers, ...state.mainQuizAnswersTemp];
+          const merged = [
+            ...project.mainQuizAnswers,
+            ...state.mainQuizAnswersTemp,
+          ];
           return {
             projects: state.projects.map((p) =>
               p.id === projectId ? { ...p, mainQuizAnswers: merged } : p
@@ -505,7 +567,10 @@ export const useAppStore = create<AppState>()(
           });
         } catch (err) {
           console.error("syncFirstQuizWithServer error:", err);
-          showErrorToast?.({ title: "Sync error", description: "Failed to sync first quiz." });
+          showErrorToast?.({
+            title: "Sync error",
+            description: "Failed to sync first quiz.",
+          });
         }
       },
 
@@ -519,7 +584,9 @@ export const useAppStore = create<AppState>()(
             });
             return;
           }
-          const project = state.projects.find((p) => p.id === state.currentProjectId);
+          const project = state.projects.find(
+            (p) => p.id === state.currentProjectId
+          );
           if (!project) return;
           const formatted = project.mainQuizAnswers.map((a) => ({
             question: a.question,
@@ -537,7 +604,10 @@ export const useAppStore = create<AppState>()(
           });
         } catch (err) {
           console.error("syncMainQuizWithServer error:", err);
-          showErrorToast?.({ title: "Sync error", description: "Failed to sync main quiz." });
+          showErrorToast?.({
+            title: "Sync error",
+            description: "Failed to sync main quiz.",
+          });
         }
       },
     }),

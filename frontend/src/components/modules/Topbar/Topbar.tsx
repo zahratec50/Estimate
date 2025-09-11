@@ -8,6 +8,7 @@ import clsx from "clsx";
 import React from "react";
 import TopbarUserInfo from "@/components/templates/Dashboard/Profile/TopbarUserInfo";
 import ThemeSwitcher from "@/components/modules/Theme/Theme";
+import { useAppStore } from "@/store/useAppStore";
 
 interface TopbarProps {
   onMenuClick: () => void;
@@ -24,6 +25,8 @@ const TopbarBase = ({
   isHome = false,
   isFirstQuiz,
 }: TopbarProps) => {
+  // const { user } = useAuth();
+  const { isRegistered } = useAppStore();
   return (
     <header
       className={clsx(
@@ -105,7 +108,7 @@ const TopbarBase = ({
           "ml-0": !isHome && !isHelpOpen,
         })}
       >
-        {isHome ? (
+        {isHome && !isRegistered ? (
           <div className="flex items-center justify-end gap-3">
             <button className="hidden sm:flex w-20 text-white hover:bg-secondary-800 text-sm px-4 py-2 md:px-4 md:py-2 rounded-lg">
               <Link href="/signin">Log in</Link>
@@ -115,29 +118,39 @@ const TopbarBase = ({
             </button>
           </div>
         ) : (
-          <div className="w-full">
-            <div className="w-full flex items-center justify-end space-x-3 md:space-x-6 dark:text-white text-white md:text-secondary-700 text-sm md:text-base font-medium md:border-b-2 md:border-neutral-300 p-2">
-              <span className="hidden md:flex items-center cursor-pointer">
-                <ThemeSwitcher />
-              </span>
-              <span className="hidden md:flex items-center cursor-pointer">
-                <IoNotificationsOutline className="w-5 h-5 mr-1" />
-                Notifications
-              </span>
-              <span className="hidden md:flex items-center cursor-pointer">
-                <IoSearchOutline className="w-5 h-5 mr-1" />
-                {!isHelpOpen && "Search"}
-              </span>
-              <span
-                className="flex items-center cursor-pointer"
-                onClick={() => onHelpToggle(true)}
-              >
-                <TbHelpOctagon className="w-5 h-5 mr-1" />
-                {!isHelpOpen && "Help"}
-              </span>
-              <TopbarUserInfo />
+          <>
+            <div className={`w-full ${isHome && "hidden"}`}>
+              <div className="w-full flex items-center justify-end space-x-3 md:space-x-6 dark:text-white text-white md:text-secondary-700 text-sm md:text-base font-medium md:border-b-2 md:border-neutral-300 p-2">
+                <span className="hidden md:flex items-center cursor-pointer">
+                  <ThemeSwitcher />
+                </span>
+                <span className="hidden md:flex items-center cursor-pointer">
+                  <IoNotificationsOutline className="w-5 h-5 mr-1" />
+                  Notifications
+                </span>
+                <span className="hidden md:flex items-center cursor-pointer">
+                  <IoSearchOutline className="w-5 h-5 mr-1" />
+                  {!isHelpOpen && "Search"}
+                </span>
+                <span
+                  className="flex items-center cursor-pointer"
+                  onClick={() => onHelpToggle(true)}
+                >
+                  <TbHelpOctagon className="w-5 h-5 mr-1" />
+                  {!isHelpOpen && "Help"}
+                </span>
+                <TopbarUserInfo size="size-10" />
+              </div>
             </div>
-          </div>
+
+            <div
+              className={`w-full flex items-center justify-end ${
+                !isHome && "hidden"
+              }`}
+            >
+              <TopbarUserInfo size='size-14' />
+            </div>
+          </>
         )}
       </div>
     </header>

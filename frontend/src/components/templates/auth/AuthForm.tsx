@@ -57,7 +57,8 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
   const [termsChecked, setTermsChecked] = useState(false);
   const router = useRouter();
 
-  const { setRegistered } = useAppStore();
+  const { setRegistered, setUserName, setUserEmail, setUserPassword } =
+    useAppStore.getState();
 
   const {
     register,
@@ -108,11 +109,14 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
       return;
     }
 
+    // let axiosResponse: AxiosResponse<UserResponse>;
+
     try {
       let userRole: string;
+      let userData: UserResponse["user"];
       console.log("Sending Login Data:", values);
       if (isLogin) {
-        const axiosResponse: AxiosResponse<UserResponse> = await axios.post(
+        const { data } = await axios.post(
           "/api/auth/signin",
           {
             email: values.email,
@@ -122,10 +126,13 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
           { withCredentials: true }
         );
 
-        userRole = axiosResponse.data.user.role;
+        // userRole = axiosResponse.data.user.role;
+
+        userRole = data.user.role;
+        userData = data.user;
       } else {
         const signupData = values as SignupFormData;
-        const axiosResponse: AxiosResponse<UserResponse> = await axios.post(
+        const { data } = await axios.post(
           "/api/auth/signup",
           {
             name: signupData.name,
@@ -135,8 +142,22 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
           { headers: { "Content-Type": "application/json" } }
         );
 
-        userRole = axiosResponse.data.user.role;
+        // userRole = axiosResponse.data.user.role;
+        userRole = data.user.role;
+        userData = data.user;
       }
+
+      if (!isLogin) {
+        const signupData = values as SignupFormData;
+        setUserName(signupData.name);
+        setUserEmail(signupData.email);
+        setUserPassword(signupData.password);
+      } else {
+        setUserName(userData.name);
+        setUserEmail(userData.email);
+        setUserPassword(values.password);
+      }
+
       setRegistered(true);
 
       if (userRole === "admin") {
@@ -194,7 +215,6 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
           type="text"
           register={register}
           error={"name" in errors ? errors.name?.message : undefined}
-          
         />
       )}
       <Input
