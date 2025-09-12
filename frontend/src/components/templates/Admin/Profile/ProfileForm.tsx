@@ -51,7 +51,7 @@ export default function ProfileForm({
     let mounted = true;
     (async () => {
       try {
-        const res = await axios.get<AdminProfile>("/api/admin/me", {
+        const res = await axios.get<AdminProfile>("/api/auth/me", {
           withCredentials: true,
         });
         if (!mounted) return;
@@ -124,14 +124,14 @@ export default function ProfileForm({
 
   if (loading && !serverProfile) {
     return (
-      <div className="bg-white dark:bg-secondary-800 p-6 rounded-lg shadow">
+      <div className="bg-gray-100 dark:bg-secondary-800 p-6 rounded-lg shadow">
         <div className="h-40 animate-pulse bg-gray-100 dark:bg-secondary-700 rounded" />
       </div>
     );
   }
 
   return (
-    <div className="bg-white dark:bg-secondary-700 p-6 rounded-lg rounded-tl-none shadow">
+    <div className="bg-gray-100 dark:bg-secondary-700 p-6 rounded-lg rounded-tl-none shadow">
       <div className="flex items-center gap-4 mb-4">
         <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100 dark:bg-secondary-700">
           <img

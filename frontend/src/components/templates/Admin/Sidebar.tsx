@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import { IoChatbubbleEllipses, IoHome } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
@@ -13,6 +13,9 @@ import ThemeSwitcher from "@/components/modules/Theme/Theme";
 import { IoBarChart } from "react-icons/io5";
 import { IoExit } from "react-icons/io5";
 import { MdOutlineQuiz } from "react-icons/md";
+import axios from "axios";
+import { usePathname, useRouter } from "next/navigation";
+import { useAppStore } from "@/store/useAppStore";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -20,6 +23,32 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  
+  const toggleSidebar = useAppStore((state) => state.toggleSidebar);
+  const isSidebarOpen = useAppStore((state) => state.isSidebarOpen);
+
+  const handleClose = onClose ?? toggleSidebar;
+
+    const handleNavigation = (path: string) => {
+    router.push(path);
+    if (isSidebarOpen) toggleSidebar();
+  };
+
+   useEffect(() => {
+      if (isSidebarOpen) handleClose();
+    }, [pathname]);
+
+  const handleSignOut = async () => {
+    try {
+      await axios.post("/api/auth/signout");
+      router.push("/"); // ریدایرکت به صفحه اصلی
+      if (isSidebarOpen) toggleSidebar();
+    } catch (error) {
+      console.error("Sign out failed:", error);
+    }
+  };
   return (
     <>
       {/* Overlay */}
@@ -75,6 +104,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <div className="flex flex-col gap-1">
             <Link
               href="/"
+              onClick={() => handleNavigation("/")}
               className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
             >
               <IoHome size={20} />
@@ -116,10 +146,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               <ThemeSwitcher />
               Theme
             </div>
-            <Link href="/" className="flex items-center gap-3 font-roboto">
+            <button onClick={handleSignOut} className="flex items-center gap-3 font-roboto">
               <IoExit className="size-5 font-bold text-black dark:text-white" />
               Sign Out
-            </Link>
+            </button>
           </div>
         </nav>
       </aside>

@@ -8,51 +8,68 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ImProfile } from "react-icons/im";
 import { BsClipboardData } from "react-icons/bs";
 import { IoExitOutline } from "react-icons/io5";
+import axios from "axios";
 
-interface InfoProps {
-  size: string;
-}
-
-const TopbarUserInfo = ({ size }: InfoProps) => {
-  const { userName, userAvatar, isRegistered } = useAppStore();
+const TopbarUserInfo = ({ size }: { size: string }) => {
+  const { userName, userAvatar, role, setUser, isRegistered, setRegistered } =
+    useAppStore();
   const router = useRouter();
+
   const [open, setOpen] = useState(false);
-  const [role, setRole] = useState<"user" | "admin">("user"); // پیش‌فرض user
+  const [loading, setLoading] = useState(true);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-
-  if (!isRegistered) return null;
-
-  // دریافت رول کاربر از API
-  useEffect(() => {
-    const fetchRole = async () => {
-      try {
-        const res = await fetch("/api/auth/me");
-        if (!res.ok) throw new Error("Failed to fetch user");
-        const data = await res.json();
-        setRole(data.role); // فرض می‌کنیم پاسخ { role: "user" | "admin" }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchRole();
-  }, []);
 
   const handleNavigation = (path: string) => {
     setOpen(false);
     router.push(path);
   };
 
+  // Fetch user data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get("/api/auth/me", {
+          withCredentials: true,
+        });
+        console.log("User data:", data.user);
+
+        if (data.user) {
+          setUser({
+            name: data.user.name,
+            avatar: data.user.avatar,
+            role: data.user.role,
+          });
+          setRegistered(true);
+        } else {
+          setUser(undefined);
+          setRegistered(false);
+        }
+      } catch (err) {
+        console.error("Error fetching user:", err);
+        setUser(undefined);
+        setRegistered(false);
+      } finally {
+        setLoading(false); // ✅ بعد از fetch loading false می‌شود
+      }
+    };
+
+    fetchData();
+  }, [setUser, setRegistered]);
+
+  // Sign out
   const handleSignOut = async () => {
-    setOpen(false);
     try {
-      await fetch("/api/auth/signout", { method: "POST" });
+      await axios.post("/api/auth/signout");
+      setRegistered(false);
+      setUser(undefined);
       router.push("/");
     } catch (err) {
       console.error("Sign out failed:", err);
     }
   };
 
+  // Handle click outside menu
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -68,25 +85,25 @@ const TopbarUserInfo = ({ size }: InfoProps) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // تا زمانی که داده‌ها لود نشده‌اند یا role مشخص نشده JSX را رندر نکن
+  if (loading || !role) return null;
+
   return (
     <div className="relative hidden sm:block">
       <button
         ref={triggerRef}
         onClick={() => setOpen((prev) => !prev)}
-        className="cursor-pointer p-0 rounded-full"
+        className="cursor-pointer rounded-full flex items-center justify-center"
       >
         <Avatar className={`rounded-full ${size}`}>
           {userAvatar ? (
-            <AvatarImage
-              src={userAvatar}
-              alt={userName}
-              className="object-cover"
-            />
+            <AvatarImage src={userAvatar} alt={userName} />
           ) : (
-            <AvatarFallback>{userName[0]}</AvatarFallback>
+            <AvatarFallback>{userName?.[0] || "U"}</AvatarFallback>
           )}
         </Avatar>
       </button>
+
       <AnimatePresence>
         {open && (
           <motion.div
@@ -95,49 +112,44 @@ const TopbarUserInfo = ({ size }: InfoProps) => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className="fixed top-[70px] right-4 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md z-[9999] overflow-hidden"
+            className="fixed top-[70px] right-4 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md z-[9999]"
           >
             {role === "user" ? (
               <>
                 <button
-                  className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                   onClick={() => handleNavigation("/dashboard")}
+                  className="menu-item flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  <BsClipboardData />
-                  Dashboard
+                  <BsClipboardData /> Dashboard
                 </button>
                 <button
-                  className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                   onClick={() => handleNavigation("/dashboard/profile")}
+                  className="menu-item flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  <ImProfile />
-                  Profile
+                  <ImProfile /> Profile
                 </button>
               </>
             ) : (
               <>
                 <button
-                  className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                   onClick={() => handleNavigation("/admin")}
+                  className="menu-item flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  <BsClipboardData />
-                  Admin Panel
+                  <BsClipboardData /> Admin Panel
                 </button>
                 <button
-                  className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                   onClick={() => handleNavigation("/admin/profile")}
+                  className="menu-item flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  <ImProfile />
-                  Admin Profile
+                  <ImProfile /> Admin Profile
                 </button>
               </>
             )}
             <button
-              className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
               onClick={handleSignOut}
+              className="menu-item flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
-              <IoExitOutline />
-              Logout
+              <IoExitOutline /> Logout
             </button>
           </motion.div>
         )}
@@ -147,3 +159,4 @@ const TopbarUserInfo = ({ size }: InfoProps) => {
 };
 
 export default TopbarUserInfo;
+

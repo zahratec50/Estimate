@@ -22,10 +22,10 @@ export default function CategoryList({ targetUser }: CategoryListProps) {
         {categories.map((category) => (
           <Card
             key={category}
-            className={`cursor-pointer transition-all duration-300 text-center ${
+            className={`cursor-pointer transition-all duration-300 text-center bg-gray-201 dark:bg-secondary-700 ${
               selectedCategory === category
-                ? "border-blue-500 text-blue-500 dark:border-2 shadow-lg"
-                : "hover:border-primary-500 hover:shadow-md"
+                ? "border-blue-500 text-blue-500 dark:border-gray-100 dark:text-gray-100 dark:border-2 shadow-lg"
+                : "hover:border-primary-500 dark:text-secondary-400 hover:shadow-md"
             }`}
             onClick={() => setSelectedCategory(category === selectedCategory ? null : category)}
           >

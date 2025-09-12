@@ -59,7 +59,7 @@ export default function SecuritySettings() {
   };
 
   return (
-    <div className="bg-white dark:bg-secondary-700 p-6 rounded-lg">
+    <div className="bg-gray-100 dark:bg-secondary-700 p-6 rounded-lg">
       <h3 className="text-lg font-medium mb-4">Security</h3>
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <div>

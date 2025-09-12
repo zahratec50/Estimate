@@ -62,7 +62,7 @@ export default function ActivityTable() {
   return (
     <div
       ref={parentRef}
-      className="h-96 overflow-auto border rounded-lg bg-white dark:bg-secondary-800"
+      className="h-96 overflow-auto border rounded-lg bg-gray-100 dark:bg-secondary-800"
     >
       {error ? (
         <div className="text-red-500 text-sm p-4">Error: {error}</div>

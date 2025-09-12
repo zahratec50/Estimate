@@ -53,7 +53,7 @@ export default function ActivityLog() {
   }, []); // فقط برای بارگذاری اولیه
 
   return (
-    <div className="bg-white dark:bg-secondary-700 p-4 rounded-lg shadow">
+    <div className="bg-gray-100 dark:bg-secondary-700 p-4 rounded-lg shadow">
       <h3 className="text-lg font-medium mb-3">Recent Activity</h3>
       {error && (
         <div className="text-red-500 text-sm mb-3">Error: {error}</div>

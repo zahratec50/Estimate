@@ -98,7 +98,6 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
       return;
     }
 
-    // ✅ انتخاب اسکیما بر اساس isLogin
     const schema = isLogin ? loginSchema : signupSchema;
     const parseResult = schema.safeParse(values);
 
@@ -109,24 +108,17 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
       return;
     }
 
-    // let axiosResponse: AxiosResponse<UserResponse>;
-
     try {
       let userRole: string;
       let userData: UserResponse["user"];
       console.log("Sending Login Data:", values);
+
       if (isLogin) {
         const { data } = await axios.post(
           "/api/auth/signin",
-          {
-            email: values.email,
-            password: values.password,
-            rememberMe,
-          },
+          { email: values.email, password: values.password, rememberMe },
           { withCredentials: true }
         );
-
-        // userRole = axiosResponse.data.user.role;
 
         userRole = data.user.role;
         userData = data.user;
@@ -139,31 +131,26 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
             email: signupData.email,
             password: signupData.password,
           },
-          { headers: { "Content-Type": "application/json" } }
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
         );
 
-        // userRole = axiosResponse.data.user.role;
         userRole = data.user.role;
         userData = data.user;
       }
 
-      if (!isLogin) {
-        const signupData = values as SignupFormData;
-        setUserName(signupData.name);
-        setUserEmail(signupData.email);
-        setUserPassword(signupData.password);
-      } else {
-        setUserName(userData.name);
-        setUserEmail(userData.email);
-        setUserPassword(values.password);
-      }
-
+      // ✅ ست کردن Zustand بدون خواندن مجدد /api/auth/me
       setRegistered(true);
+      setUserName(userData.name);
+      setUserEmail(userData.email);
+      setUserPassword(values.password);
 
       if (userRole === "admin") {
-        router.push("/admin"); // مسیر صفحه ادمین
+        router.push("/admin");
       } else {
-        router.push("/dashboard"); // مسیر کاربران معمولی
+        router.push("/dashboard");
       }
     } catch (error: any) {
       const message = error.response?.data?.message || "Something went wrong";

@@ -25,8 +25,9 @@ const TopbarBase = ({
   isHome = false,
   isFirstQuiz,
 }: TopbarProps) => {
-  // const { user } = useAuth();
+
   const { isRegistered } = useAppStore();
+  
   return (
     <header
       className={clsx(
@@ -148,7 +149,7 @@ const TopbarBase = ({
                 !isHome && "hidden"
               }`}
             >
-              <TopbarUserInfo size='size-14' />
+              <TopbarUserInfo size='size-16' />
             </div>
           </>
         )}

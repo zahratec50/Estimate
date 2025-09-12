@@ -1,35 +1,45 @@
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-
-// فرض کنید secret تعریف شده
-const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET as string;
+import User from "@/models/User";
+import { connectDB } from "@/configs/db";
+// import { REFRESH_TOKEN_SECRET }
 
 export async function GET(req: Request) {
+  await connectDB(); // اتصال به MongoDB
+
   try {
     const cookie = req.headers.get("cookie") || "";
     const match = cookie.match(/refreshToken=([^;]+)/);
+
     if (!match) {
       return NextResponse.json({ user: null }, { status: 200 });
     }
 
     const token = match[1];
-    const decoded = jwt.verify(token, ACCESS_TOKEN_SECRET) as {
+
+    // ✅ استفاده از رفرش توکن برای decode
+    const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET as string) as {
       userId: string;
-      name?: string;
-      role?: "user" | "admin";
     };
 
-    // اگر رول در توکن موجود باشد، استفاده می‌کنیم، در غیر این صورت user
-    const role = decoded.role || "user";
+    // ✅ گرفتن اطلاعات واقعی یوزر از دیتابیس
+    const user = await User.findById(decoded.userId).select(
+      "name email avatar role"
+    );
+
+    if (!user) return NextResponse.json({ user: null }, { status: 200 });
 
     return NextResponse.json({
       user: {
-        userId: decoded.userId,
-        name: decoded.name || null,
-        role,
+        userId: user._id.toString(),
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        avatar: user.avatar || "/images/avatardefault.png",
       },
     });
   } catch (err) {
+    console.error("JWT verification failed:", err);
     return NextResponse.json({ user: null }, { status: 200 });
   }
 }

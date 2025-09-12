@@ -115,6 +115,7 @@ export interface AppState {
   userEmail: string;
   userAvatar: string;
   userPassword: string;
+  role: "user" | "admin";
   subscribedPlan: "basic" | "pro" | "enterprise" | null;
   subscriptionLimits: { [key: string]: number };
 
@@ -127,6 +128,12 @@ export interface AppState {
   setUserName: (name: string) => void;
   setUserEmail: (email: string) => void;
   setUserPassword: (password: string) => void;
+  setUser: (data?: {
+    name?: string;
+    avatar?: string;
+    role?: "user" | "admin";
+  }) => void;
+
   setLoginMethod: (m: AppState["loginMethod"]) => void;
 
   setCurrentStepFirstQuiz: (step: number) => void;
@@ -203,6 +210,7 @@ export const useAppStore = create<AppState>()(
       userEmail: "",
       userAvatar: "",
       userPassword: "",
+      role: "user",
       subscribedPlan: null,
       subscriptionLimits: {
         basic: 3,
@@ -222,6 +230,25 @@ export const useAppStore = create<AppState>()(
       setLoginMethod: (m) => set({ loginMethod: m }),
 
       setUserId: (id) => set({ userId: id }),
+      setUser: (data) => {
+        if (!data) {
+          // کاربر خارج شده یا نامشخص → ریست کردن اطلاعات
+          set({
+            isRegistered: false,
+            userName: "",
+            userAvatar: "",
+            role: "user",
+          });
+          return;
+        }
+        const { name = "", avatar = "", role = "user" } = data;
+        set({
+          isRegistered: true,
+          userName: name,
+          userAvatar: avatar,
+          role,
+        });
+      },
 
       setCurrentStepFirstQuiz: (step) => set({ currentStepFirstQuiz: step }),
       setCurrentStepMainQuiz: (step) => set({ currentStepMainQuiz: step }),

@@ -15,10 +15,10 @@ export default function TargetUserList() {
         {targetUsers.map((user) => (
           <Card
             key={user}
-            className={`cursor-pointer transition-all duration-300 text-center ${
+            className={`cursor-pointer transition-all duration-300 text-center bg-gray-201 dark:bg-secondary-700 ${
               selectedTargetUser === user
-                ? "border-primary-500 dark:border-2 dark:border-gray-500 dark:text-gray-500 dark:shadow-gray-900 shadow-lg"
-                : "hover:border-primary-500 hover:shadow-md text-gray-500 dark:border-white dark:text-white"
+                ? "border-primary-500 dark:border-2 dark:border-gray-100 dark:text-gray-100 dark:shadow-gray-900 shadow-lg"
+                : "hover:border-primary-500 hover:shadow-md text-gray-500 dark:border-secondary-500 dark:hover:border-primary-500 dark:text-secondary-400"
             }`}
             onClick={() => setSelectedTargetUser(user === selectedTargetUser ? null : user)}
           >

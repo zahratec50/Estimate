@@ -106,7 +106,7 @@ export default function QuestionList({
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white font-roboto">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white  font-roboto">
         Questions for {category.replace("_", " ")} (
         {targetUser.replace("_", " ")})
       </h3>
@@ -117,7 +117,7 @@ export default function QuestionList({
       ) : (
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
           {questions.map((question) => (
-            <Card key={question._id} className="relative group px-5 lg:px-10">
+            <Card key={question._id} className="relative group px-5 lg:px-10 dark:bg-gradient-to-b dark:from-secondary-500 dark:to-secondary-900">
               <CardHeader>
                 <CardTitle className="text-md font-roboto">
                   {question.questionText}
