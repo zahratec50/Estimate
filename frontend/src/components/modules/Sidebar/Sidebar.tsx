@@ -20,6 +20,7 @@ import { MdOutlineQuiz } from "react-icons/md";
 import { ImProfile } from "react-icons/im";
 import { AiOutlineHistory } from "react-icons/ai";
 import { MdLocalOffer } from "react-icons/md";
+import { HiOutlineChatAlt2 } from "react-icons/hi";
 import axios from "axios";
 
 interface SidebarProps {
@@ -169,7 +170,7 @@ const Sidebar = ({
             className="flex items-center gap-2 text-white hover:text-primary-100"
             onClick={handleClose}
           >
-            <IoChatbubblesOutline className="w-5 h-5" />
+            <HiOutlineChatAlt2 className="w-5 h-5" />
             Contact
           </Link>
           <Link
@@ -196,8 +197,9 @@ const Sidebar = ({
             <IoExitOutline className="w-5 h-5" />
             Sign Out
           </button>
-        </nav>
-      </aside>
+          
+      </nav>
+    </aside>
     </>
   );
 };

@@ -60,7 +60,7 @@ export default function ProfileHeader() {
     <div className="flex items-center gap-6">
       <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 dark:bg-secondary-700 flex-shrink-0">
         <Image
-          src={profile.avatar || "/images/avatardefault.png"}
+          src={profile.avatar || "/images/avataradmin.png"}
           alt="avatar"
           width={96}
           height={96}

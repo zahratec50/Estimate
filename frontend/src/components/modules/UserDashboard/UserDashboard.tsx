@@ -126,7 +126,7 @@ export default function UserDashboard({ children, isFirstQuiz }: { children: Rea
               : "w-full md:px-0 lg:px-20 xl:px-32"
           )}
         >
-          {/* <ProgressSegment isHelpOpen={isHelpOpen} isFirstQuiz={isFirstQuiz} /> */}
+          
           {children}
         </main>
       </div>

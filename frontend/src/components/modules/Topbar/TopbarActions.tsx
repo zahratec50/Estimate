@@ -13,7 +13,7 @@ type TopbarActionsProps = {
 function TopbarActions({ isFirstQuiz, isHelpOpen }: TopbarActionsProps) {
   return (
     <div className={`flex items-center gap-5 px-5 border-b border-neutral-300 ${isHelpOpen ? 'pl-[300px]' : ''}`}>
-      <ThemeSwitch />
+      {/* <ThemeSwitch /> */}
       <DigitalCountdown />
       <div className="w-52 md:w-95">
         <ProgressSegment isFirstQuiz={isFirstQuiz} isHelpOpen={isHelpOpen} />

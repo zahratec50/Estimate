@@ -35,7 +35,7 @@ export async function GET(req: Request) {
         name: user.name,
         email: user.email,
         role: user.role,
-        avatar: user.avatar || "/images/avatardefault.png",
+        avatar: user.avatar || "/images/avataradmin.png",
       },
     });
   } catch (err) {

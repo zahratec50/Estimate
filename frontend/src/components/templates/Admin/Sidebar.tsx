@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import clsx from "clsx";
-import { IoChatbubbleEllipses, IoHome } from "react-icons/io5";
+import { IoExit, IoBarChart, IoHome } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 import { FaClipboardQuestion } from "react-icons/fa6";
 import Link from "next/link";
@@ -10,8 +10,9 @@ import Image from "next/image";
 import { CiSearch } from "react-icons/ci";
 import { Input } from "@/components/ui/input";
 import ThemeSwitcher from "@/components/modules/Theme/Theme";
-import { IoBarChart } from "react-icons/io5";
-import { IoExit } from "react-icons/io5";
+// import { IoBarChart } from "react-icons/io5";
+// import { IoExit } from "react-icons/io5";
+import { IoMdChatbubbles } from "react-icons/io";
 import { MdOutlineQuiz } from "react-icons/md";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
@@ -121,7 +122,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               href="/admin/chats"
               className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
             >
-              <IoChatbubbleEllipses size={20} />
+              <IoMdChatbubbles size={20} />
               <span>Chats</span>
             </Link>
             <Link

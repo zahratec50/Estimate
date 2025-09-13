@@ -122,7 +122,7 @@ const TopbarBase = ({
           <>
             <div className={`w-full ${isHome && "hidden"}`}>
               <div className="w-full flex items-center justify-end space-x-3 md:space-x-6 dark:text-white text-white md:text-secondary-700 text-sm md:text-base font-medium md:border-b-2 md:border-neutral-300 p-2">
-                <span className="hidden md:flex items-center cursor-pointer">
+                <span className="flex items-center cursor-pointer">
                   <ThemeSwitcher />
                 </span>
                 <span className="hidden md:flex items-center cursor-pointer">

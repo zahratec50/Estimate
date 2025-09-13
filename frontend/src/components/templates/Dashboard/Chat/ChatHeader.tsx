@@ -33,9 +33,9 @@ export default function ChatHeader({ peer, online, onMenuClick }: ChatHeaderProp
         </button>
         <div
           className={`w-10 h-10 rounded-2xl flex items-center justify-center 
-            ${peer?.name ? "bg-sky-200 dark:bg-sky-800" : "bg-rose-200 dark:bg-rose-800"}`}
+            ${peer?.name ? "bg-indigo-800 dark:bg-indigo-300" : "bg-rose-200 dark:bg-rose-800"}`}
         >
-          <span className="text-gray-700 dark:text-gray-100">
+          <span className="text-gray-100 dark:text-gray-700">
             {peer?.name?.charAt(0) || "?"}
           </span>
         </div>

@@ -20,7 +20,7 @@ export default function ConversationItem({ peer, active, onClick, online }: Conv
       <div className="relative">
         <div
           className={`w-10 h-10 rounded-2xl flex items-center justify-center font-semibold text-white
-            ${peer.name ? "bg-sky-400" : "bg-gray-400"}`}
+            ${peer.name ? "bg-indigo-400" : "bg-gray-400"}`}
         >
           {peer.name?.slice(0, 1) || "?"}
         </div>

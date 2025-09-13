@@ -121,7 +121,7 @@ function Topbar({ onMenuClick }: TopbarProps) {
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer rounded-full">
               <AvatarImage
-                src={profile?.avatar || "/images/avatardefault.png"}
+                src={profile?.avatar || "/images/avataradmin.png"}
                 alt="Admin"
                 className="object-cover"
               />
