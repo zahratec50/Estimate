@@ -37,7 +37,7 @@ export function CheckboxQuestion({ question, selectedAnswer, setAnswer, isFirstQ
             type="checkbox"
             checked={selected.includes(typeof option === "string" ? option : option.label)}
             onChange={() => toggleOption(typeof option === "string" ? option : option.label)}
-            className="h-5 w-5 text-primary-500 focus:ring-primary-500"
+            className="h-5 w-5 text-primary-500 focus:ring-primary-500  accent-black dark:accent-indigo-500"
           />
           <span>{typeof option === "string" ? option : option.label}</span>
         </label>

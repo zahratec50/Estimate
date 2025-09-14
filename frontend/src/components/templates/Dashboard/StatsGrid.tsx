@@ -22,7 +22,7 @@ export const StatsGrid = ({
 
   return (
     <motion.div
-      className="grid grid-cols-2 xl:grid-cols-4 gap-6 mb-8"
+      className="grid grid-cols-2 xl:grid-cols-4 gap-4 xl:gap-6 mb-32"
       variants={containerVariants}
       initial="hidden"
       animate="show"

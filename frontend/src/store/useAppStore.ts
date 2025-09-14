@@ -12,10 +12,10 @@ const usPhoneRegex = /^(?:\+1\s?)?(?:\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}$/;
 // --- Types ---
 export type AnswerValue = string | string[] | Record<string, string>;
 
-export type Answer = {
-  question: string;
-  answer: AnswerValue;
-};
+// export type Answer = {
+//   question: string;
+//   answer: AnswerValue;
+// };
 
 export interface StoredAnswer {
   question: string; // فقط عنوان سؤال
@@ -119,6 +119,9 @@ export interface AppState {
   subscribedPlan: "basic" | "pro" | "enterprise" | null;
   subscriptionLimits: { [key: string]: number };
 
+  // completed Quiz
+  completedQuizzes: number;
+
   // actions
   closeSidebar: () => void;
   toggleSidebar: () => void;
@@ -138,6 +141,8 @@ export interface AppState {
 
   setCurrentStepFirstQuiz: (step: number) => void;
   setCurrentStepMainQuiz: (step: number) => void;
+
+  setCompletedQuizzes: (count: number | ((prev: number) => number)) => void;
 
   setFirstQuizQuestions: (questions: QuestionItem[]) => void;
   setMainQuizQuestions: (questions: QuestionItem[]) => void;
@@ -193,6 +198,7 @@ export const useAppStore = create<AppState>()(
       // initial
       currentStepFirstQuiz: 1,
       currentStepMainQuiz: 1,
+      completedQuizzes: 0,
       firstQuizQuestions: [],
       mainQuizQuestions: [],
       preQuizAnswers: [],
@@ -252,6 +258,14 @@ export const useAppStore = create<AppState>()(
 
       setCurrentStepFirstQuiz: (step) => set({ currentStepFirstQuiz: step }),
       setCurrentStepMainQuiz: (step) => set({ currentStepMainQuiz: step }),
+
+      setCompletedQuizzes: (count) =>
+        set((state) => ({
+          completedQuizzes:
+            typeof count === "function"
+              ? (count as (prev: number) => number)(state.completedQuizzes)
+              : count,
+        })),
 
       setFirstQuizQuestions: (questions) =>
         set({ firstQuizQuestions: questions }),

@@ -25,6 +25,7 @@ export default function QuizNavigation({
   const {
     currentStepFirstQuiz,
     currentStepMainQuiz,
+    completedQuizzes,
     isContinueAllowed,
     preQuizAnswers,
     mainQuizAnswersTemp,
@@ -36,6 +37,7 @@ export default function QuizNavigation({
     userType,
     setCurrentStepFirstQuiz,
     setCurrentStepMainQuiz,
+    setCompletedQuizzes,
     clearQuizData,
     setRegistered,
   } = useAppStore();
@@ -174,6 +176,7 @@ export default function QuizNavigation({
       } else {
         // setShowModal(true);
         setTimeout(() => router.push("/dashboard"), 1500);
+        setCompletedQuizzes((prev) => prev + 1);
         // clearQuizData(); // Clear data for mainQuiz
       }
     } catch (err: any) {

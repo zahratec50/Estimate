@@ -28,10 +28,11 @@ const detectUserType = (
 // --------------------
 type ClientShellProps = {
   isFirstQuiz: boolean;
+  isTopbarMainQuiz: boolean;
   children: React.ReactNode;
 };
 
-const ClientShellBase = ({ isFirstQuiz, children }: ClientShellProps) => {
+const ClientShellBase = ({ isFirstQuiz, isTopbarMainQuiz, children }: ClientShellProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -146,7 +147,8 @@ const ClientShellBase = ({ isFirstQuiz, children }: ClientShellProps) => {
       <div
         className={clsx(
           "flex flex-col flex-1 transition-all duration-300",
-          isHelpOpen ? "lg:mr-[305px]" : "md:ml-64"
+          isHelpOpen ? "lg:mr-[305px]" : "lg:ml-60"
+          
         )}
       >
         {/* Topbar */}
@@ -157,7 +159,7 @@ const ClientShellBase = ({ isFirstQuiz, children }: ClientShellProps) => {
           onMenuClick={handleMenuClick}
         />
 
-        {!isFirstQuiz && (
+        {!isFirstQuiz && isTopbarMainQuiz && (
           <TopbarActions
             isFirstQuiz={isFirstQuiz}
             isHelpOpen={isHelpOpen}
@@ -170,7 +172,8 @@ const ClientShellBase = ({ isFirstQuiz, children }: ClientShellProps) => {
             "flex-grow py-5 sm:py-6",
             isHelpOpen
               ? "w-[70%] px-0 md:px-5 lg:pl-10 xl:px-10 sm:ml-72"
-              : "w-full md:px-10 lg:px-20 xl:px-40"
+              : isTopbarMainQuiz ? "w-full md:px-0 lg:px-20 xl:px-32" : "w-full lg:px-5 xl:px-30"
+              
           )}
         >
           {children}

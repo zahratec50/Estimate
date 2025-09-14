@@ -34,16 +34,16 @@ const TopbarBase = ({
         "w-full relative z-30 font-roboto",
         isHome
           ? "px-2 py-2 flex justify-between items-center"
-          : "px-2 py-3 sm:py-0 sm:px-0 flex justify-between items-center dark:bg-secondary-800 bg-blackNew-50 md:bg-white"
+          : "px-2 py-3 sm:py-0 sm:px-0 flex justify-between items-center dark:bg-secondary-900 bg-blackNew-50 md:bg-white"
       )}
     >
       {/* Left: Menu + Logo */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 pl-2">
         <button
           type="button"
           aria-label="Open menu"
           onClick={onMenuClick}
-          className="md:hidden"
+          className="lg:hidden"
         >
           <svg
             className="w-6 h-6 text-white"
@@ -69,7 +69,7 @@ const TopbarBase = ({
             height={isHome ? 80 : 48}
             className={clsx(
               "block dark:hidden",
-              isHome ? "w-11 h-11 md:w-16 md:h-16" : "w-12 h-12 block sm:hidden"
+              isHome ? "w-11 h-11 md:w-16 md:h-16" : "w-12 h-12 block lg:hidden"
             )}
           />
         )}
@@ -83,12 +83,12 @@ const TopbarBase = ({
             "object-contain",
             isHome
               ? "w-11 h-11 md:w-16 md:h-16 hidden dark:block"
-              : "w-12 h-12 block sm:hidden"
+              : "w-12 h-12 block lg:hidden"
           )}
         />
 
         {isHome && (
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-6">
             {["features", "about", "contact"].map((page) => (
               <Link
                 key={page}
@@ -105,7 +105,7 @@ const TopbarBase = ({
       {/* Right: Actions */}
       <div
         className={clsx("w-full gap-2", {
-          "ml-5 md:ml-64 items-end": !isHome && isHelpOpen,
+          "ml-5 lg:ml-64 items-end": !isHome && isHelpOpen,
           "ml-0": !isHome && !isHelpOpen,
         })}
       >
@@ -121,7 +121,7 @@ const TopbarBase = ({
         ) : (
           <>
             <div className={`w-full ${isHome && "hidden"}`}>
-              <div className="w-full flex items-center justify-end space-x-3 md:space-x-6 dark:text-white text-white md:text-secondary-700 text-sm md:text-base font-medium md:border-b-2 md:border-neutral-300 p-2">
+              <div className="w-full flex items-center justify-end space-x-3 md:space-x-6 dark:text-white text-white md:text-secondary-700 text-sm md:text-base font-medium lg:border-b-2 lg:border-neutral-300 p-4">
                 <span className="flex items-center cursor-pointer">
                   <ThemeSwitcher />
                 </span>

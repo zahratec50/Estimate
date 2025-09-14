@@ -83,16 +83,16 @@ const Sidebar = ({
       {/* Sidebar */}
       <aside
         className={clsx(
-          "fixed top-0 left-0 h-full flex flex-col justify-between p-4 dark:bg-secondary-800 bg-primary-500 shadow-lg z-50 transition-transform duration-300",
+          "fixed top-0 left-0 h-full flex flex-col justify-between p-4 bg-primary-500 shadow-lg z-50 transition-transform duration-300",
           {
             "w-2/3 md:w-64": true, // موبایل full، دسکتاپ ثابت
             "translate-x-0": isOpen, // باز در موبایل
-            "-translate-x-full md:translate-x-0": !isOpen, // در دسکتاپ همیشه باز
+            "-translate-x-full lg:translate-x-0": !isOpen, // در دسکتاپ همیشه باز
           }
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between md:justify-center mb-6 w-full">
+        <div className="flex items-center justify-between lg:justify-center mb-6 w-full">
           <Link href="/" onClick={handleClose}>
             <Image
               src="/images/Frame 20.png"
@@ -108,7 +108,7 @@ const Sidebar = ({
             type="button"
             aria-label="Close Sidebar"
             onClick={handleClose}
-            className="md:hidden text-white hover:text-gray-200 dark:text-secondary-300 dark:hover:text-secondary-100"
+            className="lg:hidden text-white hover:text-gray-200 dark:text-secondary-300 dark:hover:text-secondary-100"
           >
             <IoClose className="w-6 h-6" />
           </button>

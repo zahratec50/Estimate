@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
-import UserDashboard from "@/components/modules/UserDashboard/UserDashboard";
+import ClientShell from "@/components/templates/Quiz/ClientShell/ClientShell";
 
 export default function DashboardLayout({children}: { children: ReactNode }) {
   return (
     <div>
-      <UserDashboard isFirstQuiz={false}>
+      <ClientShell isFirstQuiz={false} isTopbarMainQuiz={false}>
         {children}
-      </UserDashboard>
+      </ClientShell>
     </div>
   )
 }

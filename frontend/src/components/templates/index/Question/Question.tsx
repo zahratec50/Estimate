@@ -63,7 +63,7 @@ export default function Question({
                       className="flex items-center gap-2 mb-1 leading-tight "
                     >
                       <div className="size-4 lg:size-5">
-                        <Icon className="text-primary-500 dark:text-primary-300 text-lg" />
+                        <Icon className="text-primary-500 dark:text-primary-100 text-lg" />
                       </div>
                       {feature}
                     </li>

@@ -104,7 +104,7 @@ export const ProfileHeader = () => {
         </p>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="mt-2 px-4 py-2 rounded bg-primary-400 text-white hover:bg-primary-500 transition"
+          className="mt-2 px-4 py-2 rounded bg-primary-400 text-white hover:bg-primary-500 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition"
         >
           Edit Profile
         </button>
@@ -170,7 +170,7 @@ export const ProfileHeader = () => {
               </button>
               <button
                 onClick={handleSave}
-                className="px-4 py-2 rounded bg-primary-400 text-white hover:bg-primary-500"
+                className="px-4 py-2 rounded bg-primary-400 text-white hover:bg-primary-500 dark:bg-indigo-500 dark:hover:bg-indigo-600"
               >
                 Save
               </button>

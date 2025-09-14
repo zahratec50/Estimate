@@ -33,26 +33,33 @@ export default function PlanCard({
         <h3 className="text-xl font-semibold mb-2">{name}</h3>
         <p className="text-4xl text-primary-500 dark:text-white font-roboto font-medium mb-4">
           ${price}
-          <span className="text-lg text-gray-700 dark:text-secondary-100">/month</span>
-          
-          </p>
+          <span className="text-lg text-gray-700 dark:text-secondary-100">
+            /month
+          </span>
+        </p>
+        <button
+        className={clsx(
+          "w-full py-2 rounded-full text-white font-medium mb-6",
+          selected
+            ? "bg-blue-600"
+            : "bg-primary-500 hover:bg-gray-900 dark:bg-indigo-600 dark:hover:bg-indigo-700"
+        )}
+      >
+        {selected ? "Selected" : "Select"}
+      </button>
         <ul className="mb-4 space-y-1 text-left md:ml-12 lg:ml-16">
           {features.map((f) => (
-            <li key={f} className="text-gray-600 dark:text-secondary-50 text-sm">
+            <li
+              key={f}
+              className="text-gray-600 dark:text-secondary-50 text-sm"
+            >
               • {f}
             </li>
           ))}
         </ul>
       </div>
 
-      <button
-        className={clsx(
-          "w-full py-2 rounded-md text-white font-medium",
-          selected ? "bg-blue-600" : "bg-primary-500 hover:bg-gray-900 dark:bg-indigo-600 dark:hover:bg-indigo-700"
-        )}
-      >
-        {selected ? "Selected" : "Select"}
-      </button>
+      
     </div>
   );
 }

@@ -24,7 +24,7 @@ function Progress({
       {...props}
     >
       <ProgressPrimitive.Indicator
-        className="bg-gradient-to-r from-blue-600 via-cyan-500 to-green-500 h-full origin-left transition-transform duration-500 ease-out will-change-transform"
+        className="bg-gradient-to-r from-indigo-600 via-cyan-500 h-full origin-left transition-transform duration-500 ease-out will-change-transform"
         style={{
           transform: `scaleX(${Math.max(safeValue / 100, 0.001)})`
           

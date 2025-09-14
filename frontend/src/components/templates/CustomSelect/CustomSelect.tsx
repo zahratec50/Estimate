@@ -51,7 +51,7 @@ export default function CustomSelect({
       {name && <label className="block mb-1 font-medium">{name}</label>}
       <button
         type="button"
-        className={`w-full h-12 px-4 py-2 border border-gray-300 dark:border-secondary-600 rounded-md md:rounded-lg flex justify-between items-center bg-white dark:bg-secondary-800
+        className={`w-full h-12 px-4 py-2 border border-gray-300 dark:border-secondary-700 rounded-md md:rounded-lg flex justify-between items-center bg-white dark:bg-secondary-800
           ${disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
         onClick={() => !disabled && setOpen((prev) => !prev)}
       >
@@ -81,7 +81,7 @@ export default function CustomSelect({
       {open && (
         <div
           ref={dropdownRef}
-          className="absolute z-50 mt-1 w-full border border-gray-300 dark:border-secondary-600 rounded-md shadow-lg bg-white dark:bg-secondary-800 max-h-60 overflow-y-auto animate-in fade-in-0 zoom-in-95 py-2"
+          className="absolute z-50 mt-1 w-full border border-gray-300 dark:border-secondary-700 rounded-md shadow-lg bg-white dark:bg-secondary-800 max-h-60 overflow-y-auto animate-in fade-in-0 zoom-in-95 py-2"
         >
           {options?.map((option) => {
             const isSelected = typeof option === "string"
@@ -95,7 +95,7 @@ export default function CustomSelect({
                   setOpen(false);
                 }}
                 className={`flex items-center justify-between px-4 py-2 cursor-pointer text-sm mx-2
-                  hover:bg-primary-50 hover:border hover:border-primary-500 dark:hover:bg-secondary-700 hover:rounded-lg
+                  hover:bg-primary-50 hover:border hover:border-primary-500 dark:hover:bg-secondary-700 dark:hover:border-white hover:rounded-lg
                   ${
                     isSelected
                       ? "font-medium bg-primary-50 dark:bg-secondary-700 border border-primary-500 dark:border-white rounded-lg"

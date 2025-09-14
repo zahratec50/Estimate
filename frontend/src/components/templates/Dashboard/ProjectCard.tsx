@@ -27,7 +27,7 @@ export const ProjectCard = ({
       
     >
       <Card
-        className="w-[250px] cursor-pointer bg-gradient-to-t from-secondary-50 to-secondary-200 dark:from-secondary-700 dark:to-secondary-800 dark:border-none"
+        className="w-[250px] md:w-[275px] lg:w-[240px] xl:w-[300px] cursor-pointer bg-gradient-to-t from-secondary-50 to-secondary-200 dark:from-secondary-700 dark:to-secondary-800 dark:border-none"
         onClick={() => router.push(`/dashboard/project/${id}`)}
       >
         <CardHeader className="flex flex-row justify-around items-center gap-2">

@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppStore, Project } from "@/store/useAppStore";
 import { Edit2, Trash2 } from "lucide-react";
+import { showErrorToast } from "@/components/modules/toasts/ErrorToast";
 
 const PLAN_LIMITS: Record<string, number> = {
   basic: 3,
@@ -43,14 +44,20 @@ const ProjectSetup: React.FC = () => {
       setProjectName("");
     } else {
       if (isLimitReached) {
-        setError("You have reached your project limit for your plan.");
+        showErrorToast({
+          title: "Error",
+          description: "You have reached your project limit for your plan.",
+          actionLabel: "OK",
+          onAction: () => {},
+        });
+        // setError("You have reached your project limit for your plan.");
         return;
       }
 
       const newId = addProject(nameTrimmed);
       setCurrentProjectId(newId);
-      setProjectName("");
       router.push("/mainQuiz/1");
+      setProjectName("");
     }
     setError("");
   };
@@ -70,6 +77,10 @@ const ProjectSetup: React.FC = () => {
     setCurrentProjectId(id);
     router.push(`/dashboard/project/${id}`);
   };
+
+  useEffect(() => {
+    router.prefetch("/mainQuiz/1");
+  }, [router]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-fit px-4 py-8">

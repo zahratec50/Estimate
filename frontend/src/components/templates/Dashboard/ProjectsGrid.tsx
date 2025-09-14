@@ -14,7 +14,7 @@ export const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
 
   return (
     <motion.div
-      className="flex items-center justify-center md:justify-stretch gap-6"
+      className="flex flex-col md:flex-row items-center justify-start md:justify-stretch gap-6"
       variants={containerVariants}
       initial="hidden"
       animate="show"

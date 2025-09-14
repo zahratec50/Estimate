@@ -31,7 +31,7 @@ const OptionButton = React.memo(function OptionButton({
       className={clsx(
         "relative p-6 rounded-lg border transition-all duration-200 text-left flex flex-col items-start gap-2",
         {
-          "border-primary-500 bg-primary-50 dark:border-secondary-500 dark:bg-secondary-800 shadow-lg":
+          "border-primary-500 bg-primary-50 dark:border-white dark:bg-secondary-800 shadow-lg":
             isSelected,
           "border-neutral-300 hover:bg-primary-50 dark:border-secondary-500 dark:hover:bg-secondary-800 dark:bg-secondary-900":
             !isSelected,
@@ -39,7 +39,7 @@ const OptionButton = React.memo(function OptionButton({
       )}
     >
       {isSelected && (
-        <span className="absolute -top-3 right-4 p-1 bg-primary-500 dark:bg-secondary-500 dark:text-secondary-900 text-white rounded-lg">
+        <span className="absolute -top-3 right-4 p-1 bg-primary-500 dark:bg-white dark:text-secondary-900 text-white rounded-lg">
           <IoCheckmarkOutline />
         </span>
       )}
