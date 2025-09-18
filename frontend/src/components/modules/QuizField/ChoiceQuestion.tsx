@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import clsx from "clsx";
 import { QuestionItem } from "@/store/useAppStore";
@@ -14,6 +14,7 @@ interface ChoiceQuestionProps {
 
 type ImageOption = { label: string; imageUrl?: string };
 
+// =================== OptionButton ===================
 const OptionButton = React.memo(function OptionButton({
   text,
   isSelected,
@@ -57,6 +58,7 @@ const OptionButton = React.memo(function OptionButton({
   );
 });
 
+// =================== ChoiceQuestion ===================
 const ChoiceQuestion = ({
   questionData,
   answer,
@@ -64,32 +66,37 @@ const ChoiceQuestion = ({
   multiple = false,
 }: ChoiceQuestionProps) => {
   const [showAllOptions, setShowAllOptions] = useState(false);
-  const [selectionError, setSelectionError] = useState("");
 
-  const selectedOptions: string[] = multiple
-    ? (Array.isArray(answer) ? answer : [])
-    : answer
-    ? [answer as string]
-    : [];
+  // =================== selectedOptions ===================
+  const selectedOptions: string[] = useMemo(
+    () =>
+      multiple
+        ? Array.isArray(answer)
+          ? answer
+          : []
+        : answer
+        ? [answer as string]
+        : [],
+    [answer, multiple]
+  );
 
   const minSelected = questionData.validation?.minSelected ?? 0;
   const maxSelected = questionData.validation?.maxSelected ?? Infinity;
   const required = questionData.validation?.required ?? false;
   const errorMessage = questionData.validation?.errorMessage ?? "";
 
-  // validation
-  useEffect(() => {
-    let error = "";
-    if (required && selectedOptions.length === 0) {
-      error = errorMessage || `Please select at least ${minSelected} option(s).`;
-    } else if (selectedOptions.length < minSelected) {
-      error = errorMessage || `Please select at least ${minSelected} option(s).`;
-    } else if (selectedOptions.length > maxSelected) {
-      error = errorMessage || `Please select at most ${maxSelected} option(s).`;
-    }
-    setSelectionError(error);
+  // =================== validation بدون state ===================
+  const selectionError = useMemo(() => {
+    if (required && selectedOptions.length === 0)
+      return errorMessage || `Please select at least ${minSelected} option(s).`;
+    if (selectedOptions.length < minSelected)
+      return errorMessage || `Please select at least ${minSelected} option(s).`;
+    if (selectedOptions.length > maxSelected)
+      return errorMessage || `Please select at most ${maxSelected} option(s).`;
+    return "";
   }, [selectedOptions, required, minSelected, maxSelected, errorMessage]);
 
+  // =================== handleClick با بررسی تغییر واقعی ===================
   const handleClick = useCallback(
     (text: string) => {
       if (multiple) {
@@ -100,36 +107,52 @@ const ChoiceQuestion = ({
           if (selectedOptions.length >= maxSelected) return;
           newOptions = [...selectedOptions, text];
         }
-        setAnswer(newOptions);
+        // فقط اگر array تغییر کرده بود setAnswer
+        if (
+          newOptions.length !== selectedOptions.length ||
+          newOptions.some((val, i) => val !== selectedOptions[i])
+        ) {
+          setAnswer(newOptions);
+        }
       } else {
-        setAnswer(text);
+        if (answer !== text) setAnswer(text);
       }
     },
-    [multiple, selectedOptions, setAnswer, maxSelected]
+    [multiple, selectedOptions, setAnswer, answer, maxSelected]
   );
 
-  const getOptionData = (option: string | ImageOption) => {
+  // =================== handleClickOption ثابت برای React.memo ===================
+  const handleClickOption = useCallback(
+    (text: string) => () => handleClick(text),
+    [handleClick]
+  );
+
+  // =================== getOptionData ===================
+  const getOptionData = useCallback((option: string | ImageOption) => {
     if (typeof option === "string") return { text: option, imageUrl: undefined };
     return { text: option.label, imageUrl: option.imageUrl };
-  };
+  }, []);
 
   const options = questionData.options ?? [];
   const initialOptions = options.slice(0, 4);
   const remainingOptions = options.slice(4);
 
-  const renderOptions = (opts: (string | ImageOption)[]) =>
-    opts.map((option, idx) => {
-      const { text, imageUrl } = getOptionData(option);
-      return (
-        <OptionButton
-          key={text}
-          text={text}
-          imageUrl={imageUrl}
-          isSelected={selectedOptions.includes(text)}
-          onClick={() => handleClick(text)}
-        />
-      );
-    });
+  const renderOptions = useCallback(
+    (opts: (string | ImageOption)[]) =>
+      opts.map((option) => {
+        const { text, imageUrl } = getOptionData(option);
+        return (
+          <OptionButton
+            key={text}
+            text={text}
+            imageUrl={imageUrl}
+            isSelected={selectedOptions.includes(text)}
+            onClick={handleClickOption(text)}
+          />
+        );
+      }),
+    [getOptionData, handleClickOption, selectedOptions]
+  );
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 sm:pb-[80px]">

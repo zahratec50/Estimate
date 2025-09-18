@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { QuestionItem } from "@/store/useAppStore";
-import { UnitSelector } from "../UnitSelector/UnitSelector";
+import { UnitSelector } from "./UnitSelector/UnitSelector";
 import { showErrorToast } from "@/components/modules/toasts/ErrorToast";
 import { debounce } from "lodash";
 

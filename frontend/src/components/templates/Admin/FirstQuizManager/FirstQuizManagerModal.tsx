@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { QuestionItem, useFirstQuizStore } from "@/store/useFirstQuizStore";
-import CustomSelect from "../../CustomSelect/CustomSelect";
+import CustomSelect from "../../../modules/CustomSelect/CustomSelect";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -65,7 +65,10 @@ export default function EditQuestionPanel({
   return (
     <div className="fixed inset-0 z-[2000] flex items-center justify-center overflow-y-auto">
       {/* Overlay */}
-      <div className="fixed inset-0 bg-black/50 dark:bg-white/40" onClick={onClose} />
+      <div
+        className="fixed inset-0 bg-black/50 dark:bg-white/40"
+        onClick={onClose}
+      />
 
       {/* Panel */}
       <div className="relative bg-white dark:bg-secondary-900 p-6 rounded-lg w-full max-w-3xl z-[2001] flex flex-col gap-4 m-4">
@@ -164,7 +167,11 @@ export default function EditQuestionPanel({
 
         {/* Buttons */}
         <div className="mt-4 flex justify-end gap-2">
-          <Button variant="outline" onClick={onClose} className="hover:bg-secondary-600 hover:text-white">
+          <Button
+            variant="outline"
+            onClick={onClose}
+            className="hover:bg-secondary-600 hover:text-white"
+          >
             Cancel
           </Button>
           <Button

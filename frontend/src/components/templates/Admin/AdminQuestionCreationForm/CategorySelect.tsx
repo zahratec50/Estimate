@@ -1,15 +1,24 @@
 "use client";
 
-import { FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Control } from "react-hook-form";
-import CustomSelect from "../../CustomSelect/CustomSelect";
+import CustomSelect from "../../../modules/CustomSelect/CustomSelect";
 
 interface CategorySelectProps {
   control: Control<any>;
   isSubmitting: boolean;
 }
 
-export default function CategorySelect({ control, isSubmitting }: CategorySelectProps) {
+export default function CategorySelect({
+  control,
+  isSubmitting,
+}: CategorySelectProps) {
   return (
     <FormField
       control={control}
@@ -18,7 +27,13 @@ export default function CategorySelect({ control, isSubmitting }: CategorySelect
         <FormItem>
           <FormControl>
             <CustomSelect
-              options={["bathroom", "kitchen", "living_room", "bedroom", "other"]}
+              options={[
+                "bathroom",
+                "kitchen",
+                "living_room",
+                "bedroom",
+                "other",
+              ]}
               value={field.value}
               onChange={field.onChange}
               placeholder="Select category"
@@ -27,7 +42,8 @@ export default function CategorySelect({ control, isSubmitting }: CategorySelect
             />
           </FormControl>
           <FormDescription className="text-xs">
-            Select the renovation section this question belongs to. The question will be routed accordingly.
+            Select the renovation section this question belongs to. The question
+            will be routed accordingly.
           </FormDescription>
           <FormMessage />
         </FormItem>

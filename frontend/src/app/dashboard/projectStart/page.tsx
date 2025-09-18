@@ -1,4 +1,4 @@
-import ProjectSetup from '@/components/templates/ProjectSetup/ProjectSetup'
+import ProjectSetup from '@/components/templates/Dashboard/ProjectSetup/ProjectSetup'
 import React from 'react'
 
 export default function ProjectStart() {

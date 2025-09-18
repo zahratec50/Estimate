@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useCreateUser } from "@/hooks/useUsers";
 import { showSuccessToast } from "@/components/modules/toasts/SuccessToast";
 import { showErrorToast } from "@/components/modules/toasts/ErrorToast";
-import CustomSelect from "../../CustomSelect/CustomSelect";
+import CustomSelect from "../../../modules/CustomSelect/CustomSelect";
 import { Button } from "@/components/ui/button";
 
 export default function UserCreateForm() {
@@ -36,7 +36,10 @@ export default function UserCreateForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-10 bg-gray-200 dark:bg-background p-4 rounded border-b font-roboto">
+    <form
+      onSubmit={handleSubmit}
+      className="mb-10 bg-gray-200 dark:bg-background p-4 rounded border-b font-roboto"
+    >
       <h2 className="text-xl font-bold mb-4">Add New User</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <input
@@ -69,7 +72,11 @@ export default function UserCreateForm() {
         />
       </div>
       <div className="my-6">
-        <Button type="submit" variant="default" className="bg-indigo-600 hover:bg-indigo-500 text-white">
+        <Button
+          type="submit"
+          variant="default"
+          className="bg-indigo-600 hover:bg-indigo-500 text-white"
+        >
           Create User
         </Button>
       </div>

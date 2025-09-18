@@ -18,7 +18,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={roboto.variable} suppressHydrationWarning>
+    <html lang="en" className={roboto.className} suppressHydrationWarning>
       <body className="font-roboto overflow-x-hidden" suppressHydrationWarning>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider

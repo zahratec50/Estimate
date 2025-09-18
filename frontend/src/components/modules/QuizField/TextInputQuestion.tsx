@@ -28,129 +28,89 @@ export const TextInputQuestion = ({
 }: Props) => {
   const [inputValues, setInputValues] = useState<Record<string, string>>({});
   const [errorMessages, setErrorMessages] = useState<Record<string, string>>({});
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
   // مقدار اولیه
   useEffect(() => {
+    const initValues: Record<string, string> = {};
+    const initTouched: Record<string, boolean> = {};
+
     if (question.fields && question.fields.length > 0) {
-      const init: Record<string, string> = {};
-      if (
-        typeof selectedAnswer === "object" &&
-        !Array.isArray(selectedAnswer) &&
-        selectedAnswer !== null
-      ) {
-        question.fields.forEach((f) => {
-          init[f.label] =
-            (selectedAnswer as Record<string, string>)[f.label] || "";
-        });
-      } else {
-        question.fields.forEach((f) => {
-          init[f.label] = "";
-        });
-      }
-      setInputValues(init);
+      question.fields.forEach((f) => {
+        initValues[f.label] =
+          (selectedAnswer as Record<string, string>)?.[f.label] || "";
+        initTouched[f.label] = false;
+      });
     } else {
       const singleValue =
         typeof selectedAnswer === "string" ? selectedAnswer : "";
-      setInputValues({ single: singleValue });
+      initValues["single"] = singleValue;
+      initTouched["single"] = false;
     }
+
+    setInputValues(initValues);
+    setTouchedFields(initTouched);
+    setErrorMessages({}); // ریست ارورها
   }, [question, selectedAnswer]);
 
-  // اعتبارسنجی هر فیلد
+  // اعتبارسنجی یک فیلد
   const validateField = useCallback((value: string, validation?: any) => {
     const trimmed = value.trim();
-
-    // خالی بودن
     if (!trimmed) {
-      if (validation?.required) {
-        return validation.errorMessage || "This field is required";
-      }
+      if (validation?.required) return validation.errorMessage || "This field is required";
       return null;
     }
-
-    if (validation?.minLength && trimmed.length < validation.minLength) {
-      return (
-        validation.errorMessage ||
-        `Minimum ${validation.minLength} characters required`
-      );
-    }
-
-    if (validation?.pattern && !new RegExp(validation.pattern).test(trimmed)) {
+    if (validation?.minLength && trimmed.length < validation.minLength)
+      return validation.errorMessage || `Minimum ${validation.minLength} characters required`;
+    if (validation?.pattern && !new RegExp(validation.pattern).test(trimmed))
       return validation.errorMessage || "Invalid format";
-    }
-
-    if (validation?.format === "email" && !emailRegex.test(trimmed)) {
+    if (validation?.format === "email" && !emailRegex.test(trimmed))
       return validation.errorMessage || "Invalid email";
-    }
-
-    if (validation?.format === "usPhone" && !usPhoneRegex.test(trimmed)) {
+    if (validation?.format === "usPhone" && !usPhoneRegex.test(trimmed))
       return validation.errorMessage || "Invalid US phone number";
-    }
-
-    if (validation?.min !== undefined && Number(trimmed) < validation.min) {
-      return (
-        validation.errorMessage || `Minimum ${validation.min} required`
-      );
-    }
-
-    if (validation?.max !== undefined && Number(trimmed) > validation.max) {
-      return (
-        validation.errorMessage || `Maximum ${validation.max} required`
-      );
-    }
-
+    if (validation?.min !== undefined && Number(trimmed) < validation.min)
+      return validation.errorMessage || `Minimum ${validation.min} required`;
+    if (validation?.max !== undefined && Number(trimmed) > validation.max)
+      return validation.errorMessage || `Maximum ${validation.max} required`;
     return null;
   }, []);
 
-  // اعتبارسنجی همه‌ی فیلدها
-  const validateAll = useCallback(
-    (values: Record<string, string>) => {
-      const errors: Record<string, string> = {};
-      if (question.fields && question.fields.length > 0) {
-        question.fields.forEach((field) => {
-          const err = validateField(
-            values[field.label] || "",
-            field.validation
-          );
-          if (err) errors[field.label] = err;
-        });
-      } else {
-        const err = validateField(
-          values["single"] || "",
-          question.validation
-        );
-        if (err) errors["single"] = err;
-      }
-      setErrorMessages(errors);
-      return errors;
-    },
-    [question, validateField]
-  );
-
-  // معتبر بودن همه فیلدها
+  // معتبر بودن فرم بدون تغییر state در render
   const isValid = useMemo(() => {
-    const hasErrors = Object.keys(errorMessages).length > 0;
+    const hasErrors = Object.values(errorMessages).some((e) => e && e.length > 0);
+
     const hasEmptyRequired = question.fields
       ? question.fields.some(
           (f) =>
-            f.validation?.required && !inputValues[f.label]?.trim()
+            f.validation?.required &&
+            touchedFields[f.label] &&
+            !inputValues[f.label]?.trim()
         )
-      : question.validation?.required && !inputValues["single"]?.trim();
+      : question.validation?.required &&
+        touchedFields["single"] &&
+        !inputValues["single"]?.trim();
+
     return !hasErrors && !hasEmptyRequired;
-  }, [errorMessages, inputValues, question]);
+  }, [errorMessages, inputValues, touchedFields, question]);
 
   // ارسال اعتبار به والد
   useEffect(() => {
     if (onValidationChange) onValidationChange(isValid);
   }, [isValid, onValidationChange]);
 
-  // تغییر مقدار اینپوت
+  // تغییر مقدار اینپوت با debounce و اعتبارسنجی فیلد
   const handleChange = useCallback(
     (label: string, value: string) => {
-      setInputValues((prev) => {
+      setInputValues(prev => {
         const updated = { ...prev, [label]: value };
-        validateAll(updated);
 
+        // اعتبارسنجی فقط روی همین فیلد
+        const validation = question.fields?.find(f => f.label === label)?.validation || question.validation;
+        const err = validateField(value, validation);
+        setErrorMessages(prevErr => ({ ...prevErr, [label]: err || "" }));
+
+        // debounce برای auto-save
         if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
         debounceTimeout.current = setTimeout(() => {
           if (question.fields && question.fields.length > 0) {
@@ -165,37 +125,43 @@ export const TextInputQuestion = ({
         return updated;
       });
     },
-    [question, isFirstQuiz, setAnswer, validateAll]
+    [question, isFirstQuiz, setAnswer, validateField]
   );
 
-  const fieldsToRender =
-    question.fields && question.fields.length > 0
-      ? question.fields
-      : [{ label: "single", placeholder: question.placeholder || "" }];
+  // وقتی کاربر روی فیلد blur می‌کنه، تگ touched true میشه و اعتبارسنجی انجام می‌شود
+  const handleBlur = (label: string) => {
+    setTouchedFields(prev => ({ ...prev, [label]: true }));
+
+    const validation = question.fields?.find(f => f.label === label)?.validation || question.validation;
+    const err = validateField(inputValues[label], validation);
+    setErrorMessages(prevErr => ({ ...prevErr, [label]: err || "" }));
+  };
+
+  const fieldsToRender = question.fields && question.fields.length > 0
+    ? question.fields
+    : [{ label: "single", placeholder: question.placeholder || "" }];
 
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-      {fieldsToRender.map((field) => {
+      {fieldsToRender.map(field => {
         const value = inputValues[field.label] ?? "";
+        const showError = touchedFields[field.label] && errorMessages[field.label];
         return (
-          <div key={field.label} className="min-w-1/2 flex flex-col gap-1">
+          <div key={field.label} className="flex flex-col gap-1">
             <input
               type="text"
               placeholder={field.placeholder || ""}
               value={value}
-              onChange={(e) => handleChange(field.label, e.target.value)}
+              onChange={e => handleChange(field.label, e.target.value)}
+              onBlur={() => handleBlur(field.label)}
               className={`border rounded-md px-2 py-3 w-full focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white dark:bg-secondary-700 dark:border-none ${
-                errorMessages[field.label]
-                  ? "border-red-500"
-                  : "border-gray-300"
+                showError ? "border-red-500" : "border-gray-300"
               }`}
             />
-            {errorMessages[field.label] && (
-              <span className="text-red-500 text-sm">
-                {errorMessages[field.label]}
-              </span>
+            {showError && (
+              <span className="text-red-500 text-sm">{errorMessages[field.label]}</span>
             )}
-            {field.hint && !errorMessages[field.label] && (
+            {field.hint && !showError && (
               <p className="text-sm text-gray-500">{field.hint}</p>
             )}
           </div>

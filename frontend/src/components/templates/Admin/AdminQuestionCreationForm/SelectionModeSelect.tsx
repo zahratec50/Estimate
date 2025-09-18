@@ -1,15 +1,24 @@
 "use client";
 
-import { FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Control } from "react-hook-form";
-import CustomSelect from "../../CustomSelect/CustomSelect";
+import CustomSelect from "../../../modules/CustomSelect/CustomSelect";
 
 interface SelectionModeSelectProps {
   control: Control<any>;
   isSubmitting: boolean;
 }
 
-export default function SelectionModeSelect({ control, isSubmitting }: SelectionModeSelectProps) {
+export default function SelectionModeSelect({
+  control,
+  isSubmitting,
+}: SelectionModeSelectProps) {
   return (
     <FormField
       control={control}

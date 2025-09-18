@@ -3,7 +3,7 @@
 import React from "react";
 import ProgressSegment from "@/components/ui/progress";
 import ThemeSwitch from "../Theme/Theme"
-import DigitalCountdown from "@/components/templates/DigitalCountdown/DigitalCountdown";
+import DigitalCountdown from "@/components/templates/Quiz/DigitalCountdown/DigitalCountdown";
 
 type TopbarActionsProps = {
   isFirstQuiz: boolean;

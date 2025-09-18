@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useMemo, useState, useRef, useCallback } from "react";
@@ -6,7 +5,7 @@ import { useAppStore, Project } from "@/store/useAppStore";
 import History from "./ProjectsHistory";
 import { formatDistanceToNow } from "date-fns";
 import { CiSearch } from "react-icons/ci";
-import CustomSelect from "../../CustomSelect/CustomSelect";
+import CustomSelect from "../../../modules/CustomSelect/CustomSelect";
 import { MdDownloadForOffline } from "react-icons/md";
 
 const COST_PER_QUESTION = 1000;

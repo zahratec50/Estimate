@@ -1,15 +1,24 @@
 "use client";
 
-import { FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Control } from "react-hook-form";
-import CustomSelect from "../../CustomSelect/CustomSelect";
+import CustomSelect from "../../../modules/CustomSelect/CustomSelect";
 
 interface QuestionTypeSelectProps {
   control: Control<any>;
   isSubmitting: boolean;
 }
 
-export default function QuestionTypeSelect({ control, isSubmitting }: QuestionTypeSelectProps) {
+export default function QuestionTypeSelect({
+  control,
+  isSubmitting,
+}: QuestionTypeSelectProps) {
   return (
     <FormField
       control={control}
@@ -18,7 +27,14 @@ export default function QuestionTypeSelect({ control, isSubmitting }: QuestionTy
         <FormItem>
           <FormControl>
             <CustomSelect
-              options={["text", "number", "select", "checkbox", "radio", "button"]}
+              options={[
+                "text",
+                "number",
+                "select",
+                "checkbox",
+                "radio",
+                "button",
+              ]}
               value={field.value}
               onChange={field.onChange}
               placeholder="Select question type"

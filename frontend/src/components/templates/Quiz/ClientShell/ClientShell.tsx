@@ -30,9 +30,10 @@ type ClientShellProps = {
   isFirstQuiz: boolean;
   isTopbarMainQuiz: boolean;
   children: React.ReactNode;
+  firstQuiz?: boolean;
 };
 
-const ClientShellBase = ({ isFirstQuiz, isTopbarMainQuiz, children }: ClientShellProps) => {
+const ClientShellBase = ({ isFirstQuiz, isTopbarMainQuiz, children, firstQuiz }: ClientShellProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -172,7 +173,7 @@ const ClientShellBase = ({ isFirstQuiz, isTopbarMainQuiz, children }: ClientShel
             "flex-grow py-5 sm:py-6",
             isHelpOpen
               ? "w-[70%] px-0 md:px-5 lg:pl-10 xl:px-10 sm:ml-72"
-              : isTopbarMainQuiz ? "w-full md:px-0 lg:px-20 xl:px-32" : "w-full lg:px-5 xl:px-30"
+              : isTopbarMainQuiz ? "w-full px-3 md:px-5 lg:px-20 xl:px-32" : firstQuiz ? "w-full px-3 md:px-5 lg:px-20 xl:px-32" : "w-full lg:px-5 xl:px-30"
               
           )}
         >

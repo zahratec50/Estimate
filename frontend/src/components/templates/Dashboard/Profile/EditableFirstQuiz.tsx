@@ -4,7 +4,7 @@ import { useAppStore } from "@/store/useAppStore";
 import firstQuestion from "@/data/firstQuestion.json";
 import states from "@/data/states.json";
 import { useState, useEffect, useCallback } from "react";
-import CustomSelect from "../../CustomSelect/CustomSelect";
+import CustomSelect from "../../../modules/CustomSelect/CustomSelect";
 import { motion, AnimatePresence } from "framer-motion";
 import { CiEdit } from "react-icons/ci";
 

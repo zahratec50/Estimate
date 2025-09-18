@@ -1,5 +1,5 @@
 import React from 'react';
-import ProjectDetails from '@/components/templates/ProjectDetail/ProjectDetail';
+import ProjectDetails from '@/components/templates/Dashboard/ProjectDetail/ProjectDetail';
 
 export default function ProjectDetailPage({
   params,

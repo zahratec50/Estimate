@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import CustomSelect from "../../CustomSelect/CustomSelect";
+import CustomSelect from "../../../modules/CustomSelect/CustomSelect";
 import { Plus, Trash2, Loader2 } from "lucide-react";
 import { showSuccessToast } from "@/components/modules/toasts/SuccessToast";
 import { showErrorToast } from "@/components/modules/toasts/ErrorToast";
@@ -167,10 +167,7 @@ export default function EditQuestionForm({
   return createPortal(
     <div className="fixed inset-0 z-[9999] flex items-center justify-center">
       {/* Overlay */}
-      <div
-        className="absolute inset-0 bg-black/50"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
 
       {/* Modal Content */}
       <div className="relative z-[10000] bg-white dark:bg-secondary-800 p-6 rounded-lg shadow-lg w-full max-w-[650px] max-h-[90vh] overflow-y-auto text-gray-900 dark:text-gray-100">

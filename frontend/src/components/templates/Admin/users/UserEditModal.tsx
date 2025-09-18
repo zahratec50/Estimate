@@ -7,7 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { useUpdateUser } from "@/hooks/useUsers";
 import { showSuccessToast } from "@/components/modules/toasts/SuccessToast";
 import { showErrorToast } from "@/components/modules/toasts/ErrorToast";
-import CustomSelect from "../../CustomSelect/CustomSelect";
+import CustomSelect from "../../../modules/CustomSelect/CustomSelect";
 
 interface UserEditModalProps {
   user: any;
@@ -46,16 +46,17 @@ export default function UserEditModal({ user, onClose }: UserEditModalProps) {
   return createPortal(
     <div className="fixed inset-0 z-[9999] flex items-center justify-center">
       {/* Overlay کل صفحه */}
-      <div
-        className="absolute inset-0 bg-black/50"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
 
       {/* Modal */}
       <div className="relative z-[10000] bg-white dark:bg-secondary-800 p-6 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-lg font-bold mb-2">Edit User</h2>
-        <p className="mb-4"><strong>Name:</strong> {user.name}</p>
-        <p className="mb-4"><strong>Email:</strong> {user.email}</p>
+        <p className="mb-4">
+          <strong>Name:</strong> {user.name}
+        </p>
+        <p className="mb-4">
+          <strong>Email:</strong> {user.email}
+        </p>
 
         {/* Custom Select برای Role */}
         <CustomSelect
@@ -73,10 +74,18 @@ export default function UserEditModal({ user, onClose }: UserEditModalProps) {
 
         {/* دکمه‌ها */}
         <div className="flex justify-end gap-2 ">
-          <Button variant="secondary" onClick={onClose} className="dark:bg-secondary-700 dark:hover:bg-secondary-600">
+          <Button
+            variant="secondary"
+            onClick={onClose}
+            className="dark:bg-secondary-700 dark:hover:bg-secondary-600"
+          >
             Cancel
           </Button>
-          <Button variant="default" onClick={handleSave} className="dark:hover:bg-secondary-600">
+          <Button
+            variant="default"
+            onClick={handleSave}
+            className="dark:hover:bg-secondary-600"
+          >
             Save Changes
           </Button>
         </div>

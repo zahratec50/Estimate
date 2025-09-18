@@ -15,9 +15,9 @@ module.exports = {
         95: "380px",
         145: "580px",
       },
-      fontFamily: {
-        roboto: ["var(--font-roboto)", "sans-serif"],
-      },
+      // fontFamily: {
+      //   roboto: ["var(--font-roboto)", "sans-serif"],
+      // },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

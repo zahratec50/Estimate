@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import states from "@/data/states.json";
-import CustomSelect from "@/components/templates/CustomSelect/CustomSelect";
+import CustomSelect from "@/components/modules/CustomSelect/CustomSelect";
 import { QuestionItem } from "@/store/useAppStore";
 
 interface ImageOption {
@@ -44,12 +44,11 @@ export default function SelectQuestion({
     : [];
 
   const options: ImageOption[] = questionData.options
-  ? questionData.options.map(opt => ({
-      label: typeof opt === 'string' ? opt : opt.label,
-      value: typeof opt === 'string' ? opt : opt.imageUrl,
-    }))
-  : [];
-
+    ? questionData.options.map((opt) => ({
+        label: typeof opt === "string" ? opt : opt.label,
+        value: typeof opt === "string" ? opt : opt.imageUrl,
+      }))
+    : [];
 
   useEffect(() => {
     if (questionData.type === "select" && selectedAnswer) {
