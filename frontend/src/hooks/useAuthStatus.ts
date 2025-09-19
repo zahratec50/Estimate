@@ -1,32 +1,3 @@
-// // src/hooks/useAuthStatus.ts
-// import useSWR from "swr";
-// import { useAppStore } from "@/store/useAppStore";
-
-// const fetcher = (url: string) => fetch(url, { credentials: "include" }).then((r) => r.json());
-
-// export const useAuthStatus = () => {
-//   const { setUser, setRegistered } = useAppStore();
-
-//   const { data, error, isLoading, mutate } = useSWR("/api/auth/me", fetcher, {
-//     revalidateOnFocus: true,
-//     refreshInterval: 30000, // هر 30 ثانیه دوباره بررسی شود
-//   });
-
-//   if (data?.user) {
-//     setUser({
-//       name: data.user.name,
-//       avatar: data.user.avatar,
-//       role: data.user.role,
-//     });
-//   } else {
-//     setRegistered(false);
-//   }
-
-//   return { data, error, isLoading, mutate };
-// };
-
-
-// src/hooks/useAuthStatus.ts
 "use client";
 import useSWR from "swr";
 import { useEffect } from "react";

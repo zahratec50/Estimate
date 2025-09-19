@@ -1,8 +1,9 @@
-import { createServer } from "http";
+// import { createServer } from "http";
 import { Server } from "socket.io";
+import io from "@/lib/server";
 
-const server = createServer();
-const io = new Server(server, { cors: { origin: "*" } });
+// const server = createServer();
+// const io = new Server(server, { cors: { origin: "*" } });
 
 const onlineUsers = new Map<string, string>();
 
@@ -43,4 +44,7 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3001, () => console.log("Socket.IO realtime server on :3001"));
+// server.listen(3001, () => console.log("Socket.IO realtime server on :3001"));
+// if (ioServer) {
+//     console.log("Socket.IO instance is ready");
+//   }

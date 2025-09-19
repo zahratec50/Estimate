@@ -1,10 +1,3 @@
-// import { io } from "socket.io-client";
-
-// export const socket = io("http://localhost:4000", {
-//   transports: ["websocket"],
-// });
-
-// src/lib/socket.ts
 class MockSocket {
   on(event: string, callback: Function) {
     console.log(`[MockSocket] Listening for ${event}`);

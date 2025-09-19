@@ -1,80 +1,20 @@
-// import { Server } from "socket.io";
-// import Message from "@/models/Message";
-// import Conversation from "@/models/Conversation";
-// import { connectDB } from "@/configs/db";
-
-// let io: Server;
-
-// export const initSocketServer = (server: any) => {
-//   if (io) return io;
-//   io = new Server(server, {
-//     cors: { origin: "*", methods: ["GET", "POST"] },
-//   });
-
-//   io.on("connection", (socket) => {
-//     console.log("✅ New socket connected:", socket.id);
-
-//     socket.on("join", async ({ userId }) => {
-//       socket.data.userId = userId;
-
-//       // کاربر در روم های conversation خودش join می‌کند
-//       await connectDB();
-//       const conversations = await Conversation.find({ members: userId }).lean();
-//       conversations.forEach((c) => socket.join(c._id as string));
-//       console.log("User joined rooms:", userId, conversations.map((c) => c._id));
-//     });
-
-//     socket.on("sendMessage", async (msg) => {
-//       try {
-//         await connectDB();
-//         const newMsg = await Message.create(msg);
-
-//         await Conversation.findOneAndUpdate(
-//           { _id: msg.conversationId },
-//           { $set: { lastMessageAt: new Date() }, $setOnInsert: { members: [msg.senderId, msg.receiverId] } },
-//           { upsert: true, new: true }
-//         );
-
-//         // ارسال پیام به همه اعضای conversation
-//         io.to(msg.conversationId).emit("receiveMessage", newMsg);
-//       } catch (err) {
-//         console.error("Error sending message:", err);
-//       }
-//     });
-
-//     socket.on("typing", ({ conversationId, userId }) => {
-//       socket.to(conversationId).emit("typing", { userId, conversationId });
-//     });
-
-//     socket.on("stopTyping", ({ conversationId, userId }) => {
-//       socket.to(conversationId).emit("stopTyping", { userId, conversationId });
-//     });
-
-//     socket.on("disconnect", () => {
-//       console.log("Socket disconnected:", socket.id);
-//     });
-//   });
-
-//   return io;
-// };
-
-
 import express from "express";
-import http from "http";
-import { Server } from "socket.io";
+// import http from "http";
+// import { Server } from "socket.io";
 import dotenv from "dotenv";
+import io from "@/lib/server";
 
 dotenv.config();
 
 const app = express();
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
-const io = new Server(server, {
-  cors: {
-    origin: "*", // برای توسعه، بعداً دامنه خودت رو بذار
-    methods: ["GET", "POST"],
-  },
-});
+// const io = new Server(server, {
+//   cors: {
+//     origin: "*", // برای توسعه، بعداً دامنه خودت رو بذار
+//     methods: ["GET", "POST"],
+//   },
+// });
 
 interface IMessageDTO {
   _id: string;
@@ -126,4 +66,4 @@ io.on("connection", (socket) => {
 });
 
 const PORT = process.env.SOCKET_PORT || 4000;
-server.listen(PORT, () => console.log(`Socket.io server running on port ${PORT}`));
+// server.listen(PORT, () => console.log(`Socket.io server running on port ${PORT}`));
