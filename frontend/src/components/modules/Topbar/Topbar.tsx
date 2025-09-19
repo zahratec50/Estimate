@@ -46,7 +46,7 @@ const TopbarBase = ({
           className="lg:hidden"
         >
           <svg
-            className="w-6 h-6 text-white"
+            className="w-6 h-6 md:size-8 text-white"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.5"
