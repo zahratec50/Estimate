@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
 import Message from "@/models/Message";
-import connectToDB from "@/configs/db";
+import {connectDB} from "@/configs/db";
 
 const socketHandler = (req: any, res: any) => {
   if (!res.socket.server.io) {
@@ -15,7 +15,7 @@ const socketHandler = (req: any, res: any) => {
       });
 
       socket.on("sendMessage", async (msg) => {
-        await connectToDB();
+        await connectDB();
         const newMsg = await Message.create(msg);
         io.to(msg.receiverId).emit("receiveMessage", newMsg);
         io.to(msg.senderId).emit("receiveMessage", newMsg);

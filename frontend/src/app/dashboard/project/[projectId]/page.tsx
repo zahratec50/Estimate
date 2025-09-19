@@ -1,12 +1,12 @@
 import React from 'react';
 import ProjectDetails from '@/components/templates/Dashboard/ProjectDetail/ProjectDetail';
 
-export default function ProjectDetailPage({
+export default async function ProjectDetailPage({
   params,
 }: {
-  params: { projectId: string };
+  params: Promise<{ projectId: string }>;
 }) {
-  const { projectId } = params;
+  const { projectId } = await params;
 
   return (
     <div>

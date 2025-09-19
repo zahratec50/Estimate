@@ -38,42 +38,42 @@ export default function AdminChats() {
       return;
     }
 
-    async function fetchMessages() {
-      try {
-        setLoadingMessages(true);
-        const res = await fetch(`/api/chat/messages/${selectedUser!._id}`);
-        if (!res.ok) throw new Error("Failed to fetch messages");
-        const msgs = await res.json();
-        setMessages(msgs);
-      } catch (err) {
-        console.error("Failed to fetch messages:", err);
-        setMessages([]);
-      } finally {
-        setLoadingMessages(false);
-      }
-    }
+    // async function fetchMessages() {
+    //   try {
+    //     setLoadingMessages(true);
+    //     const res = await fetch(`/api/chat/messages/${selectedUser!._id}`);
+    //     if (!res.ok) throw new Error("Failed to fetch messages");
+    //     const msgs = await res.json();
+    //     setMessages(msgs);
+    //   } catch (err) {
+    //     console.error("Failed to fetch messages:", err);
+    //     setMessages([]);
+    //   } finally {
+    //     setLoadingMessages(false);
+    //   }
+    // }
 
-    fetchMessages();
+    // fetchMessages();
   }, [selectedUser]);
 
   // ارسال پیام توسط ادمین
   const handleSendMessage = async (content: string) => {
     if (!selectedUser || !content.trim()) return;
 
-    try {
-      const res = await fetch(`/api/chat/messages/${selectedUser._id}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: content.trim() }),
-      });
+    // try {
+    //   const res = await fetch(`/api/chat/messages/${selectedUser._id}`, {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ content: content.trim() }),
+    //   });
 
-      if (!res.ok) throw new Error("Failed to send message");
+    //   if (!res.ok) throw new Error("Failed to send message");
 
-      const msg = await res.json();
-      setMessages((prev) => [...prev, msg]);
-    } catch (err) {
-      console.error("Failed to send message:", err);
-    }
+    //   const msg = await res.json();
+    //   setMessages((prev) => [...prev, msg]);
+    // } catch (err) {
+    //   console.error("Failed to send message:", err);
+    // }
   };
 
   return (

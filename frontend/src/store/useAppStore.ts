@@ -12,6 +12,7 @@ const usPhoneRegex = /^(?:\+1\s?)?(?:\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}$/;
 // --- Types ---
 export type AnswerValue = string | string[] | Record<string, string>;
 
+export type PlanId = "basic" | "pro" | "enterprise";
 // export type Answer = {
 //   question: string;
 //   answer: AnswerValue;
@@ -176,6 +177,9 @@ export interface AppState {
   addProject: (name: string) => string;
   removeProject: (id: string) => void;
   transferTempAnswersToProject: (projectId: string) => void;
+
+  subscribePlan: (plan: "basic" | "pro" | "enterprise") => void;
+
 
   // sync
   syncFirstQuizWithServer: () => Promise<void>;
@@ -589,6 +593,9 @@ export const useAppStore = create<AppState>()(
         });
       },
 
+      subscribePlan: (plan: "basic" | "pro" | "enterprise") => {
+        set({ subscribedPlan: plan });
+      },
       // sync functions
       syncFirstQuizWithServer: async () => {
         try {
