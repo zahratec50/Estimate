@@ -212,12 +212,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  IoNotificationsOutline,
-  IoSearchOutline,
-  IoClose,
-  IoExitOutline,
-} from "react-icons/io5";
+import { IoClose, IoExitOutline, IoNotificationsOutline } from "react-icons/io5";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
 import { AiOutlineHome, AiOutlineHistory } from "react-icons/ai";
 import { BsClipboardData } from "react-icons/bs";
@@ -294,16 +289,8 @@ const Sidebar = ({ isOpen: propsIsOpen, onClose: propsOnClose, isHelpOpen }: Sid
         {/* Header */}
         <div className="flex items-center justify-between lg:justify-center mb-6 w-full">
           <Link href="/" onClick={handleClose}>
-            <Image
-              src="/images/Frame 20.png"
-              alt="logo"
-              width={80}
-              height={80}
-              className="cursor-pointer"
-            />
+            <Image src="/images/Frame 20.png" alt="logo" width={80} height={80} className="cursor-pointer" />
           </Link>
-
-          {/* Close icon for mobile */}
           <button
             type="button"
             aria-label="Close Sidebar"
@@ -355,7 +342,7 @@ const Sidebar = ({ isOpen: propsIsOpen, onClose: propsOnClose, isHelpOpen }: Sid
             Notifications
           </Link>
           <Link href="/" className="flex items-center gap-2 text-white hover:text-primary-100" onClick={handleClose}>
-            <IoSearchOutline className="w-5 h-5" />
+            <IoExitOutline className="w-5 h-5" />
             Search
           </Link>
           <button type="button" className="flex items-center gap-2 text-white hover:text-primary-100" onClick={handleSignOut}>
