@@ -62,7 +62,7 @@ export default function AdminChatRoom({
               >
                 {!mine && (
                   <img
-                    src={msg.senderAvatar || "/avatars/default.png"}
+                    src={msg.senderAvatar || "/images/avataradmin.png"}
                     alt={msg.senderName || "Unknown"}
                     className="w-8 h-8 rounded-full object-cover mr-2"
                   />

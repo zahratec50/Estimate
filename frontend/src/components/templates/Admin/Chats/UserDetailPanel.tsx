@@ -20,7 +20,7 @@ export default function UserDetailPanel({ user }: UserDetailPanelProps) {
     <div className="hidden lg:flex flex-col bg-white dark:bg-secondary-800 rounded-xl shadow p-4 w-[320px]">
       <div className="flex flex-col items-center mb-4">
         <img
-          src={user.avatar || "/avatars/default.png"}
+          src={user.avatar || "/images/user.png"}
           alt={user.name || "Unknown"}
           className="w-16 h-16 rounded-full object-cover mb-2"
         />

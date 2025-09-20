@@ -33,7 +33,7 @@ export default function UserList({ users, messages, selectedUserId, onSelectUser
             onClick={() => onSelectUser(user._id)}
           >
             <img
-              src={user.avatar || "/avatars/default.png"}
+              src={user.avatar || "/images/user.png"}
               alt={user.name || "Unknown"}
               className="w-10 h-10 rounded-full object-cover"
             />

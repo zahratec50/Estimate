@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { showErrorToast } from "@/components/modules/toasts/ErrorToast";
+import { CiEdit } from "react-icons/ci";
 
 interface AdminProfile {
   id?: string;
@@ -82,9 +83,10 @@ export default function ProfileHeader() {
             // dispatch custom event to open profile form inside tabs
             window.dispatchEvent(new CustomEvent("open-profile-edit"));
           }}
-          className="inline-flex items-center px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition"
+          className="inline-flex items-center md:px-4 md:py-2 rounded-lg md:bg-indigo-600 text-indigo-600 md:text-white hover:bg-indigo-700 transition"
         >
-          Edit Profile
+        <p className="hidden md:block">Edit Profile</p>
+        <CiEdit className="ml-2 text-lg block md:hidden" />
         </button>
       </div>
     </div>

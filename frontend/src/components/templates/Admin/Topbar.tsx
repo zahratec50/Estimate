@@ -74,7 +74,7 @@ function Topbar({ onMenuClick }: TopbarProps) {
 
       {/* Title */}
       <h1 className="text-sm md:text-xl font-semibold">
-        Welcome back, Admin 👋
+        Welcome back, {profile?.name} 👋
       </h1>
 
       {/* Search */}
@@ -98,7 +98,7 @@ function Topbar({ onMenuClick }: TopbarProps) {
         >
           <DropdownMenuTrigger asChild>
             <button className="relative p-2 rounded dark:hover:bg-secondary-700">
-              <IoNotificationsOutline className="size-4 md:size-6" />
+              <IoNotificationsOutline className="size-5 md:size-6" />
               <span className="absolute top-0.5 right-0.5 md:top-0 md:right-0 bg-red-500 text-white rounded-full w-3 h-3 md:w-4 md:h-4 text-xs flex items-center justify-center">
                 {notifications.length}
               </span>
