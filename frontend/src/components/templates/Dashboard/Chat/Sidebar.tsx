@@ -56,7 +56,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <div className="space-y-2">
             <div className="flex flex-col items-center mb-6">
               <img
-                src="/images/logo-black.png"
+                src="/images/logoBlack.png"
                 alt="logo"
                 className="w-16 h-16 flex dark:hidden"
               />

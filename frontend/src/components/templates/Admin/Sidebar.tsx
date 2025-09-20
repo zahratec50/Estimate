@@ -26,20 +26,20 @@ interface SidebarProps {
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
-  
+
   const toggleSidebar = useAppStore((state) => state.toggleSidebar);
   const isSidebarOpen = useAppStore((state) => state.isSidebarOpen);
 
   const handleClose = onClose ?? toggleSidebar;
 
-    const handleNavigation = (path: string) => {
+  const handleNavigation = (path: string) => {
     router.push(path);
     if (isSidebarOpen) toggleSidebar();
   };
 
-   useEffect(() => {
-      if (isSidebarOpen) handleClose();
-    }, [pathname]);
+  useEffect(() => {
+    if (isSidebarOpen) handleClose();
+  }, [pathname]);
 
   const handleSignOut = async () => {
     try {
@@ -72,7 +72,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         {/* Header */}
         <div className="flex lg:flex-col items-center justify-between lg:justify-center p-4 mb-6">
           <Image
-            src="/images/logo-black.png"
+            src="/images/logoBlack.png"
             alt="Logo"
             width={60}
             height={60}
@@ -147,7 +147,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               <ThemeSwitcher />
               Theme
             </div>
-            <button onClick={handleSignOut} className="flex items-center gap-3 font-roboto">
+            <button
+              onClick={handleSignOut}
+              className="flex items-center gap-3 font-roboto"
+            >
               <IoExit className="size-5 font-bold text-black dark:text-white" />
               Sign Out
             </button>

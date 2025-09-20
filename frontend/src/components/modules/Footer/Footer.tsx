@@ -12,7 +12,7 @@ export default function Footer() {
     <footer className="w-full flex justify-center bg-white dark:bg-secondary-900">
       <div className="w-full flex flex-col items-center font-roboto ">
         <Image
-          src="/images/logo-black.png"
+          src="/images/logoBlack.png"
           alt="Estiper logo"
           width={84}
           height={84}

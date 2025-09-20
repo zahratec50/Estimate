@@ -9,7 +9,7 @@ export default function LoadingScreen() {
         {/* logo in center */}
         <div className="w-20 h-20 rounded-full flex items-center justify-center animate-pulse shadow-md">
           <Image
-            src="/images/logo-black.png"
+            src="/images/logoBlack.png"
             alt="Logo"
             width={40}
             height={40}
