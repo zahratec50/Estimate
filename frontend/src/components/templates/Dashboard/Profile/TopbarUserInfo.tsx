@@ -118,13 +118,13 @@ const TopbarUserInfo = ({ size }: { size: string }) => {
               <>
                 <button
                   onClick={() => handleNavigation("/dashboard")}
-                  className="menu-item flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="menu-item flex items-center gap-2 w-full px-4 py-2 text-secondary-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   <BsClipboardData /> Dashboard
                 </button>
                 <button
                   onClick={() => handleNavigation("/dashboard/profile")}
-                  className="menu-item flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="menu-item flex items-center gap-2 w-full px-4 py-2 text-secondary-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   <ImProfile /> Profile
                 </button>
@@ -133,13 +133,13 @@ const TopbarUserInfo = ({ size }: { size: string }) => {
               <>
                 <button
                   onClick={() => handleNavigation("/admin")}
-                  className="menu-item flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="menu-item flex items-center gap-2 w-full px-4 py-2 text-secondary-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   <BsClipboardData /> Admin Panel
                 </button>
                 <button
                   onClick={() => handleNavigation("/admin/profile")}
-                  className="menu-item flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="menu-item flex items-center gap-2 w-full px-4 py-2 text-secondary-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   <ImProfile /> Admin Profile
                 </button>
@@ -147,7 +147,7 @@ const TopbarUserInfo = ({ size }: { size: string }) => {
             )}
             <button
               onClick={handleSignOut}
-              className="menu-item flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="menu-item flex items-center gap-2 w-full px-4 py-2 text-secondary-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               <IoExitOutline /> Logout
             </button>
