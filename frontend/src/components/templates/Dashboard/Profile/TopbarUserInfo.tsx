@@ -89,7 +89,7 @@ const TopbarUserInfo = ({ size }: { size: string }) => {
   if (loading || !role) return null;
 
   return (
-    <div className="relative hidden sm:block">
+    <div className="relative block">
       <button
         ref={triggerRef}
         onClick={() => setOpen((prev) => !prev)}

@@ -197,7 +197,7 @@
 //             <IoExitOutline className="w-5 h-5" />
 //             Sign Out
 //           </button>
-          
+
 //       </nav>
 //     </aside>
 //     </>
@@ -206,13 +206,16 @@
 
 // export default Sidebar;
 
-
 "use client";
 
 import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { IoClose, IoExitOutline, IoNotificationsOutline } from "react-icons/io5";
+import {
+  IoClose,
+  IoExitOutline,
+  IoNotificationsOutline,
+} from "react-icons/io5";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
 import { AiOutlineHome, AiOutlineHistory } from "react-icons/ai";
 import { BsClipboardData } from "react-icons/bs";
@@ -229,7 +232,11 @@ interface SidebarProps {
   onClose?: () => void;
 }
 
-const Sidebar = ({ isOpen: propsIsOpen, onClose: propsOnClose, isHelpOpen }: SidebarProps) => {
+const Sidebar = ({
+  isOpen: propsIsOpen,
+  onClose: propsOnClose,
+  isHelpOpen,
+}: SidebarProps) => {
   const isSidebarOpen = useAppStore((state) => state.isSidebarOpen);
   const toggleSidebar = useAppStore((state) => state.toggleSidebar);
   const isRegistered = useAppStore((state) => state.isRegistered);
@@ -282,14 +289,21 @@ const Sidebar = ({ isOpen: propsIsOpen, onClose: propsOnClose, isHelpOpen }: Sid
           "fixed top-0 left-0 h-full flex flex-col justify-between p-4 bg-primary-500 shadow-lg z-50 transition-transform duration-300 w-2/3 md:w-64",
           {
             "translate-x-0": isOpen,
-            "-translate-x-full lg:translate-x-0": !isOpen,
+            "-translate-x-full": !isOpen,
+            "lg:translate-x-0": !isOpen,
           }
         )}
       >
         {/* Header */}
         <div className="flex items-center justify-between lg:justify-center mb-6 w-full">
           <Link href="/" onClick={handleClose}>
-            <Image src="/images/Frame 20.png" alt="logo" width={80} height={80} className="cursor-pointer" />
+            <Image
+              src="/images/Frame 20.png"
+              alt="logo"
+              width={80}
+              height={80}
+              className="cursor-pointer"
+            />
           </Link>
           <button
             type="button"
@@ -304,27 +318,46 @@ const Sidebar = ({ isOpen: propsIsOpen, onClose: propsOnClose, isHelpOpen }: Sid
         {/* Registered user links */}
         {isRegistered && (
           <div className="flex flex-col space-y-4 dark:text-secondary-200 font-medium pl-1">
-            <Link href="/" onClick={() => handleNavigation("/")} className="text-white hover:text-primary-100 flex gap-2">
+            <Link
+              href="/"
+              onClick={() => handleNavigation("/")}
+              className="text-white hover:text-primary-100 flex gap-2"
+            >
               <AiOutlineHome className="size-5" />
               Home
             </Link>
-            <Link href="/dashboard" className="text-white hover:text-primary-100 flex gap-2">
+            <Link
+              href="/dashboard"
+              className="text-white hover:text-primary-100 flex gap-2"
+            >
               <BsClipboardData className="size-5" />
               Dashboard
             </Link>
-            <Link href="/dashboard/projectStart" className="text-white hover:text-primary-100 flex gap-2">
+            <Link
+              href="/dashboard/projectStart"
+              className="text-white hover:text-primary-100 flex gap-2"
+            >
               <MdOutlineQuiz className="size-5" />
               New Estimate
             </Link>
-            <Link href="/dashboard/profile" className="text-white hover:text-primary-100 flex gap-2">
+            <Link
+              href="/dashboard/profile"
+              className="text-white hover:text-primary-100 flex gap-2"
+            >
               <ImProfile className="size-5" />
               Profile
             </Link>
-            <Link href="/dashboard/history" className="text-white hover:text-primary-100 flex gap-2">
+            <Link
+              href="/dashboard/history"
+              className="text-white hover:text-primary-100 flex gap-2"
+            >
               <AiOutlineHistory className="size-5" />
               History
             </Link>
-            <Link href="/subscription" className="text-white hover:text-primary-100 flex gap-2">
+            <Link
+              href="/subscription"
+              className="text-white hover:text-primary-100 flex gap-2"
+            >
               <MdLocalOffer className="size-5" />
               Subscription
             </Link>
@@ -333,19 +366,35 @@ const Sidebar = ({ isOpen: propsIsOpen, onClose: propsOnClose, isHelpOpen }: Sid
 
         {/* Nav Links */}
         <nav className="space-y-4 dark:text-secondary-200 font-medium pl-1 mt-6">
-          <Link href="/chat" className="flex items-center gap-2 text-white hover:text-primary-100" onClick={handleClose}>
+          <Link
+            href="/chat"
+            className="flex items-center gap-2 text-white hover:text-primary-100"
+            onClick={handleClose}
+          >
             <HiOutlineChatAlt2 className="w-5 h-5" />
             Contact
           </Link>
-          <Link href="/notifications" className="flex items-center gap-2 text-white hover:text-primary-100" onClick={handleClose}>
+          <Link
+            href="/notifications"
+            className="flex items-center gap-2 text-white hover:text-primary-100"
+            onClick={handleClose}
+          >
             <IoNotificationsOutline className="w-5 h-5" />
             Notifications
           </Link>
-          <Link href="/" className="flex items-center gap-2 text-white hover:text-primary-100" onClick={handleClose}>
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-white hover:text-primary-100"
+            onClick={handleClose}
+          >
             <IoExitOutline className="w-5 h-5" />
             Search
           </Link>
-          <button type="button" className="flex items-center gap-2 text-white hover:text-primary-100" onClick={handleSignOut}>
+          <button
+            type="button"
+            className="flex items-center gap-2 text-white hover:text-primary-100"
+            onClick={handleSignOut}
+          >
             <IoExitOutline className="w-5 h-5" />
             Sign Out
           </button>

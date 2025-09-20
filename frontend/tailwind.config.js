@@ -7,6 +7,15 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: [
+    'translate-x-0',
+    '-translate-x-full',
+    'lg:translate-x-0',
+    'opacity-100',
+    'opacity-0',
+    'pointer-events-auto',
+    'pointer-events-none',
+  ],
   theme: {
     extend: {
       spacing: {

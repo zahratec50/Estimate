@@ -17,7 +17,7 @@ export default function AuthWrapper({
   forHome?: boolean;
 }) {
   return (
-    <div className="flex md:items-center justify-center md:h-full lg:h-full gap-8 pb-6 md:pt-4 md:pb-0">
+    <div className="flex md:items-center justify-center md:h-full lg:h-full gap-8 pb-6 md:pt-4 md:pb-0 mt-20 sm:mt-0">
       <div className="max-w-7xl w-full md:h-[660px] lg:h-[660px] bg-white dark:bg-background rounded-lg flex flex-col md:flex-row overflow-hidden">
         {/* Left Image */}
         <div
@@ -71,7 +71,7 @@ export default function AuthWrapper({
               className={
                 forHome
                   ? "hidden md:block"
-                  : "h-16 w-16 mx-auto mb-2 flex dark:hidden"
+                  : "h-24 w-h-24 mx-auto mb-2 flex dark:hidden"
               }
             />
             <img
@@ -80,7 +80,7 @@ export default function AuthWrapper({
               className={
                 forHome
                   ? "hidden md:block"
-                  : "h-16 w-16 mx-auto mb-2 hidden dark:flex"
+                  : "h-24 w-24 mx-auto mb-2 hidden dark:flex"
               }
             />
             <h2 className="text-xl font-bold">{title}</h2>
