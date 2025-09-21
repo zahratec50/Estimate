@@ -16,23 +16,28 @@ export default function HomePage() {
       </div>
       <div className="w-full max-w-6xl flex flex-col gap-8 space-y-10 lg:space-y-20 pb-5 px-4 lg:px-0">
         <FirstVideo />
-        <Features />
-        <div className="flex flex-col items-center justify-between gap-8 space-y-5 sm:space-y-20">
+        <div id="features">
+          <Features />
+        </div>
+        <div
+          id="questions"
+          className="flex flex-col items-center justify-between gap-8 space-y-5 sm:space-y-20"
+        >
           {feature.sections
             .slice(0, 6)
             .map(({ title, description, id, image, bulletPoints }) => (
               <Question
-                  key={id}
-                  question={title}
-                  answer={description}
-                  id={id}
-                  image={image}
-                  features={bulletPoints}
-                />
-              ))}
-          </div>
-      <Start />
-      <Footer />
+                key={id}
+                question={title}
+                answer={description}
+                id={id}
+                image={image}
+                features={bulletPoints}
+              />
+            ))}
+        </div>
+        <Start />
+        <Footer />
       </div>
     </div>
   );

@@ -34,12 +34,12 @@ const TopbarBase = ({
         "w-full relative z-30 font-roboto",
         isHome
           ? "px-2 py-2 flex justify-between items-center"
-          : "px-2 sm:py-0 sm:px-0 flex justify-between items-center dark:bg-secondary-900 bg-blackNew-50 lg:bg-white"
+          : "px-2 sm:py-0 sm:px-0 flex justify-between items-center dark:bg-secondary-900 bg-blackNew-50 lg:bg-white border-b-2 border-neutral-300",
       )}
     >
       {/* Left: Menu + Logo */}
       <div className="w-full flex items-center gap-3 sm:pl-2">
-        {!isHome && (
+        
           <button
             type="button"
             aria-label="Open menu"
@@ -60,7 +60,7 @@ const TopbarBase = ({
               />
             </svg>
           </button>
-        )}
+        
 
 
         {/* Logos */}
@@ -91,16 +91,25 @@ const TopbarBase = ({
         />
 
         {isHome && (
-          <nav className="flex items-center gap-3 sm:gap-6">
-            {["features", "about", "contact"].map((page) => (
-              <Link
-                key={page}
-                href={`/${page}`}
-                className="text-white text-xs sm:text-sm font-bold"
-              >
-                {page[0].toUpperCase() + page.slice(1)}
-              </Link>
-            ))}
+          <nav className="hidden lg:flex items-center gap-3 sm:gap-6">
+            <Link
+              href="#features"
+              className="text-white text-xs sm:text-sm font-bold"
+            >
+              Features
+            </Link>
+            <Link
+              href="#questions"
+              className="text-white text-xs sm:text-sm font-bold"
+            >
+              Questions
+            </Link>
+            <Link
+              href="/chat"
+              className="text-white text-xs sm:text-sm font-bold"
+            >
+              contact
+            </Link>
           </nav>
         )}
       </div>
@@ -124,7 +133,7 @@ const TopbarBase = ({
         ) : (
           <>
             <div className={`w-full ${isHome && "hidden"}`}>
-              <div className="w-full flex items-center justify-end space-x-3 md:space-x-6 dark:text-white text-white lg:text-secondary-700 text-sm md:text-base font-medium lg:border-b-2 lg:border-neutral-300 p-4">
+              <div className="w-full flex items-center justify-end space-x-3 md:space-x-6 dark:text-white text-white lg:text-secondary-700 text-sm md:text-base font-medium p-4">
                 <span className="flex items-center cursor-pointer">
                   <ThemeSwitcher />
                 </span>
