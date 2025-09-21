@@ -5,8 +5,8 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useAppStore } from "@/store/useAppStore";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ImProfile } from "react-icons/im";
-import { BsClipboardData } from "react-icons/bs";
+import { FaRegAddressCard } from "react-icons/fa";
+import { FaRegChartBar } from "react-icons/fa";
 import { IoExitOutline } from "react-icons/io5";
 import axios from "axios";
 
@@ -120,13 +120,13 @@ const TopbarUserInfo = ({ size }: { size: string }) => {
                   onClick={() => handleNavigation("/dashboard")}
                   className="menu-item flex items-center gap-2 w-full px-4 py-2 text-secondary-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  <BsClipboardData /> Dashboard
+                  <FaRegChartBar /> Dashboard
                 </button>
                 <button
                   onClick={() => handleNavigation("/dashboard/profile")}
                   className="menu-item flex items-center gap-2 w-full px-4 py-2 text-secondary-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  <ImProfile /> Profile
+                  <FaRegAddressCard /> Profile
                 </button>
               </>
             ) : (
@@ -135,13 +135,13 @@ const TopbarUserInfo = ({ size }: { size: string }) => {
                   onClick={() => handleNavigation("/admin")}
                   className="menu-item flex items-center gap-2 w-full px-4 py-2 text-secondary-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  <BsClipboardData /> Admin Panel
+                  <FaRegChartBar /> Admin Panel
                 </button>
                 <button
                   onClick={() => handleNavigation("/admin/profile")}
                   className="menu-item flex items-center gap-2 w-full px-4 py-2 text-secondary-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  <ImProfile /> Admin Profile
+                  <FaRegAddressCard /> Admin Profile
                 </button>
               </>
             )}

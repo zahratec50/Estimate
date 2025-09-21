@@ -94,19 +94,19 @@ const TopbarBase = ({
           <nav className="hidden lg:flex items-center gap-3 sm:gap-6">
             <Link
               href="#features"
-              className="text-white text-xs sm:text-sm font-bold"
+              className="text-white text-xs sm:text-base font-semibold tracking-wide"
             >
               Features
             </Link>
             <Link
               href="#questions"
-              className="text-white text-xs sm:text-sm font-bold"
+              className="text-white text-xs sm:text-base font-semibold tracking-wide"
             >
               Questions
             </Link>
             <Link
               href="/chat"
-              className="text-white text-xs sm:text-sm font-bold"
+              className="text-white text-xs sm:text-base font-semibold tracking-wide"
             >
               contact
             </Link>
@@ -170,7 +170,6 @@ const TopbarBase = ({
   );
 };
 
-// ✅ React.memo جلوگیری از ری‌رندرهای غیرضروری
 const Topbar = React.memo(TopbarBase);
 
 export default Topbar;

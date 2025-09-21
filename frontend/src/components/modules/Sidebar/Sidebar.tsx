@@ -14,7 +14,7 @@ import { HiOutlineChatAlt2 } from "react-icons/hi";
 import { AiOutlineHome, AiOutlineHistory } from "react-icons/ai";
 import { BsClipboardData } from "react-icons/bs";
 import { MdOutlineQuiz, MdLocalOffer } from "react-icons/md";
-import { ImProfile } from "react-icons/im";
+import { FaRegAddressCard } from "react-icons/fa";
 import clsx from "clsx";
 import { useAppStore } from "@/store/useAppStore";
 import { usePathname, useRouter } from "next/navigation";
@@ -140,7 +140,7 @@ const Sidebar = ({
               href="/dashboard/profile"
               className="text-white hover:text-primary-100 flex gap-2"
             >
-              <ImProfile className="size-5" />
+              <FaRegAddressCard className="size-5" />
               Profile
             </Link>
             <Link

@@ -10,10 +10,10 @@ import Image from "next/image";
 import { CiSearch } from "react-icons/ci";
 import { Input } from "@/components/ui/input";
 import ThemeSwitcher from "@/components/modules/Theme/Theme";
-// import { IoBarChart } from "react-icons/io5";
-// import { IoExit } from "react-icons/io5";
+import { TbPlaylistAdd } from "react-icons/tb";
 import { IoMdChatbubbles } from "react-icons/io";
 import { MdOutlineQuiz } from "react-icons/md";
+import { MdGroupAdd } from "react-icons/md";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
@@ -24,7 +24,11 @@ interface SidebarProps {
   isHome?: boolean;
 }
 
-export default function SidebarAdmin({ isOpen, onClose, isHome }: SidebarProps) {
+export default function SidebarAdmin({
+  isOpen,
+  onClose,
+  isHome,
+}: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -45,7 +49,7 @@ export default function SidebarAdmin({ isOpen, onClose, isHome }: SidebarProps) 
   const handleHome = () => {
     handleNavigation("/");
     if (isSidebarOpen) handleClose();
-  }
+  };
 
   const handleSignOut = async () => {
     try {
@@ -64,9 +68,8 @@ export default function SidebarAdmin({ isOpen, onClose, isHome }: SidebarProps) 
           "fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 lg:hidden",
           {
             "opacity-100 pointer-events-auto": isOpen,
-            "opacity-0 pointer-events-none": !isOpen ,
+            "opacity-0 pointer-events-none": !isOpen,
           }
-          
         )}
         onClick={onClose}
       />
@@ -132,13 +135,6 @@ export default function SidebarAdmin({ isOpen, onClose, isHome }: SidebarProps) 
               <span>Data</span>
             </Link>
             <Link
-              href="/admin/chats"
-              className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
-            >
-              <IoMdChatbubbles size={20} />
-              <span>Chats</span>
-            </Link>
-            <Link
               href="/admin/questionCreationForm/questions"
               className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
             >
@@ -146,11 +142,32 @@ export default function SidebarAdmin({ isOpen, onClose, isHome }: SidebarProps) 
               <span>Questions</span>
             </Link>
             <Link
+              href="/admin/questionCreationForm"
+              className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
+            >
+              <TbPlaylistAdd size={20} />
+              <span>Create Questions</span>
+            </Link>
+            <Link
               href="/admin/firstQuizManager"
               className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
             >
               <MdOutlineQuiz size={20} />
               <span>Base Quiz</span>
+            </Link>
+            <Link
+              href="/admin/users"
+              className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
+            >
+              <MdGroupAdd size={20} />
+              <span>users</span>
+            </Link>
+            <Link
+              href="/admin/chats"
+              className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
+            >
+              <IoMdChatbubbles size={20} />
+              <span>Chats</span>
             </Link>
           </div>
 
