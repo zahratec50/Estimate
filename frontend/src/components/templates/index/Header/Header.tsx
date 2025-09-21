@@ -3,12 +3,14 @@ import React from "react";
 import { useAppStore } from "@/store/useAppStore";
 import Topbar from "@/components/modules/Topbar/Topbar";
 import Sidebar from "@/components/modules/Sidebar/Sidebar";
+import SidebarAdmin from "@/components/templates/Admin/Sidebar";
 
 export default function Header() {
   const isSidebarOpen = useAppStore((s) => s.isSidebarOpen);
   const toggleSidebar = useAppStore((s) => s.toggleSidebar);
   const isHelpOpen = useAppStore((s) => s.isHelpOpen);
   const toggleHelp = useAppStore((s) => s.toggleHelp);
+  const role = useAppStore((s) => s.role);
 
   return (
     <>
@@ -22,18 +24,26 @@ export default function Header() {
       </div>
 
       {/* ✅ Sidebar همیشه در DOM هست */}
-      <Sidebar
-        isOpen={isSidebarOpen}
-        isHelpOpen={isHelpOpen}
-        onClose={toggleSidebar}
-        isHome={true}
-      />
+      {role === "admin" ? (
+        <SidebarAdmin isOpen={isSidebarOpen} onClose={toggleSidebar} />
+      ) : (
+        <Sidebar
+          isOpen={isSidebarOpen}
+          isHelpOpen={isHelpOpen}
+          onClose={toggleSidebar}
+          isHome={true}
+        />
+      )}
 
       {/* ✅ Overlay جدا */}
       <div
         onClick={toggleSidebar}
         className={`fixed inset-0 z-40 bg-blackNew-50/50 transition-opacity duration-300 lg:hidden
-          ${isSidebarOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+          ${
+            isSidebarOpen
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          }`}
       />
     </>
   );

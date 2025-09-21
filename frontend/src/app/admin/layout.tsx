@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import clsx from "clsx";
-import Sidebar from "@/components/templates/Admin/Sidebar";
+import SidebarAdmin from "@/components/templates/Admin/Sidebar";
 import Topbar from "@/components/templates/Admin/Topbar";
 import { useAppStore } from "@/store/useAppStore";
 
@@ -21,7 +21,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar + Overlay */}
-      <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
+      <SidebarAdmin isOpen={isSidebarOpen} onClose={toggleSidebar} />
 
       {/* محتوای اصلی */}
       <div

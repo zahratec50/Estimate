@@ -23,7 +23,7 @@ interface SidebarProps {
   onClose: () => void;
 }
 
-export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+export default function SidebarAdmin({ isOpen, onClose }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
 
