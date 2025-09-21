@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, {useEffect} from "react";
 import { useAppStore } from "@/store/useAppStore";
 import Topbar from "@/components/modules/Topbar/Topbar";
 import Sidebar from "@/components/modules/Sidebar/Sidebar";
@@ -11,6 +11,10 @@ export default function Header() {
   const isHelpOpen = useAppStore((s) => s.isHelpOpen);
   const toggleHelp = useAppStore((s) => s.toggleHelp);
   const role = useAppStore((s) => s.role);
+
+  useEffect(() => {
+    if(isSidebarOpen) toggleSidebar();
+  }, []);
 
   return (
     <>
@@ -25,7 +29,7 @@ export default function Header() {
 
       {/* ✅ Sidebar همیشه در DOM هست */}
       {role === "admin" ? (
-        <SidebarAdmin isOpen={isSidebarOpen} onClose={toggleSidebar} />
+        <SidebarAdmin isOpen={isSidebarOpen} onClose={toggleSidebar} isHome={true} />
       ) : (
         <Sidebar
           isOpen={isSidebarOpen}

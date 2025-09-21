@@ -21,9 +21,10 @@ import { useAppStore } from "@/store/useAppStore";
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  isHome?: boolean;
 }
 
-export default function SidebarAdmin({ isOpen, onClose }: SidebarProps) {
+export default function SidebarAdmin({ isOpen, onClose, isHome }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -42,9 +43,8 @@ export default function SidebarAdmin({ isOpen, onClose }: SidebarProps) {
   }, [pathname]);
 
   const handleHome = () => {
-    if (isSidebarOpen) handleClose();
     handleNavigation("/");
-
+    if (isSidebarOpen) handleClose();
   }
 
   const handleSignOut = async () => {
@@ -62,7 +62,11 @@ export default function SidebarAdmin({ isOpen, onClose }: SidebarProps) {
       <div
         className={clsx(
           "fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 lg:hidden",
-          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+          {
+            "opacity-100 pointer-events-auto": isOpen,
+            "opacity-0 pointer-events-none": !isOpen ,
+          }
+          
         )}
         onClick={onClose}
       />
@@ -71,8 +75,11 @@ export default function SidebarAdmin({ isOpen, onClose }: SidebarProps) {
       <aside
         className={clsx(
           "fixed top-0 left-0 h-full w-64 bg-white dark:bg-secondary-800 shadow-lg z-50 transition-transform duration-300",
-          "lg:translate-x-0", // دسکتاپ همیشه باز
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          {
+            "translate-x-0": isOpen,
+            "-translate-x-full": !isOpen,
+            "lg:translate-x-0": !isHome && !isOpen,
+          }
         )}
       >
         {/* Header */}
