@@ -41,6 +41,12 @@ export default function SidebarAdmin({ isOpen, onClose }: SidebarProps) {
     if (isSidebarOpen) handleClose();
   }, [pathname]);
 
+  const handleHome = () => {
+    if (isSidebarOpen) handleClose();
+    handleNavigation("/");
+
+  }
+
   const handleSignOut = async () => {
     try {
       await axios.post("/api/auth/signout");
@@ -105,7 +111,7 @@ export default function SidebarAdmin({ isOpen, onClose }: SidebarProps) {
           <div className="flex flex-col gap-1">
             <Link
               href="/"
-              onClick={() => handleNavigation("/")}
+              onClick={handleHome}
               className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
             >
               <IoHome size={20} />
