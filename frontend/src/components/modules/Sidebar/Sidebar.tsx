@@ -7,6 +7,7 @@ import {
   IoClose,
   IoExitOutline,
   IoNotificationsOutline,
+  IoSearchOutline,
 } from "react-icons/io5";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { MdOutlineQuestionMark } from "react-icons/md";
@@ -74,7 +75,8 @@ const Sidebar = ({
           "fixed inset-0 bg-blackNew-50/50 z-40 transition-opacity duration-300 lg:hidden",
           {
             "opacity-100 pointer-events-auto": isOpen,
-            "opacity-0 pointer-events-none": !isOpen || (!isOpen && !isHelpOpen),
+            "opacity-0 pointer-events-none":
+              !isOpen || (!isOpen && !isHelpOpen),
           }
         )}
       />
@@ -160,9 +162,8 @@ const Sidebar = ({
           </div>
         )}
 
-        {
-          isHome && !isRegistered && (
-            <div className="flex flex-col space-y-4 dark:text-secondary-200 font-medium pl-1 py-6">
+        {isHome && !isRegistered && (
+          <div className="flex flex-col space-y-4 dark:text-secondary-200 font-medium pl-1 py-6">
             <Link
               href="#features"
               className="flex items-center gap-2 text-white hover:text-primary-100"
@@ -177,11 +178,12 @@ const Sidebar = ({
               <MdOutlineQuestionMark className="size-5" />
               Questions
             </Link>
-            </div>
-            
-          )
+          </div>
+        )}
+        {
+          !isRegistered ? null : <hr />
         }
-        <hr />
+        
         {/* Nav Links */}
         <nav className="space-y-4 dark:text-secondary-200 font-medium pl-1 mt-6">
           <Link
@@ -192,30 +194,34 @@ const Sidebar = ({
             <HiOutlineChatAlt2 className="w-5 h-5" />
             Contact
           </Link>
-          <Link
-            href="/notifications"
-            className="flex items-center gap-2 text-white hover:text-primary-100"
-            onClick={handleClose}
-          >
-            <IoNotificationsOutline className="w-5 h-5" />
-            Notifications
-          </Link>
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-white hover:text-primary-100"
-            onClick={handleClose}
-          >
-            <IoExitOutline className="w-5 h-5" />
-            Search
-          </Link>
-          <button
-            type="button"
-            className="flex items-center gap-2 text-white hover:text-primary-100"
-            onClick={handleSignOut}
-          >
-            <IoExitOutline className="w-5 h-5" />
-            Sign Out
-          </button>
+          {!isRegistered ? null : (
+            <>
+              <Link
+                href="/notifications"
+                className="flex lg:hidden items-center gap-2 text-white hover:text-primary-100"
+                onClick={handleClose}
+              >
+                <IoNotificationsOutline className="w-5 h-5" />
+                Notifications
+              </Link>
+              <Link
+                href="/"
+                className="lg:hidden flex items-center gap-2 text-white hover:text-primary-100"
+                onClick={handleClose}
+              >
+                <IoSearchOutline className="w-5 h-5" />
+                Search
+              </Link>
+              <button
+                type="button"
+                className="flex items-center gap-2 text-white hover:text-primary-100"
+                onClick={handleSignOut}
+              >
+                <IoExitOutline className="w-5 h-5" />
+                Sign Out
+              </button>
+            </>
+          )}
         </nav>
       </aside>
     </>

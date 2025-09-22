@@ -25,43 +25,39 @@ const TopbarBase = ({
   isHome = false,
   isFirstQuiz,
 }: TopbarProps) => {
-
   const { isRegistered } = useAppStore();
-  
+
   return (
     <header
       className={clsx(
         "w-full relative z-30 font-roboto",
         isHome
           ? "px-2 py-2 flex justify-between items-center"
-          : "px-2 sm:py-0 sm:px-0 flex justify-between items-center dark:bg-secondary-900 bg-blackNew-50 lg:bg-white border-b-2 border-neutral-300",
+          : "px-2 sm:py-0 sm:px-0 flex justify-between items-center dark:bg-secondary-900 bg-blackNew-50 lg:bg-white border-b-2 border-neutral-300"
       )}
     >
       {/* Left: Menu + Logo */}
       <div className="w-full flex items-center gap-3 sm:pl-2">
-        
-          <button
-            type="button"
-            aria-label="Open menu"
-            onClick={onMenuClick}
-            className="lg:hidden"
+        <button
+          type="button"
+          aria-label="Open menu"
+          onClick={onMenuClick}
+          className="lg:hidden"
+        >
+          <svg
+            className="w-6 h-6 md:size-8 text-white"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            viewBox="0 0 24 24"
           >
-            <svg
-              className="w-6 h-6 md:size-8 text-white"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
-          </button>
-        
-
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+            />
+          </svg>
+        </button>
 
         {/* Logos */}
         {isHome && (
@@ -137,11 +133,14 @@ const TopbarBase = ({
                 <span className="flex items-center cursor-pointer">
                   <ThemeSwitcher />
                 </span>
-                <span className="hidden md:flex items-center cursor-pointer">
-                  <IoNotificationsOutline className="w-5 h-5 mr-1" />
-                  Notifications
-                </span>
-                <span className="hidden md:flex items-center cursor-pointer">
+                {!isRegistered ? null : (
+                  <span className="hidden lg:flex items-center cursor-pointer">
+                    <IoNotificationsOutline className="w-5 h-5 mr-1" />
+                    Notifications
+                  </span>
+                )}
+
+                <span className="hidden lg:flex items-center cursor-pointer">
                   <IoSearchOutline className="w-5 h-5 mr-1" />
                   {!isHelpOpen && "Search"}
                 </span>
@@ -152,7 +151,10 @@ const TopbarBase = ({
                   <TbHelpOctagon className="w-5 h-5 mr-1" />
                   {!isHelpOpen && "Help"}
                 </span>
-                <TopbarUserInfo size="size-10" />
+                {
+                  !isRegistered ? null : <TopbarUserInfo size="size-10" />
+                }
+                
               </div>
             </div>
 
@@ -161,7 +163,7 @@ const TopbarBase = ({
                 !isHome && "hidden"
               }`}
             >
-              <TopbarUserInfo size='size-16' />
+              <TopbarUserInfo size="size-16" />
             </div>
           </>
         )}

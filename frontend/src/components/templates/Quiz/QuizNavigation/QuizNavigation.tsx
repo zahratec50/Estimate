@@ -25,6 +25,9 @@ export default function QuizNavigation({
   const {
     currentStepFirstQuiz,
     currentStepMainQuiz,
+    setUserName,
+    setUserEmail,
+    setUserPassword,
     completedQuizzes,
     isContinueAllowed,
     preQuizAnswers,
@@ -129,6 +132,12 @@ export default function QuizNavigation({
     currentQuestion,
   ]);
 
+  const emailAnswer = preQuizAnswers.find((a) =>
+    a.question.includes("best way to contact")
+  )?.answer as Record<string, string>;
+
+  const email = emailAnswer?.Email;
+
   // Handle next step
   const handleNext = useCallback(async () => {
     if (!currentQuestion || !canContinueCurrent) {
@@ -170,14 +179,45 @@ export default function QuizNavigation({
       console.log("Sending payload to API:", payload); // Debug log
       const response = await axios.post(apiPath, payload);
 
-      if (isFirstQuiz) {
-        setShowModal(true);
-        setCurrentStepFirstQuiz(1); // Reset step only, keep preQuizAnswers
-      } else {
-        // setShowModal(true);
-        setTimeout(() => router.push("/dashboard"), 1500);
-        setCompletedQuizzes((prev) => prev + 1);
-        // clearQuizData(); // Clear data for mainQuiz
+      // if (isFirstQuiz) {
+      //   setShowModal(true);
+      //   setCurrentStepFirstQuiz(1); // Reset step only, keep preQuizAnswers
+      // } else {
+      //   // setShowModal(true);
+      //   setTimeout(() => router.push("/dashboard"), 1500);
+      //   setCompletedQuizzes((prev) => prev + 1);
+      //   // clearQuizData(); // Clear data for mainQuiz
+      // }
+      if (isFirstQuiz && currentStep === totalSteps && email) {
+        setLoading(true);
+        try {
+          // ارسال جواب‌ها به سرور
+          await axios.post("/api/saveFirstQuiz", payload);
+
+          // ثبت کاربر و گرفتن توکن
+          const res = await axios.post("/api/auth/signup", {
+            name: email.split("@")[0], // می‌تونی اسم رو از ایمیل بسازی یا یک فیلد جداگانه بفرستی
+            email,
+            password: crypto.randomUUID(), // رمز موقت یا تولیدی
+          });
+
+          const data = res.data;
+          setUserEmail(data.user.email);
+          setUserName(data.user.name);
+          setRegistered(true);
+
+          // نمایش Modal اتمام
+          setShowModal(true);
+          setCurrentStepFirstQuiz(1); // فقط ریست مرحله‌ها، جواب‌ها باقی می‌ماند
+        } catch (err: any) {
+          console.error(err);
+          showErrorToast({
+            title: "Error",
+            description: "Failed to complete quiz or register user.",
+          });
+        } finally {
+          setLoading(false);
+        }
       }
     } catch (err: any) {
       console.error("Error sending to API:", {
