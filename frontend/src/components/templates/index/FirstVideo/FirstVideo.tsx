@@ -1,25 +1,7 @@
-"use client";
-
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useAppStore } from "@/store/useAppStore";
+import StartFirsQuizButton from "../StartFirsQuizButton";
 
 export default function FirstVideo() {
-  const { isRegistered, role } = useAppStore();
-  const router = useRouter();
-
-  const startQuiz = () => {
-    if (isRegistered && role === 'user') {
-      router.push("/dashboard/profile");
-    } else if (role === 'admin'){
-      router.push("/admin/firstQuizManager");
-    }else {
-      router.push("/firstQuiz/1");
-    }
-
-    
-    
-  }
 
   return (
     <section className="w-full flex justify-center">
@@ -34,9 +16,7 @@ export default function FirstVideo() {
             rhoncus aenean vel elit scelerisque. In egestas erat imperdiet sed
             euismod nisi porta lorem mollis.
           </p>
-          <button onClick={startQuiz} className="bg-primary-500 dark:bg-secondary-600 text-white text-base md:text-lg font-medium rounded-lg w-full md:w-32 h-12 transition hover:bg-primary-200">
-            Get Started
-          </button>
+          <StartFirsQuizButton />
         </div>
         {/* Left video or Placeholder */}
         <div className="w-full h-[500px] rounded-2xl bg-secondary-50 dark:bg-secondary-600 aspect-[4/3] md:aspect-[16/9] relative overflow-hidden">
