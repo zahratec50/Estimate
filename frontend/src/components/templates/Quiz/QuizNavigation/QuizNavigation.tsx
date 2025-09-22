@@ -179,15 +179,6 @@ export default function QuizNavigation({
       console.log("Sending payload to API:", payload); // Debug log
       const response = await axios.post(apiPath, payload);
 
-      // if (isFirstQuiz) {
-      //   setShowModal(true);
-      //   setCurrentStepFirstQuiz(1); // Reset step only, keep preQuizAnswers
-      // } else {
-      //   // setShowModal(true);
-      //   setTimeout(() => router.push("/dashboard"), 1500);
-      //   setCompletedQuizzes((prev) => prev + 1);
-      //   // clearQuizData(); // Clear data for mainQuiz
-      // }
       if (isFirstQuiz && currentStep === totalSteps && email) {
         setLoading(true);
         try {
