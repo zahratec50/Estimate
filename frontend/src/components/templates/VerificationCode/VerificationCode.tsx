@@ -33,6 +33,12 @@ export default function VerificationPage({
     };
   }, []);
 
+  useEffect(() => {
+    if (timer === 0) {
+      router.push("/resendCode");
+    }
+  }, [timer, router]);
+
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;

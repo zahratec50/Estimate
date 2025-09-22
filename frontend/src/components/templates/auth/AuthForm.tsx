@@ -237,7 +237,7 @@ export default function AuthForm({ isLogin }: { isLogin: boolean }) {
             </span>
           </div>
           <Link
-            href="/forgot-password"
+            href="/forgot-Password"
             className="text-sm text-secondary-600 dark:text-secondary-300 font-medium hover:underline"
           >
             Forgot Password?
