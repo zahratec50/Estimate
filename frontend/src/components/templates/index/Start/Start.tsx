@@ -1,9 +1,23 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAppStore } from "@/store/useAppStore";
 
 export default function Start() {
+  const { isRegistered, role } = useAppStore();
+  const router = useRouter();
+
+  const startQuiz = () => {
+    if (isRegistered && role === "user") {
+      router.push("/dashboard/profile");
+    } else if (role === "admin") {
+      router.push("/admin/firstQuizManager");
+    } else {
+      router.push("/firstQuiz/1");
+    }
+  };
+
   return (
     <section className="w-full h-[209px] md:h-[566px] flex items-center justify-center">
       <div className="w-full relative h-[209px] md:h-[566px] rounded-2xl overflow-hidden">
@@ -31,11 +45,13 @@ export default function Start() {
               Egestas purus viverra accumsan in nisl nisi. Arcu cursus vitae
               congue mauris rhoncus aenean vel elit scelerisque.
             </p>
-            <Link href="/firstQuiz/1">
-              <button className="bg-primary-500 dark:bg-secondary-500 text-white text-xs md:text-lg font-medium rounded-lg py-2 px-5 md:h-12 md:px-10 mt-3 hover:bg-primary-200 transition">
-                Call to Action
-              </button>
-            </Link>
+
+            <button
+              onClick={startQuiz}
+              className="bg-primary-500 dark:bg-secondary-500 text-white text-xs md:text-lg font-medium rounded-lg py-2 px-5 md:h-12 md:px-10 mt-3 hover:bg-primary-200 transition"
+            >
+              Call to Action
+            </button>
           </div>
         </div>
       </div>

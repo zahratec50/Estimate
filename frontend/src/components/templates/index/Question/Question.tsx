@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -6,6 +7,9 @@ import { MdChair } from "react-icons/md";
 import { PiLampFill } from "react-icons/pi";
 import { FaBath } from "react-icons/fa6";
 import { FaSink } from "react-icons/fa";
+
+import { useRouter } from "next/navigation";
+import { useAppStore } from "@/store/useAppStore";
 
 type QuestionProps = {
   question: string;
@@ -23,6 +27,19 @@ export default function Question({
   features,
 }: QuestionProps) {
   const icons = [MdChair, PiLampFill, FaBath, FaSink];
+
+  const { isRegistered, role } = useAppStore();
+  const router = useRouter();
+
+  const startQuiz = () => {
+    if (isRegistered && role === "user") {
+      router.push("/dashboard/profile");
+    } else if (role === "admin") {
+      router.push("/admin/firstQuizManager");
+    } else {
+      router.push("/firstQuiz/1");
+    }
+  };
 
   return (
     <div className="w-full h-[600px] sm:h-[1000px] lg:h-[558px]">
@@ -72,8 +89,11 @@ export default function Question({
               </ul>
             )}
             <div className="flex flex-col sm:flex-row sm:items-center gap-5">
-              <button className="w-full sm:w-36 py-3 bg-primary-500 dark:bg-secondary-600 hover:bg-primary-200 hover:dark:bg-secondary-500 text-white rounded-md">
-                <Link href="/firstQuiz/1">Get Started</Link>
+              <button
+                onClick={startQuiz}
+                className="w-full sm:w-36 py-3 bg-primary-500 dark:bg-secondary-600 hover:bg-primary-200 hover:dark:bg-secondary-500 text-white rounded-md"
+              >
+                Get Started
               </button>
               <span className="hidden sm:flex w-fit border-b border-newGray-white hover:border-primary-200 transition-all duration-200">
                 <Link href="/signin">Already have an account? Sign in</Link>

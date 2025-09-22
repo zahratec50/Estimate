@@ -185,17 +185,18 @@ export default function QuizNavigation({
           // ارسال جواب‌ها به سرور
           await axios.post("/api/saveFirstQuiz", payload);
 
-          // ثبت کاربر و گرفتن توکن
-          const res = await axios.post("/api/auth/signup", {
-            name: email.split("@")[0], // می‌تونی اسم رو از ایمیل بسازی یا یک فیلد جداگانه بفرستی
-            email,
-            password: crypto.randomUUID(), // رمز موقت یا تولیدی
-          });
+          if (!isRegistered) {
+            const res = await axios.post("/api/auth/signup", {
+              name: email.split("@")[0], // می‌تونی اسم رو از ایمیل بسازی یا یک فیلد جداگانه بفرستی
+              email,
+              password: crypto.randomUUID(), // رمز موقت یا تولیدی
+            });
 
-          const data = res.data;
-          setUserEmail(data.user.email);
-          setUserName(data.user.name);
-          setRegistered(true);
+            const data = res.data;
+            setUserEmail(data.user.email);
+            setUserName(data.user.name);
+            setRegistered(true);
+          }
 
           // نمایش Modal اتمام
           setShowModal(true);

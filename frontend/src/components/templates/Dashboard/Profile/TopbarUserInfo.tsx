@@ -32,7 +32,6 @@ const TopbarUserInfo = ({ size }: { size: string }) => {
         const { data } = await axios.get("/api/auth/me", {
           withCredentials: true,
         });
-        console.log("User data:", data.user);
 
         if (data.user) {
           setUser({
