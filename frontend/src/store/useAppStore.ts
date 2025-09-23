@@ -107,6 +107,7 @@ export interface AppState {
 
   // user, UI
   isRegistered: boolean;
+  isFirstQuizComplete: boolean;
   userType: string;
   userId: string;
   isSidebarOpen: boolean;
@@ -169,6 +170,7 @@ export interface AppState {
     isFirstQuiz: boolean
   ) => boolean;
   setRegistered: (v: boolean) => void;
+  setFirstQuizComplete: (v: boolean) => void;
   setUserType: (v: string) => void;
   setUserId: (id: string) => void;
   setProjects: (projects: Project[]) => void;
@@ -211,6 +213,7 @@ export const useAppStore = create<AppState>()(
       projects: [],
       currentProjectId: null,
       isRegistered: false,
+      isFirstQuizComplete: false,
       userType: "",
       userId: "",
       isSidebarOpen: false,
@@ -530,6 +533,7 @@ export const useAppStore = create<AppState>()(
 
       // user & projects
       setRegistered: (v) => set({ isRegistered: v }),
+      setFirstQuizComplete: (v) => set({ isFirstQuizComplete: v }),
       setUserType: (v) => set({ userType: v }),
       setProjects: (projects) => set({ projects }),
       setCurrentProjectId: (id) => set({ currentProjectId: id }),

@@ -4,11 +4,11 @@ import { useRouter } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
 
 export default function StartFirsQuizButton({title}: {title?: string}) {
-  const { isRegistered, role } = useAppStore();
+  const { isFirstQuizComplete, role } = useAppStore();
   const router = useRouter();
 
   const startQuiz = () => {
-    if (isRegistered && role === "user") {
+    if (isFirstQuizComplete && role === "user") {
       router.push("/dashboard/profile");
     } else if (role === "admin") {
       router.push("/admin/firstQuizManager");

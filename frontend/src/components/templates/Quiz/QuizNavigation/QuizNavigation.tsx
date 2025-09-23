@@ -41,6 +41,7 @@ export default function QuizNavigation({
     setCurrentStepFirstQuiz,
     setCurrentStepMainQuiz,
     setCompletedQuizzes,
+    setFirstQuizComplete,
     clearQuizData,
     setRegistered,
   } = useAppStore();
@@ -185,11 +186,13 @@ export default function QuizNavigation({
           // ارسال جواب‌ها به سرور
           await axios.post("/api/saveFirstQuiz", payload);
 
+          setFirstQuizComplete(true);
+
           if (!isRegistered) {
             const res = await axios.post("/api/auth/signup", {
-              name: email.split("@")[0], // می‌تونی اسم رو از ایمیل بسازی یا یک فیلد جداگانه بفرستی
+              name: email.split("@")[0],
               email,
-              password: crypto.randomUUID(), // رمز موقت یا تولیدی
+              password: crypto.randomUUID(),
             });
 
             const data = res.data;
