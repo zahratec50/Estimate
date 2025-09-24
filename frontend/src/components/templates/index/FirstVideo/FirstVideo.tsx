@@ -18,9 +18,9 @@ export default function FirstVideo() {
           <StartFirsQuizButton />
         </div>
         {/* Left video or Placeholder */}
-        <div className="w-full h-[500px] rounded-2xl dark:bg-secondary-600 aspect-[4/3] md:aspect-[16/9] relative overflow-hidden">
+        <div className="w-full h-[500px] rounded-2xl bg-gray-201 dark:bg-secondary-600 aspect-[4/3] md:aspect-[16/9] relative overflow-hidden">
           <span className="absolute inset-0 flex items-center justify-center text-blackNew-50 text-xl">
-            <video
+            {/* <video
               className="w-full h-full object-contain"
               src="/gif/gif1.mp4"
               autoPlay
@@ -29,9 +29,8 @@ export default function FirstVideo() {
               playsInline
             >
               Your browser does not support the video tag.
-            </video>
-
-           
+            </video> */}
+            Video
           </span>
         </div>
       </div>

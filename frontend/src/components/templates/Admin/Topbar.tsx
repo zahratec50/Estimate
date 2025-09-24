@@ -15,6 +15,7 @@ import {
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { showErrorToast } from "@/components/modules/toasts/ErrorToast";
+import { useAdminChatStore } from "@/store/adminChatStore";
 
 interface TopbarProps {
   onMenuClick: () => void;
@@ -39,6 +40,22 @@ function Topbar({ onMenuClick }: TopbarProps) {
 
   const router = useRouter();
 
+  const { messages, adminSelf } = useAdminChatStore();
+
+  const unreadSenders = React.useMemo(() => {
+    const allMsgs = Object.values(messages).flat();
+    const uniqueSenders = new Set<string>();
+    allMsgs.forEach((msg) => {
+      if (
+        msg.senderId !== adminSelf?._id && // فقط کاربرها
+        msg.status !== "seen" // فقط خوانده‌نشده
+      ) {
+        uniqueSenders.add(msg.senderId);
+      }
+    });
+    return Array.from(uniqueSenders);
+  }, [messages, adminSelf?._id]);
+
   useEffect(() => {
     let mounted = true;
     (async () => {
@@ -47,7 +64,10 @@ function Topbar({ onMenuClick }: TopbarProps) {
         if (!mounted) return;
         setProfile(res.data);
       } catch (err: any) {
-        console.error("fetch profile:", err?.response?.data || err);
+        if (err.response?.status === 401) {
+          console.log("User is logged out, skipping fetch.");
+          return;
+        }
         showErrorToast({
           title: "Error",
           description: err?.response?.data?.message || "Failed to load profile",
@@ -99,9 +119,11 @@ function Topbar({ onMenuClick }: TopbarProps) {
           <DropdownMenuTrigger asChild>
             <button className="relative p-2 rounded dark:hover:bg-secondary-700">
               <IoNotificationsOutline className="size-5 md:size-6" />
-              <span className="absolute top-0.5 right-0.5 md:top-0 md:right-0 bg-red-500 text-white rounded-full w-3 h-3 md:w-4 md:h-4 text-xs flex items-center justify-center">
-                {notifications.length}
-              </span>
+              {unreadSenders.length > 0 && ( // 🔑 نمایش فقط در صورت داشتن پیام
+                <span className="absolute top-0.5 right-0.5 md:top-0 md:right-0 bg-red-500 text-white rounded-full w-3 h-3 md:w-4 md:h-4 text-xs flex items-center justify-center">
+                  {unreadSenders.length}
+                </span>
+              )}
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -136,7 +158,9 @@ function Topbar({ onMenuClick }: TopbarProps) {
               Profile
             </DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => router.push("/")}>Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push("/")}>
+              Logout
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -3,19 +3,25 @@
 import { create } from "zustand";
 import type { IUserDTO, IMessageDTO, MessageStatus } from "@/lib/types";
 
+function getConversationId(userId1: string, userId2: string) {
+  return [userId1, userId2].sort().join("-");
+}
+
 interface AdminChatState {
   users: IUserDTO[];
   adminSelf: IUserDTO | null;
   selectedUser: IUserDTO | null;
   messages: Record<string, IMessageDTO[]>;
   loading: boolean;
+
   setUsers: (users: IUserDTO[]) => void;
   setAdminSelf: (user: IUserDTO | null) => void;
   setSelectedUser: (user: IUserDTO | null) => void;
+
   addMessage: (msg: IMessageDTO) => void;
   loadMessages: (conversationId: string) => Promise<void>;
-  sendMessage: (content: string, conversationId: string) => Promise<void>;
-  markAsRead: (conversationId: string) => void;
+  sendMessage: (content: string, userId: string) => Promise<void>;
+  markAsRead: (userId: string) => void;
 }
 
 export const useAdminChatStore = create<AdminChatState>((set, get) => ({
@@ -33,38 +39,28 @@ export const useAdminChatStore = create<AdminChatState>((set, get) => ({
     if (!msg.conversationId) return;
     set((state) => {
       const prev = state.messages[msg.conversationId] || [];
-      let updated = [...prev];
-
-      // اگر tempId موجود بود جایگزین کن
-      if (msg.tempId) {
-        const idx = updated.findIndex((m) => m.tempId === msg.tempId);
-        if (idx !== -1) {
-          updated[idx] = { ...updated[idx], ...msg, status: "sent" };
-        } else if (!updated.some((m) => m._id === msg._id)) {
-          updated.push(msg);
-        }
-      }
-      // اگر _id معتبر هست و tempId نداره
-      else if (msg._id) {
-        const idx = updated.findIndex((m) => m._id === msg._id);
-        if (idx === -1) updated.push(msg);
-      }
-
+      const idx = prev.findIndex(m => m._id === msg._id || m.tempId === msg.tempId);
+      const updated = [...prev];
+      if (idx >= 0) updated[idx] = { ...updated[idx], ...msg, status: "sent" };
+      else updated.push(msg);
       return { messages: { ...state.messages, [msg.conversationId]: updated } };
     });
   },
 
-  loadMessages: async (conversationId: string) => {
+  loadMessages: async (userId: string) => {
+    const admin = get().adminSelf;
+    if (!admin) return;
     set({ loading: true });
+    const conversationId = getConversationId(admin._id, userId);
+
     try {
-      const res = await fetch(`/messages/${conversationId}`, {
-        credentials: "include",
-      });
-      if (!res.ok) throw new Error(`Failed to fetch messages: ${res.status}`);
+      const res = await fetch(`/api/chat/messages/${conversationId}`, { credentials: "include" });
+      if (!res.ok) {
+        if (res.status === 401) return; // silent
+        throw new Error(`Failed to fetch messages: ${res.status}`);
+      }
       const msgs: IMessageDTO[] = await res.json();
-      set((state) => ({
-        messages: { ...state.messages, [conversationId]: msgs },
-      }));
+      set((state) => ({ messages: { ...state.messages, [conversationId]: msgs } }));
     } catch (err: any) {
       console.error("Admin loadMessages error:", err.message);
     } finally {
@@ -72,23 +68,18 @@ export const useAdminChatStore = create<AdminChatState>((set, get) => ({
     }
   },
 
-  sendMessage: async (content: string, conversationId: string) => {
+  sendMessage: async (content: string, userId: string) => {
     const admin = get().adminSelf;
-    if (!admin) {
-      console.error("Missing adminSelf");
-      return;
-    }
+    if (!admin) return;
 
-    const tempId = `tmp-${Date.now()}-${Math.random()
-      .toString(36)
-      .slice(2, 9)}`;
+    const conversationId = getConversationId(admin._id, userId);
+    const tempId = `tmp-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
     const tmp: IMessageDTO = {
       _id: "",
       tempId,
       conversationId,
       senderId: admin._id,
-      receiverId:
-        conversationId.split("-").find((id) => id !== admin._id) || "unknown",
+      receiverId: userId,
       senderName: admin.name,
       senderAvatar: admin.avatarUrl || "",
       content,
@@ -96,7 +87,6 @@ export const useAdminChatStore = create<AdminChatState>((set, get) => ({
       status: "sending" as MessageStatus,
     };
 
-    // optimistic update
     set((state) => ({
       messages: {
         ...state.messages,
@@ -116,26 +106,27 @@ export const useAdminChatStore = create<AdminChatState>((set, get) => ({
       get().addMessage(sent);
     } catch (err: any) {
       console.error("Admin sendMessage error:", err.message);
-      // mark temp as failed
       set((state) => ({
         messages: {
           ...state.messages,
           [conversationId]: (state.messages[conversationId] || []).map((m) =>
-            m.tempId === tempId
-              ? { ...m, status: "failed" as MessageStatus }
-              : m
+            m.tempId === tempId ? { ...m, status: "failed" as MessageStatus } : m
           ),
         },
       }));
     }
   },
 
-  markAsRead: (conversationId: string) => {
+  markAsRead: (userId: string) => {
+    const admin = get().adminSelf;
+    if (!admin) return;
+    const conversationId = getConversationId(admin._id, userId);
+
     set((state) => ({
       messages: {
         ...state.messages,
         [conversationId]: (state.messages[conversationId] || []).map((msg) =>
-          msg.status !== "seen"
+          msg.senderId === userId && msg.status !== "seen"
             ? { ...msg, status: "seen" as MessageStatus }
             : msg
         ),

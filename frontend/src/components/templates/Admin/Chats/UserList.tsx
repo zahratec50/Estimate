@@ -11,29 +11,65 @@ interface UserListProps {
   onSelectUser: (id: string) => void;
 }
 
-export default function UserList({ users, messages, selectedUserId, onSelectUser }: UserListProps) {
-  // مرتب‌سازی کاربران: ادمین‌ها در بالا
-  const sortedUsers = useMemo(() => {
-    return [...users].sort((a, b) => {
-      if (a.role === "admin" && b.role !== "admin") return -1;
-      if (a.role !== "admin" && b.role === "admin") return 1;
-      return a.name.localeCompare(b.name);
-    });
-  }, [users]);
-
-  // محاسبه پیام‌ها و unreadCount برای همه کاربران
+export default function UserList({
+  users,
+  messages,
+  selectedUserId,
+  onSelectUser,
+}: UserListProps) {
+  // محاسبه پیام‌ها و unreadCount برای کاربران
   const userMessagesMap = useMemo(() => {
-    const map: Record<string, { messages: IMessageDTO[]; lastMsg?: IMessageDTO; unreadCount: number }> = {};
+    const map: Record<
+      string,
+      { messages: IMessageDTO[]; lastMsg?: IMessageDTO; unreadCount: number }
+    > = {};
+
     users.forEach((user) => {
-      const userMessages = messages.filter((m) => m.senderId === user._id || m.receiverId === user._id);
-      map[user._id] = {
-        messages: userMessages,
-        lastMsg: userMessages[userMessages.length - 1],
-        unreadCount: userMessages.filter((m) => m.status !== "seen" && m.senderId !== "admin").length,
-      };
+      const userMessages = messages.filter(
+        (m) => m.senderId === user._id || m.receiverId === user._id
+      );
+
+      if (userMessages.length > 0) {
+        map[user._id] = {
+          messages: userMessages,
+          lastMsg: userMessages[userMessages.length - 1],
+          unreadCount: userMessages.filter(
+            (m) => m.status !== "seen" && m.senderId === user._id
+          ).length,
+        };
+      }
     });
+
     return map;
   }, [users, messages]);
+
+  // مرتب‌سازی کاربران:
+  // 1. پیام خوانده‌نشده
+  // 2. پیام خوانده‌شده
+  // 3. بدون پیام
+  const sortedUsers = useMemo(() => {
+    return [...users].sort((a, b) => {
+      const aData = userMessagesMap[a._id];
+      const bData = userMessagesMap[b._id];
+
+      const aUnread = aData?.unreadCount ?? 0;
+      const bUnread = bData?.unreadCount ?? 0;
+
+      const aHasMsg = aData ? 1 : 0;
+      const bHasMsg = bData ? 1 : 0;
+
+      // ابتدا کاربران با پیام‌های ناخوانده
+      if (aUnread && !bUnread) return -1;
+      if (!aUnread && bUnread) return 1;
+
+      // سپس کاربران با پیام‌ها (خوانده شده)
+      if (aHasMsg && !bHasMsg) return -1;
+      if (!aHasMsg && bHasMsg) return 1;
+
+      // در نهایت ترتیب حروف الفبا
+      return (a.name || "").localeCompare(b.name || "");
+    });
+  }, [users, userMessagesMap]);
 
   return (
     <div className="bg-white dark:bg-neutral-800 rounded-xl shadow flex flex-col h-full overflow-y-auto">
@@ -42,14 +78,20 @@ export default function UserList({ users, messages, selectedUserId, onSelectUser
       )}
 
       {sortedUsers.map((user) => {
-        const { lastMsg, unreadCount } = userMessagesMap[user._id] || { messages: [], unreadCount: 0 };
+        const userData = userMessagesMap[user._id];
+        const lastMsg = userData?.lastMsg;
+        const unreadCount = userData?.unreadCount ?? 0;
+
+        // اگر هیچ پیامی ندارد، آن را نمایش ندهیم (اختیاری)
+        if (!userData) return null;
 
         return (
           <button
             key={user._id}
             className={clsx(
               "flex items-center gap-3 p-3 mx-2 hover:bg-gray-100 dark:hover:bg-neutral-700 transition-colors rounded-xl border-l-4 border-transparent",
-              selectedUserId === user._id && "bg-gray-100 dark:bg-neutral-700 border-l-neutral-500"
+              selectedUserId === user._id &&
+                "bg-gray-100 dark:bg-neutral-700 border-l-neutral-500"
             )}
             onClick={() => onSelectUser(user._id)}
           >
@@ -60,7 +102,9 @@ export default function UserList({ users, messages, selectedUserId, onSelectUser
             />
             <div className="flex-1 text-left min-w-0 overflow-hidden">
               <div className="flex justify-between items-center">
-                <span className="font-medium text-sm truncate">{user.name || "Unknown"}</span>
+                <span className="font-medium text-sm truncate">
+                  {user.name || "Unknown"}
+                </span>
                 {unreadCount > 0 && (
                   <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full min-w-[20px] text-center">
                     {unreadCount}
@@ -68,11 +112,18 @@ export default function UserList({ users, messages, selectedUserId, onSelectUser
                 )}
               </div>
               <p className="text-gray-500 dark:text-gray-400 text-xs truncate mt-0.5">
-                {lastMsg ? lastMsg.content.substring(0, 30) + "..." : "No messages yet"}
+                {lastMsg
+                  ? lastMsg.content.length > 30
+                    ? lastMsg.content.substring(0, 30) + "..."
+                    : lastMsg.content
+                  : "No messages yet"}
               </p>
               {lastMsg && (
                 <p className="text-xs text-gray-400 truncate">
-                  {new Date(lastMsg.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  {new Date(lastMsg.createdAt).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </p>
               )}
             </div>

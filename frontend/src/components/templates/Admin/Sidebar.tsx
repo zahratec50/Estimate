@@ -17,6 +17,7 @@ import { MdGroupAdd } from "react-icons/md";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
+import { useAdminChatStore } from "@/store/adminChatStore";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -34,6 +35,20 @@ export default function SidebarAdmin({
 
   const toggleSidebar = useAppStore((state) => state.toggleSidebar);
   const isSidebarOpen = useAppStore((state) => state.isSidebarOpen);
+
+  //  تعداد یکتای کاربران با پیام‌های خوانده‌نشده
+  const { messages, adminSelf } = useAdminChatStore();
+
+  const unreadSenders = React.useMemo(() => {
+    const allMsgs = Object.values(messages).flat();
+    const uniqueSenders = new Set<string>();
+    allMsgs.forEach((msg) => {
+      if (msg.senderId !== adminSelf?._id && msg.status !== "seen") {
+        uniqueSenders.add(msg.senderId);
+      }
+    });
+    return Array.from(uniqueSenders);
+  }, [messages, adminSelf?._id]);
 
   const handleClose = onClose ?? toggleSidebar;
 
@@ -164,10 +179,14 @@ export default function SidebarAdmin({
             </Link>
             <Link
               href="/admin/chats"
-              className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
+              className="relative flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700"
             >
               <IoMdChatbubbles size={20} />
               <span>Chats</span>
+
+              {unreadSenders.length > 0 && (
+                <span className="absolute top-2 right-3 w-2 h-2 md:w-3 md:h-3 bg-red-500 rounded-full" />
+              )}
             </Link>
           </div>
 
