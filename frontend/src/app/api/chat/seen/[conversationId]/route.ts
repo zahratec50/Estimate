@@ -3,7 +3,7 @@ import { connectDB } from "@/configs/db";
 import Message from "@/models/Message";
 import { getUserFromRefreshToken } from "@/utils/getUserFromRefreshToken";
 
-export async function POST(req: Request, { params }: { params: { conversationId: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ conversationId: string }> }) {
   await connectDB();
   try {
     const userData = await getUserFromRefreshToken();
@@ -11,7 +11,7 @@ export async function POST(req: Request, { params }: { params: { conversationId:
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const { conversationId } = params;
+    const { conversationId } = await params;
     if (!conversationId) {
       return NextResponse.json({ message: "Missing conversationId" }, { status: 400 });
     }
