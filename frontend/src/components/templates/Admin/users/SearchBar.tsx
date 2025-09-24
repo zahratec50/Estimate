@@ -51,7 +51,7 @@ export default function SearchFilterBar({
 
       <div className="w-full md:w-2/3 flex flex-col md:flex-row items-center justify-between gap-2 md:gap-5">
         <CustomSelect
-          options={["all", "user", "admin", "consultant"]}
+          options={["all", "user", "admin", "Advisor"]}
           value={role}
           onChange={handleRoleChange}
           name=""

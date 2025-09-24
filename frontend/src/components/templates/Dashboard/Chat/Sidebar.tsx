@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import clsx from "clsx";
 import { IoClose } from "react-icons/io5";
@@ -12,25 +13,12 @@ interface SidebarProps {
   onClose: () => void;
 }
 
-interface IConversationDTO {
-  _id: string;
-  members: string[];
-  createdAt: string; // تاریخ ایجاد
-  unreadBy: Record<string, number>; // شمارش پیام‌های خوانده نشده
-  // ممکنه فیلدهای دیگه‌ای هم داشته باشه
-}
-
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
-  const {
-    peers,
-    activeConversation,
-    setActiveConversation,
-    onlineUserIds,
-    self,
-  } = useChatStore();
+  const { peers, activeConversation, setActiveConversation, onlineUserIds, self } = useChatStore();
 
   return (
     <>
+      {/* Overlay */}
       <div
         className={clsx(
           "fixed inset-0 bg-black/40 z-40 transition-opacity md:hidden",
@@ -48,45 +36,40 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         <button
           onClick={onClose}
           aria-label="close"
-          className="absolute top-4 right-4 md:hidden p-2 rounded-full hover:bg-gray-200"
+          className="absolute top-4 right-4 md:hidden p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
         >
           <IoClose size={24} />
         </button>
+
         <div className="flex flex-col justify-between h-full p-4">
           <div className="space-y-2">
             <div className="flex flex-col items-center mb-6">
-              <img
-                src="/images/logoBlack.png"
-                alt="logo"
-                className="w-16 h-16 flex dark:hidden"
-              />
-              <img
-                src="/images/Frame 20.png"
-                alt="logo"
-                className="w-16 h-16 hidden dark:flex"
-              />
+              <img src="/images/logoBlack.png" alt="logo" className="w-16 h-16 flex dark:hidden" />
+              <img src="/images/Frame 20.png" alt="logo" className="w-16 h-16 hidden dark:flex" />
             </div>
-            {peers.map((peer) => (
+
+            {/* Conversation list */}
+            {peers.map(peer => (
               <ConversationItem
                 key={peer._id}
                 peer={peer}
-                active={
-                  !!activeConversation &&
-                  activeConversation.members.includes(peer._id)
-                }
+                active={!!activeConversation && activeConversation.members.includes(peer._id)}
                 online={onlineUserIds.has(peer._id)}
                 onClick={() => {
+                  if (!self) return;
                   setActiveConversation({
-                    _id: [self!._id, peer._id].sort().join("-"),
-                    members: [self!._id, peer._id],
+                    _id: [self._id, peer._id].sort().join("-"),
+                    members: [self._id, peer._id],
                     createdAt: new Date().toISOString(),
-                    unreadBy: { [self!._id]: 0, [peer._id]: 0 },
+                    unreadBy: { [self._id]: 0, [peer._id]: 0 },
                   });
                   onClose();
                 }}
               />
             ))}
           </div>
+
+          {/* Dashboard link */}
           <Link
             href="/dashboard"
             className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-800"

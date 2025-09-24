@@ -1,32 +1,51 @@
-import { Server } from "socket.io";
+// server.ts
 import { createServer } from "http";
+import { parse } from "url";
+import next from "next";
+import { Server } from "socket.io";
 
-declare global {
-  // جلوگیری از ساخت دوباره
-  // eslint-disable-next-line no-var
-  var _io: Server | undefined;
-}
+const port = parseInt(process.env.PORT || "3000", 10);
+const dev = process.env.NODE_ENV !== "production";
+const app = next({ dev });
+const handle = app.getRequestHandler();
 
-let io: Server;
+app.prepare().then(() => {
+  const server = createServer((req, res) => {
+    const parsedUrl = parse(req.url!, true);
+    handle(req, res, parsedUrl);
+  });
 
-if (!global._io) {
-  const httpServer = createServer();
-
-  io = new Server(httpServer, {
-    cors: { origin: "*" },
+  const io = new Server(server, {
+    path: "/api/socket",
+    addTrailingSlash: false,
   });
 
   io.on("connection", (socket) => {
-    console.log("✅ Client connected:", socket.id);
-    socket.on("disconnect", () =>
-      console.log("❌ Client disconnected:", socket.id)
-    );
+    console.log(`User connected: ${socket.id}`);
+
+    socket.on("join", ({ userId }) => {
+      socket.join(userId);
+      console.log(`User ${userId} joined`);
+    });
+
+    socket.on("sendMessage", (msg) => {
+      io.to(msg.receiverId).emit("receiveMessage", msg);
+    });
+
+    socket.on("typing", ({ conversationId, userId, isTyping }) => {
+      socket.to(conversationId).emit("typing", { conversationId, userId, isTyping });
+    });
+
+    socket.on("markAsSeen", ({ conversationId, userId }) => {
+      socket.to(conversationId).emit("messageSeen", { conversationId, userId });
+    });
+
+    socket.on("disconnect", () => {
+      console.log(`User disconnected: ${socket.id}`);
+    });
   });
 
-  httpServer.listen(4000, () => console.log("🚀 Socket.IO on 4000"));
-  global._io = io;
-} else {
-  io = global._io;
-}
-
-export default io;
+  server.listen(port, () => {
+    console.log(`> Ready on http://localhost:${port}`);
+  });
+});

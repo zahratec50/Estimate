@@ -29,14 +29,12 @@ const TopbarUserInfo = ({ size }: { size: string }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get("/api/auth/me", {
-          withCredentials: true,
-        });
+        const { data } = await axios.get("/api/auth/me", { withCredentials: true });
 
         if (data.user) {
           setUser({
             name: data.user.name,
-            avatar: data.user.avatar,
+            avatar: data.user.avatar ?? '/images/avataradmin.png',
             role: data.user.role,
           });
           setRegistered(true);

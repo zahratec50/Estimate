@@ -1,38 +1,25 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { connectDB } from "@/configs/db";
 import User from "@/models/User";
 
 export async function GET() {
-  await connectDB();
-  const users = await User.find({});
-  return NextResponse.json(users);
-}
-
-export async function POST(req: NextRequest) {
-  await connectDB();
   try {
-    const { name, email, password, role } = await req.json();
-    if (!name || !email || !password || !role) {
-      return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
-    }
-    const newUser = await User.create({ name, email, password, role });
-    return NextResponse.json(newUser, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ message: "Failed to create user" }, { status: 500 });
-  }
-}
+    await connectDB();
+    const users = await User.find({}).select("name email role phone avatar lastSeen");
+    const userDTOs = users.map((user) => ({
+      _id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      phone: user.phone || undefined,
+      avatarUrl: user.avatar || "/images/user.png",
+      status: user.lastSeen > new Date(Date.now() - 5 * 60 * 1000) ? "online" : "offline",
+      lastSeen: user.lastSeen.toISOString(),
+    }));
 
-export async function PUT(req: NextRequest) {
-  await connectDB();
-  try {
-    const { userId, role, isBanned } = await req.json();
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { role, isBanned },
-      { new: true }
-    );
-    return NextResponse.json(updatedUser);
-  } catch (error) {
-    return NextResponse.json({ message: "Failed to update user" }, { status: 500 });
+    return NextResponse.json(userDTOs, { status: 200 });
+  } catch (err: any) {
+    console.error("GET /admin/users error:", err);
+    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
   }
 }

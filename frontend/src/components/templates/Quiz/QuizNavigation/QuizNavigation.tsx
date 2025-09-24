@@ -41,6 +41,7 @@ export default function QuizNavigation({
     setCurrentStepFirstQuiz,
     setCurrentStepMainQuiz,
     setCompletedQuizzes,
+    setUserAvatar,
     setFirstQuizComplete,
     clearQuizData,
     setRegistered,
@@ -193,11 +194,13 @@ export default function QuizNavigation({
               name: email.split("@")[0],
               email,
               password: crypto.randomUUID(),
+              avatar: "/images/avataradmin.png",
             });
 
             const data = res.data;
             setUserEmail(data.user.email);
             setUserName(data.user.name);
+            setUserAvatar(data.user.avatarUrl);
             setRegistered(true);
           }
 

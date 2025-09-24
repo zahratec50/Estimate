@@ -14,7 +14,7 @@ export async function GET() {
     id: admin.id,
     name: admin.name,
     email: admin.email,
-    avatar: admin.avatar ?? null,
+    avatar: admin.avatar ?? '/images/avataradmin.png',
   });
 }
 
@@ -56,7 +56,7 @@ export async function PUT(req: Request) {
         id: updated ? String((updated as any)._id) : admin.id,
         name: updated?.name ?? name,
         email: updated?.email ?? email,
-        avatar: updated?.avatar ?? updateData.avatar ?? admin.avatar,
+        avatar: updated?.avatar ?? updateData.avatar ?? admin.avatar ?? '/images/avataradmin.png',
       },
     });
   } catch (err) {

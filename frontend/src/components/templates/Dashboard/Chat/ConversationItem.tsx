@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import PresenceDot from "./PresenceDot";
 import type { IUserDTO } from "@/lib/types";
@@ -6,11 +7,11 @@ import type { IUserDTO } from "@/lib/types";
 interface ConversationItemProps {
   peer: IUserDTO;
   active: boolean;
-  onClick: () => void;
   online: boolean;
+  onClick: () => void;
 }
 
-export default function ConversationItem({ peer, active, onClick, online }: ConversationItemProps) {
+export default function ConversationItem({ peer, active, online, onClick }: ConversationItemProps) {
   return (
     <button
       onClick={onClick}
@@ -22,7 +23,7 @@ export default function ConversationItem({ peer, active, onClick, online }: Conv
           className={`w-10 h-10 rounded-2xl flex items-center justify-center font-semibold text-white
             ${peer.name ? "bg-indigo-400" : "bg-gray-400"}`}
         >
-          {peer.name?.slice(0, 1) || "?"}
+          {peer.name?.charAt(0) || "?"}
         </div>
         <span className="absolute -bottom-0 -right-2">
           <PresenceDot online={online} />

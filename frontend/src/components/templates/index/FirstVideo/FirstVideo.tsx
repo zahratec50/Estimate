@@ -2,7 +2,6 @@ import Image from "next/image";
 import StartFirsQuizButton from "../StartFirsQuizButton";
 
 export default function FirstVideo() {
-
   return (
     <section className="w-full flex justify-center">
       <div className="w-full flex flex-col items-center gap-6 font-roboto">
@@ -19,9 +18,20 @@ export default function FirstVideo() {
           <StartFirsQuizButton />
         </div>
         {/* Left video or Placeholder */}
-        <div className="w-full h-[500px] rounded-2xl bg-secondary-50 dark:bg-secondary-600 aspect-[4/3] md:aspect-[16/9] relative overflow-hidden">
+        <div className="w-full h-[500px] rounded-2xl dark:bg-secondary-600 aspect-[4/3] md:aspect-[16/9] relative overflow-hidden">
           <span className="absolute inset-0 flex items-center justify-center text-blackNew-50 text-xl">
-            video
+            <video
+              className="w-full h-full object-contain"
+              src="/gif/gif1.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+            >
+              Your browser does not support the video tag.
+            </video>
+
+           
           </span>
         </div>
       </div>

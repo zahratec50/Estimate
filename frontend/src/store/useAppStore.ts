@@ -13,10 +13,6 @@ const usPhoneRegex = /^(?:\+1\s?)?(?:\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}$/;
 export type AnswerValue = string | string[] | Record<string, string>;
 
 export type PlanId = "basic" | "pro" | "enterprise";
-// export type Answer = {
-//   question: string;
-//   answer: AnswerValue;
-// };
 
 export interface StoredAnswer {
   question: string; // فقط عنوان سؤال
@@ -117,12 +113,15 @@ export interface AppState {
   userEmail: string;
   userAvatar: string;
   userPassword: string;
-  role: "user" | "admin";
+  role: "user" | "admin" | "advisor";
   subscribedPlan: "basic" | "pro" | "enterprise" | null;
   subscriptionLimits: { [key: string]: number };
 
   // completed Quiz
   completedQuizzes: number;
+
+  unreadCount: number;
+  setUnreadCount: (count: number) => void;
 
   // actions
   closeSidebar: () => void;
@@ -136,7 +135,7 @@ export interface AppState {
   setUser: (data?: {
     name?: string;
     avatar?: string;
-    role?: "user" | "admin";
+    role?: "user" | "admin" | "advisor";
   }) => void;
 
   setLoginMethod: (m: AppState["loginMethod"]) => void;
@@ -230,6 +229,9 @@ export const useAppStore = create<AppState>()(
         pro: 5,
         enterprise: Number.POSITIVE_INFINITY,
       },
+
+      unreadCount: 0,
+      setUnreadCount: (count) => set({ unreadCount: count }),
 
       // UI actions
       closeSidebar: () => set({ isSidebarOpen: false }),

@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import {
   IoClose,
   IoExitOutline,
@@ -21,6 +22,14 @@ import { useAppStore } from "@/store/useAppStore";
 import { usePathname, useRouter } from "next/navigation";
 import axios from "axios";
 
+const SearchInput = dynamic(
+  () => import("@/components/modules/Search/SearchInput"),
+  {
+    ssr: false,
+    loading: () => <div className="px-3 text-sm">Loading...</div>,
+  }
+);
+
 interface SidebarProps {
   isOpen?: boolean;
   isHelpOpen: boolean;
@@ -38,9 +47,16 @@ const Sidebar = ({
   const toggleSidebar = useAppStore((state) => state.toggleSidebar);
   const isRegistered = useAppStore((state) => state.isRegistered);
   const setRegistered = useAppStore((state) => state.setRegistered);
+  const unreadCount = useAppStore((state) => state.unreadCount);
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const isOpen = propsIsOpen ?? isSidebarOpen;
-  const handleClose = propsOnClose ?? toggleSidebar;
+  // const handleClose = propsOnClose ?? toggleSidebar;
+  const handleClose = () => {
+    if (isSidebarOpen) handleClose();
+    router.push("/");
+  }
 
   const router = useRouter();
   const pathname = usePathname();
@@ -49,6 +65,15 @@ const Sidebar = ({
     setRegistered(true);
     router.push(path);
     if (isSidebarOpen) toggleSidebar();
+  };
+
+  const handleSearchSubmit = (query: string) => {
+    console.log("Sidebar search:", query);
+    setIsSearchOpen(false);
+  };
+
+  const preloadSearch = () => {
+    import("@/components/modules/Search/SearchInput");
   };
 
   useEffect(() => {
@@ -94,7 +119,7 @@ const Sidebar = ({
       >
         {/* Header */}
         <div className="flex items-center justify-between lg:justify-center mb-6 w-full">
-          <Link href="/" onClick={handleClose}>
+          <button aria-label="image logo" onClick={handleClose}>
             <Image
               src="/images/Frame 20.png"
               alt="logo"
@@ -102,7 +127,7 @@ const Sidebar = ({
               height={80}
               className="cursor-pointer"
             />
-          </Link>
+          </button>
           <button
             type="button"
             aria-label="Close Sidebar"
@@ -180,10 +205,8 @@ const Sidebar = ({
             </Link>
           </div>
         )}
-        {
-          !isRegistered ? null : <hr />
-        }
-        
+        {!isRegistered ? null : <hr />}
+
         {/* Nav Links */}
         <nav className="space-y-4 dark:text-secondary-200 font-medium pl-1 mt-6">
           <Link
@@ -197,21 +220,35 @@ const Sidebar = ({
           {!isRegistered ? null : (
             <>
               <Link
-                href="/notifications"
+                href="/chat"
                 className="flex lg:hidden items-center gap-2 text-white hover:text-primary-100"
                 onClick={handleClose}
               >
                 <IoNotificationsOutline className="w-5 h-5" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
+                    {unreadCount}
+                  </span>
+                )}
                 Notifications
               </Link>
-              <Link
-                href="/"
-                className="lg:hidden flex items-center gap-2 text-white hover:text-primary-100"
-                onClick={handleClose}
-              >
-                <IoSearchOutline className="w-5 h-5" />
-                Search
-              </Link>
+              {isSearchOpen ? (
+                <SearchInput
+                  isOpen={isSearchOpen}
+                  onClose={() => setIsSearchOpen(false)}
+                  onSubmit={handleSearchSubmit}
+                />
+              ) : (
+                <button
+                  onMouseEnter={preloadSearch}
+                  onClick={() => setIsSearchOpen(true)}
+                  className="lg:hidden flex items-center gap-2 text-white hover:text-primary-100"
+                >
+                  <IoSearchOutline className="w-5 h-5" />
+                  Search
+                </button>
+              )}
+
               <button
                 type="button"
                 className="flex items-center gap-2 text-white hover:text-primary-100"

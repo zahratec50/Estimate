@@ -1,101 +1,141 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import UserList from "./UserList";
 import AdminChatRoom from "./AdminChatRoom";
 import UserDetailPanel from "./UserDetailPanel";
-import type { IUser, IMessage } from "@/store/adminChatStore";
+import { useAdminChatStore } from "@/store/adminChatStore";
+import type { IUserDTO } from "@/lib/types";
 
 export default function AdminChats() {
-  const [users, setUsers] = useState<IUser[]>([]);
-  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
-  const [messages, setMessages] = useState<IMessage[]>([]);
-  const [loadingUsers, setLoadingUsers] = useState(true);
-  const [loadingMessages, setLoadingMessages] = useState(false);
+  const {
+    users,
+    setUsers,
+    adminSelf,
+    setAdminSelf,
+    selectedUser,
+    setSelectedUser,
+    messages,
+    loading,
+    loadMessages,
+    sendMessage,
+    markAsRead,
+  } = useAdminChatStore();
 
-  // Fetch users
+  const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
+  const [abortSignal, setAbortSignal] = useState<AbortController | null>(null);
+
+  // fetch current admin (self) and users
   useEffect(() => {
-    async function fetchUsers() {
+    let mounted = true;
+    const fetchInitial = async () => {
       try {
-        setLoadingUsers(true);
-        const res = await fetch("/api/admin/users");
-        const data = await res.json();
-        setUsers(data);
-        if (data.length) setSelectedUser(data[0]);
-      } catch (err) {
-        console.error("Failed to fetch users:", err);
-      } finally {
-        setLoadingUsers(false);
-      }
-    }
-    fetchUsers();
-  }, []);
+        const [resSelf, resUsers] = await Promise.all([
+          fetch("/api/auth/me", { credentials: "include" }),
+          fetch("/api/admin/users", { credentials: "include" }),
+        ]);
 
-  // Fetch messages برای selected user
+        if (!resSelf.ok) throw new Error("Failed to fetch admin self");
+        const selfJson = await resSelf.json();
+        const self = selfJson.user as IUserDTO;
+        if (mounted) setAdminSelf(self);
+
+        if (!resUsers.ok) throw new Error("Failed to fetch users");
+        const data: IUserDTO[] = await resUsers.json();
+        // sort admins first
+        const sortedData = data.sort((a, b) => {
+          if (a.role === "admin" && b.role !== "admin") return -1;
+          if (a.role !== "admin" && b.role === "admin") return 1;
+          return a.name.localeCompare(b.name);
+        });
+        if (mounted) {
+          setUsers(sortedData);
+          if (sortedData.length) {
+            setSelectedUser(sortedData[0]);
+          }
+        }
+      } catch (err: any) {
+        console.error("AdminChats init error:", err.message);
+      }
+    };
+    fetchInitial();
+
+    return () => {
+      mounted = false;
+    };
+  }, [setAdminSelf, setUsers, setSelectedUser]);
+
+  // when selectedUser or adminSelf changes -> compute conversationId and load messages
   useEffect(() => {
-    if (!selectedUser) {
-      setMessages([]);
+    if (!adminSelf || !selectedUser) {
+      setCurrentConversationId(null);
       return;
     }
+    const convId = [adminSelf._id, selectedUser._id].sort().join("-");
+    setCurrentConversationId(convId);
 
-    // async function fetchMessages() {
-    //   try {
-    //     setLoadingMessages(true);
-    //     const res = await fetch(`/api/chat/messages/${selectedUser!._id}`);
-    //     if (!res.ok) throw new Error("Failed to fetch messages");
-    //     const msgs = await res.json();
-    //     setMessages(msgs);
-    //   } catch (err) {
-    //     console.error("Failed to fetch messages:", err);
-    //     setMessages([]);
-    //   } finally {
-    //     setLoadingMessages(false);
-    //   }
-    // }
+    // abort previous
+    abortSignal?.abort();
+    const ac = new AbortController();
+    setAbortSignal(ac);
 
-    // fetchMessages();
-  }, [selectedUser]);
+    (async () => {
+      try {
+        await loadMessages(convId);
+        markAsRead(convId);
+      } catch (err: any) {
+        if (ac.signal.aborted) return;
+        console.error("Error loading messages for conv", err.message);
+      }
+    })();
 
-  // ارسال پیام توسط ادمین
-  const handleSendMessage = async (content: string) => {
-    if (!selectedUser || !content.trim()) return;
+    return () => {
+      ac.abort();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [adminSelf, selectedUser]);
 
-    // try {
-    //   const res = await fetch(`/api/chat/messages/${selectedUser._id}`, {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ content: content.trim() }),
-    //   });
+  const handleSelectUser = useCallback(
+    (id: string) => {
+      const u = users.find((x) => x._id === id) || null;
+      setSelectedUser(u);
+    },
+    [users, setSelectedUser]
+  );
 
-    //   if (!res.ok) throw new Error("Failed to send message");
-
-    //   const msg = await res.json();
-    //   setMessages((prev) => [...prev, msg]);
-    // } catch (err) {
-    //   console.error("Failed to send message:", err);
-    // }
+  const handleSend = (content: string) => {
+    if (!currentConversationId) return;
+    sendMessage(content, currentConversationId);
   };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr_320px] gap-4 h-[calc(100vh-80px)] p-2">
       <UserList
         users={users}
-        messages={messages}
+        messages={selectedUser && currentConversationId ? messages[currentConversationId] || [] : []}
         selectedUserId={selectedUser?._id || null}
-        onSelectUser={(id) =>
-          setSelectedUser(users.find((u) => u._id === id) || null)
-        }
+        onSelectUser={(id) => handleSelectUser(id)}
       />
+
       <AdminChatRoom
-        messages={messages}
-        selfId="admin"
-        onSendMessage={handleSendMessage}
-        loading={loadingMessages}
+        messages={selectedUser && currentConversationId ? messages[currentConversationId] || [] : []}
+        selfId={adminSelf?._id || "admin"}
+        onSendMessage={handleSend}
+        loading={loading}
       />
+
       {selectedUser ? (
-        <UserDetailPanel user={selectedUser} />
+        <UserDetailPanel user={{
+          _id: selectedUser._id,
+          name: selectedUser.name,
+          avatar: selectedUser.avatarUrl || selectedUser.avatarUrl || "/images/user.png",
+          phone: selectedUser.phone,
+          email: selectedUser.email,
+          role: selectedUser.role,
+          lastSeen: selectedUser.lastSeen,
+        }} />
       ) : (
-        <div className="bg-white dark:bg-secondary-800 rounded-xl shadow flex items-center justify-center text-gray-500">
+        <div className="bg-white dark:bg-neutral-800 rounded-xl shadow flex items-center justify-center text-gray-500">
           No user selected
         </div>
       )}

@@ -1,10 +1,14 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/configs/db";
-import User from "@/models/User";
+import Message from "@/models/Message";
 import { cookies } from "next/headers";
 import { verifyRefreshToken } from "@/utils/auth";
 
-export async function GET() {
+interface Params {
+  params: Promise<{ conversationId: string }>;
+}
+
+export async function GET(req: Request, { params }: Params) {
   try {
     await connectDB();
     const cookieStore = await cookies();
@@ -15,14 +19,11 @@ export async function GET() {
     const payload = verifyRefreshToken(token);
     if (!payload) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-    const user = await User.findById(payload.userId).select(
-      "name email role phone avatar lastSeen"
-    );
-    if (!user) return NextResponse.json({ message: "User not found" }, { status: 404 });
-
-    return NextResponse.json({ user }, { status: 200 });
+    const { conversationId } = await params;
+    const messages = await Message.find({ conversationId }).sort({ createdAt: 1 });
+    return NextResponse.json(messages, { status: 200 });
   } catch (err: any) {
-    console.error("GET /auth/me error:", err.message);
+    console.error("GET /chat/messages error:", err.message);
     return NextResponse.json({ message: "Internal server error" }, { status: 500 });
   }
 }

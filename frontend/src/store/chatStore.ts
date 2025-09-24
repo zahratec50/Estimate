@@ -1,100 +1,135 @@
 "use client";
 
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
-import type { IMessageDTO, IConversationDTO, IUserDTO } from "@/lib/types";
-
-// Mock Socket فقط برای شبیه سازی
-class MockSocket {
-  listeners: Record<string, Function[]> = {};
-  on(event: string, cb: Function) {
-    this.listeners[event] = this.listeners[event] || [];
-    this.listeners[event].push(cb);
-    console.log(`[MockSocket] Listening ${event}`);
-  }
-  off(event: string, cb?: Function) {
-    if (!this.listeners[event]) return;
-    if (cb)
-      this.listeners[event] = this.listeners[event].filter((f) => f !== cb);
-    else delete this.listeners[event];
-  }
-  emit(event: string, data?: any) {
-    console.log(`[MockSocket] Emit ${event}`, data);
-    (this.listeners[event] || []).forEach((f) => f(data));
-  }
-}
-
-export const socket = new MockSocket();
+import type {
+  IUserDTO,
+  IMessageDTO,
+  IConversationDTO,
+  MessageStatus,
+} from "@/lib/types";
 
 interface ChatState {
   self: IUserDTO | null;
   peers: IUserDTO[];
   activeConversation: IConversationDTO | null;
-  messages: IMessageDTO[];
-  typingBy: Set<string>;
+  messages: Record<string, IMessageDTO[]>;
   onlineUserIds: Set<string>;
-
-  setSelf: (u: IUserDTO) => void;
-  setPeers: (p: IUserDTO[]) => void;
-  setActiveConversation: (c: IConversationDTO) => void;
-  setMessages: (msgs: IMessageDTO[]) => void;
+  typingBy: Record<string, string[]>;
+  setSelf: (user: IUserDTO) => void;
+  setPeers: (users: IUserDTO[]) => void;
+  setActiveConversation: (
+    conv:
+      | IConversationDTO
+      | null
+      | ((prev: IConversationDTO | null) => IConversationDTO | null)
+  ) => void;
   addMessage: (msg: IMessageDTO) => void;
-  replaceMessage: (tempId: string, serverMsg: IMessageDTO) => void;
-  setTyping: (userId: string, isTyping: boolean) => void;
+  markAsRead: (conversationId: string) => void;
   setOnlineUsers: (ids: string[]) => void;
+  setTyping: (
+    conversationId: string,
+    userId: string,
+    isTyping: boolean
+  ) => void;
 }
 
-export const useChatStore = create<ChatState>()(
-  devtools((set) => ({
-    self: null,
-    peers: [],
-    activeConversation: null,
-    messages: [],
-    typingBy: new Set(),
-    onlineUserIds: new Set(),
+export const useChatStore = create<ChatState>((set, get) => ({
+  self: null,
+  peers: [],
+  activeConversation: null,
+  messages: {},
+  onlineUserIds: new Set(),
+  typingBy: {},
 
-    setSelf: (u) => set({ self: u }),
-    setPeers: (p) => set({ peers: p }),
-    setActiveConversation: (c) => set({ activeConversation: c, messages: [] }),
-    setMessages: (msgs) => set({ messages: msgs }),
+  setSelf: (user) => set({ self: user }),
+  setPeers: (users) => set({ peers: users }),
+  setActiveConversation: (conv) => {
+    set((state) => ({
+      activeConversation:
+        typeof conv === "function" ? conv(state.activeConversation) : conv,
+    }));
+  },
 
-    addMessage: (msg: IMessageDTO) =>
-      set((s) => {
-        // بررسی وجود پیام بر اساس _id یا clientTempId
-        const existsIdx = s.messages.findIndex(
-          (m) => m._id === msg._id || (msg as any).clientTempId && (m as any).clientTempId === (msg as any).clientTempId
+  addMessage: (msg) => {
+    if (!msg.conversationId) return;
+
+    set((state) => {
+      const prevMessages = state.messages[msg.conversationId] || [];
+      let updatedMessages: IMessageDTO[] = [...prevMessages];
+
+      if (msg._id) {
+        // پیام واقعی از سرور
+        const index = updatedMessages.findIndex(
+          (m) => m.tempId && m.tempId === msg.tempId
         );
-        if (existsIdx !== -1) {
-          const next = [...s.messages];
-          next[existsIdx] = { ...next[existsIdx], ...msg };
-          return { messages: next };
-        }
-        return { messages: [...s.messages, msg] };
-      }),
 
-    // جایگزینی پیام موقت با پیام سرور
-    replaceMessage: (tempId, serverMsg) =>
-      set((s) => {
-        const existsIdx = s.messages.findIndex((m) => m._id === tempId || (m as any).clientTempId === tempId);
-        if (existsIdx !== -1) {
-          const next = [...s.messages];
-          next[existsIdx] = serverMsg;
-          return { messages: next };
+        if (index !== -1) {
+          // جایگزین کردن پیام موقت با پیام واقعی
+          updatedMessages[index] = { ...msg, status: "sent" };
+        } else if (!updatedMessages.some((m) => m._id === msg._id)) {
+          updatedMessages.push({ ...msg, status: "sent" });
         }
-        // اگر پیام موقت پیدا نشد ولی پیام سرور جدید است
-        if (!s.messages.some((m) => m._id === serverMsg._id)) {
-          return { messages: [...s.messages, serverMsg] };
+      } else if (msg.tempId) {
+        // پیام موقت
+        if (!updatedMessages.some((m) => m.tempId === msg.tempId)) {
+          updatedMessages.push({ ...msg, status: msg.status || "sending" });
         }
-        return { messages: s.messages };
-      }),
+      } else {
+        console.error("Invalid message: missing _id and tempId", msg);
+        return state;
+      }
 
-    setTyping: (userId, isTyping) =>
-      set((s) => {
-        const next = new Set(s.typingBy);
-        isTyping ? next.add(userId) : next.delete(userId);
-        return { typingBy: next };
-      }),
+      return {
+        messages: { ...state.messages, [msg.conversationId]: updatedMessages },
+      };
+    });
+  },
 
-    setOnlineUsers: (ids) => set({ onlineUserIds: new Set(ids) }),
-  }))
-);
+  markAsRead: (conversationId) => {
+    const { activeConversation, self } = get();
+    if (
+      !activeConversation ||
+      !self ||
+      activeConversation._id !== conversationId
+    )
+      return;
+    if (activeConversation.unreadBy[self._id] === 0) return;
+
+    set((state) => ({
+      activeConversation: {
+        ...state.activeConversation!,
+        unreadBy: { ...state.activeConversation!.unreadBy, [self._id]: 0 },
+      },
+      messages: {
+        ...state.messages,
+        [conversationId]:
+          state.messages[conversationId]?.map((msg) =>
+            msg.senderId !== self._id && msg.status !== "seen"
+              ? { ...msg, status: "seen" as MessageStatus }
+              : msg
+          ) || [],
+      },
+    }));
+
+    fetch(`/api/chat/seen/${conversationId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ userId: self._id }),
+    }).catch((err) => console.error("Seen API error:", err));
+  },
+
+  setOnlineUsers: (ids) => set({ onlineUserIds: new Set(ids) }),
+
+  setTyping: (conversationId, userId, isTyping) => {
+    set((state) => {
+      const typingUsers = state.typingBy[conversationId] || [];
+      const updatedTyping = isTyping
+        ? [...new Set([...typingUsers, userId])]
+        : typingUsers.filter((id) => id !== userId);
+      return {
+        typingBy: { ...state.typingBy, [conversationId]: updatedTyping },
+      };
+    });
+  },
+}));

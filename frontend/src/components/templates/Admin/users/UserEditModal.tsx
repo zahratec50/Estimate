@@ -60,7 +60,7 @@ export default function UserEditModal({ user, onClose }: UserEditModalProps) {
 
         {/* Custom Select برای Role */}
         <CustomSelect
-          options={["user", "admin", "consultant"]}
+          options={["user", "admin", "Advisor"]}
           value={role}
           onChange={setRole}
           name="Role"

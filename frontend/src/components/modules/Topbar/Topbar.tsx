@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { IoNotificationsOutline, IoSearchOutline } from "react-icons/io5";
@@ -9,6 +10,7 @@ import React from "react";
 import TopbarUserInfo from "@/components/templates/Dashboard/Profile/TopbarUserInfo";
 import ThemeSwitcher from "@/components/modules/Theme/Theme";
 import { useAppStore } from "@/store/useAppStore";
+import dynamic from "next/dynamic";
 
 interface TopbarProps {
   onMenuClick: () => void;
@@ -26,6 +28,26 @@ const TopbarBase = ({
   isFirstQuiz,
 }: TopbarProps) => {
   const { isRegistered } = useAppStore();
+
+  const SearchInput = dynamic(
+    () => import("@/components/modules/Search/SearchInput"),
+    {
+      ssr: false,
+      loading: () => <div className="text-sm px-3">Loading...</div>, // Skeleton کوچک
+    }
+  );
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const preloadSearch = () => {
+    // ✅ Preload: ماژول SearchInput را از قبل لود کن
+    import("@/components/modules/Search/SearchInput");
+  };
+
+  const handleSearchSubmit = (query: string) => {
+    console.log("Global search:", query);
+    // TODO: send to API or Zustand
+  };
 
   return (
     <header
@@ -140,10 +162,23 @@ const TopbarBase = ({
                   </span>
                 )}
 
-                <span className="hidden lg:flex items-center cursor-pointer">
-                  <IoSearchOutline className="w-5 h-5 mr-1" />
-                  {!isHelpOpen && "Search"}
-                </span>
+                {isSearchOpen ? (
+                  <SearchInput
+                    isOpen={isSearchOpen}
+                    onClose={() => setIsSearchOpen(false)}
+                    onSubmit={handleSearchSubmit}
+                  />
+                ) : (
+                  <span
+                    onMouseEnter={preloadSearch}
+                    onClick={() => setIsSearchOpen(true)}
+                    className="hidden lg:flex items-center cursor-pointer"
+                  >
+                    <IoSearchOutline className="w-5 h-5 mr-1" />
+                    {!isHelpOpen && "Search"}
+                  </span>
+                )}
+
                 <span
                   className="flex items-center cursor-pointer"
                   onClick={() => onHelpToggle(true)}
@@ -151,10 +186,7 @@ const TopbarBase = ({
                   <TbHelpOctagon className="w-5 h-5 mr-1" />
                   {!isHelpOpen && "Help"}
                 </span>
-                {
-                  !isRegistered ? null : <TopbarUserInfo size="size-10" />
-                }
-                
+                {!isRegistered ? null : <TopbarUserInfo size="size-10" />}
               </div>
             </div>
 

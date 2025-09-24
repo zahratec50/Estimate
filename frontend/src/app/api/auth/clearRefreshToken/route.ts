@@ -1,4 +1,3 @@
-
 import { NextResponse } from "next/server";
 import { clearRefreshTokenCookie } from "@/utils/auth";
 

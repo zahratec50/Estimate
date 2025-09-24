@@ -65,7 +65,7 @@ export default function UserCreateForm() {
         />
 
         <CustomSelect
-          options={["user", "admin", "consultant"]}
+          options={["user", "admin", "Advisor"]}
           value={role}
           onChange={setRole}
           name=""
