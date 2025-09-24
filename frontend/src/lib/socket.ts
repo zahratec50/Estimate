@@ -1,17 +1,3 @@
-// import {Socket as IOSocket } from "socket.io-client";
-// import io from "socket.io-client";
-
-// let socket: IOSocket<DefaultEventsMap, DefaultEventsMap> | null = null;
-
-// export function getSocket(): Socket {
-//   if (!socket) {
-//     socket = io("/api/socket", { path: "/api/socket", autoConnect: true });
-//   }
-//   return socket;
-// }
-
-
-// socket.ts
 import { Socket } from "socket.io-client"; // مستقیماً Socket رو import می‌کنیم
 import io from "socket.io-client";
 // import type { Socket as SocketType } from "socket.io-client";
