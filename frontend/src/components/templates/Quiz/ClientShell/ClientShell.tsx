@@ -97,7 +97,7 @@ const ClientShellBase = ({ isFirstQuiz, isTopbarMainQuiz, children, firstQuiz }:
         <Sidebar isOpen={isSidebarOpen} isHelpOpen={isHelpOpen} onClose={handleMenuClick} />
       </ClientOnly>
 
-      <div className={clsx("flex flex-col flex-1 transition-all duration-300", isHelpOpen ? "lg:mr-[305px]" : "lg:ml-60")}>
+      <div className={clsx("flex flex-col flex-1 transition-all duration-300", isHelpOpen ? "lg:mr-[305px]" : "lg:ml-64")}>
         <Topbar onHelpToggle={handleHelpToggle} isHelpOpen={isHelpOpen} isFirstQuiz={isFirstQuiz} onMenuClick={handleMenuClick} />
         {!isFirstQuiz && isTopbarMainQuiz && <TopbarActions isFirstQuiz={isFirstQuiz} isHelpOpen={isHelpOpen} />}
         <main

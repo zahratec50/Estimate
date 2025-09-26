@@ -9,7 +9,7 @@ export default async function ProjectDetailPage({
   const { projectId } = await params;
 
   return (
-    <div>
+    <div className='flex justify-center mt-10 mb-20 px-4'>
       <ProjectDetails projectId={projectId} />
     </div>
   );

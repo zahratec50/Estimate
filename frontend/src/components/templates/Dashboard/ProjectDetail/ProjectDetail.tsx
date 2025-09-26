@@ -35,7 +35,7 @@ export default function ProjectDetails({ projectId }: ProjectDetailsProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className={`p-6 rounded-2xl ${lightboxOpen ? '' : 'space-y-8'}`}
+      className={`w-full max-w-5xl flex flex-col justify-center p-6 rounded-2xl ${lightboxOpen ? '' : 'space-y-8'}`}
     >
       {/* Stats Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -61,7 +61,7 @@ export default function ProjectDetails({ projectId }: ProjectDetailsProps) {
       {/* Back Button */}
       <Link
         href="/dashboard/projectStart"
-        className="inline-flex items-center gap-2 font-bold px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 dark:hover:bg-secondary-700 transition"
+        className="w-32 inline-flex items-center gap-2 font-bold px-4 py-2 rounded-lg hover:bg-gray-201 dark:hover:bg-secondary-700 transition"
       >
         <IoMdArrowBack className="size-5" />
         Back

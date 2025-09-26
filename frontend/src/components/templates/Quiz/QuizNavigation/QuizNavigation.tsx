@@ -216,6 +216,11 @@ export default function QuizNavigation({
         } finally {
           setLoading(false);
         }
+      } else if (!isFirstQuiz && currentStep === totalSteps) {
+        // اتمام mainQuiz → انتقال به داشبورد
+        setCompletedQuizzes((prev) => prev + 1);
+        // clearQuizData();
+        router.push("/dashboard");
       }
     } catch (err: any) {
       console.error("Error sending to API:", {

@@ -52,8 +52,8 @@ const Sidebar = ({
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const isOpen = propsIsOpen ?? isSidebarOpen;
-  // const handleClose = propsOnClose ?? toggleSidebar;
-  const handleClose = () => {
+  const handleClose = propsOnClose ?? toggleSidebar;
+  const handleCloseSidebar = () => {
     if (isSidebarOpen) handleClose();
     router.push("/");
   }
@@ -119,7 +119,7 @@ const Sidebar = ({
       >
         {/* Header */}
         <div className="flex items-center justify-between lg:justify-center mb-6 w-full">
-          <button aria-label="image logo" onClick={handleClose}>
+          <button aria-label="image logo" onClick={handleCloseSidebar}>
             <Image
               src="/images/Frame 20.png"
               alt="logo"
